@@ -1,7 +1,15 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: apiToken
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -9,7 +17,22 @@ security:
         main:
             anonymous: true
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+
+            # defines maximum login attempts per minute
+#            login_throttling:
+#                max_attempts: 3
+
+            logout:
+                # defines the logout rout
+                path: app_logout
+
+                # defines the page where user will be redirected after logout
+                target: index
+
+            guard:
+                authenticator:
+                    - App\Security\TokenAuthenticator
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
