@@ -7,7 +7,7 @@
 
 ### The Frendo Pizzeria Setuping Guide
 
-####Using nginx server and php-cgi
+#### Using nginx server and php-cgi
 
  - insert following code to your nginx.conf file:
 
