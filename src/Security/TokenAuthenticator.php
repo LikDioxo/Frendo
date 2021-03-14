@@ -1,12 +1,14 @@
 <?php
 namespace App\Security;
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Client;
+use App\Repository\ClientRepository;
+use ReallySimpleJWT\Token;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -14,65 +16,74 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
-    private $em;
+    private $repository;
+    private $tokenSecret;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(ClientRepository $repository, $tokenSecret)
     {
-        $this->em = $em;
+        $this->repository = $repository;
+        $this->tokenSecret = $tokenSecret;
     }
 
-    /**
-     * Called on every request to decide if this authenticator should be
-     * used for the request. Returning `false` will cause this authenticator
-     * to be skipped.
-     */
     public function supports(Request $request)
     {
-        return $request->headers->has('X-AUTH-TOKEN');
+        return $request->headers->has('Authorization');
     }
 
-    /**
-     * Called on every request. Return whatever credentials you want to
-     * be passed to getUser() as $credentials.
-     */
     public function getCredentials(Request $request)
     {
-        return $request->headers->get('X-AUTH-TOKEN');
+        return [
+            'token' => $request->headers->get('Authorization')
+        ];
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        if (null === $credentials) {
-            // The token header was empty, authentication fails with HTTP Status
-            // Code 401 "Unauthorized"
+        $token = $credentials['token'];
+        if ($token === null) {
             return null;
         }
 
-        // The "username" in this case is the apiToken, see the key `property`
-        // of `your_db_provider` in `security.yaml`.
-        // If this returns a user, checkCredentials() is called next:
-        return $userProvider->loadUserByUsername($credentials);
+        $tokenSecret = $this->tokenSecret;
+
+
+        if (!Token::validate($token, $tokenSecret))
+        {
+            throw new AccessDeniedException('Token is invalid!');
+        }
+
+        $payload = Token::getPayload($token, $tokenSecret);
+
+        $userId = $payload['userId'];
+
+        if ($userId === null)
+        {
+            throw new AccessDeniedException('Token not provide user_id in payload!');
+        }
+
+        $user = $this->repository->findOneBy(['id' => $userId]);
+
+        if ($user === null)
+        {
+            throw new AccessDeniedException('Client not found!');
+        }
+
+        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        // Check credentials - e.g. make sure the password is valid.
-        // In case of an API token, no credential check is needed.
-
-        // Return `true` to cause authentication success
         return true;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // on success, let the request continue
         return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $data = [
-            // you may want to customize or obfuscate the message first
             'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
 
             // or to translate this message
@@ -82,13 +93,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     * Called when authentication is needed, but it's not sent
-     */
     public function start(Request $request, AuthenticationException $authException = null)
     {
         $data = [
-            // you might translate this message
             'message' => 'Authentication Required'
         ];
 

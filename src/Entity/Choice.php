@@ -44,4 +44,12 @@ class Choice
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'order' => $this->order->serialize(),
+            'pizza' => $this->pizza->serialize()
+        ];
+    }
 }

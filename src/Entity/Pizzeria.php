@@ -23,7 +23,7 @@ class Pizzeria
     private $address;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\OneToOne(targetEntity="Client")
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
      */
     private $operator;
@@ -77,5 +77,15 @@ class Pizzeria
         $this->availablePizzas = $availablePizzas;
 
         return $this;
+    }
+
+    public function serialize(): array
+    {
+        print_r($this->availablePizzas);
+        return [
+            'address' => $this->address,
+            'operator' => $this->operator->serialize(),
+            'available_pizzas' => $this->availablePizzas
+        ];
     }
 }

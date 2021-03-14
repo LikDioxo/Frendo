@@ -73,4 +73,13 @@ class ChoiceEvent
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'choice' => $this->choice,
+            'payload' => $this->payload,
+            'create_date' => $this->createDate
+        ];
+    }
 }

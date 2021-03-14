@@ -72,4 +72,13 @@ class ChoiceStep
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'choice' => $this->choice->serialize(),
+            'ingredient' => $this->ingredient->serialize(),
+            'status' => $this->status
+        ];
+    }
 }

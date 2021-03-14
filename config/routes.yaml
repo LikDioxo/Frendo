@@ -1,9 +1,66 @@
 #index:
 #    path: /
-#    controller: App\Controller\DefaultController::index
+#    controller: App\Controller\ClientController::index
 
 
+# clients creation and authorization
 app_logout:
     path: /logout
     methods: GET
 
+app_login:
+    path: /api/login
+    methods: GET
+    controller: App\Controller\ClientController::login
+
+app_register:
+    path: /api/register
+    methods: POST
+    controller: App\Controller\ClientController::register
+
+# Getting entities
+
+app_get_all:
+    path: /admin/get/all/{entity}
+    methods: GET
+    controller: App\Controller\AdminController::getAll
+
+app_get_all_ingredients:
+    path: /admin/get/all/ingredients
+    methods: GET
+    controller: App\Controller\IngredientController::getAll
+
+app_get_all_pizza_ingredients:
+    path: /admin/get/all/pizza-ingredients
+    methods: GET
+    controller: App\Controller\PizzaIngredientController::getAll
+
+app_get_app_pizzas:
+    path: /admin/get/all/pizzas
+    methods: GET
+    controller: App\Controller\PizzaController::getAll
+
+app_get_all_pizzerias:
+    path: /admin/get/all/pizzerias
+    methods: GET
+    controller: App\Controller\PizzeriaController::getAll
+
+app_get_all_clients:
+    path: /admin/get/all/clients
+    methods: GET
+    controller: App\Controller\ClientController::getAll
+
+app_get_all_orders:
+    path: /admin/get/all/orders
+    methods: GET
+    controller: App\Controller\OrdersController::getAll
+
+app_get_all_choices_for_order:
+    path: /admin/get/all/choices
+    methods: GET
+    controller: App\Controller\Orders\Controller::getAllForOrder
+
+# Creating entities
+app_create_ingredient:
+    path: /admin/create/ingredient
+    methods: POST

@@ -91,4 +91,14 @@ class Order
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'customers_phone_number' => $this->customersPhoneNumber,
+            'delivery_address' => $this->deliveryAddress,
+            'total_price' => $this->totalPrice,
+            'pizzeria' => $this->pizzeria->serialize()
+        ];
+    }
 }

@@ -74,4 +74,13 @@ class PizzaIngredient
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'pizza' => $this->pizza->serialize(),
+            'ingredients' => $this->ingredient->serialize(),
+            'status' => $this->status
+        ];
+    }
 }

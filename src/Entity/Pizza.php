@@ -106,4 +106,15 @@ class Pizza
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'image_name' => $this->imageName,
+            'weight' => $this->weight,
+            'size' => $this->size,
+            'price' => $this->price
+        ];
+    }
 }

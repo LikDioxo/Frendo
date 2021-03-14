@@ -55,4 +55,12 @@ class Ingredient
 
         return $this;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'image_path' => $this->imageName
+        ];
+    }
 }
