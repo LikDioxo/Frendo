@@ -46,7 +46,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         $tokenSecret = $this->tokenSecret;
 
-
         if (!Token::validate($token, $tokenSecret))
         {
             throw new AccessDeniedException('Token is invalid!');

@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Client;
 Use App\Entity\Ingredient;
 use App\Repository\ClientRepository;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\ORM\EntityManagerInterface;
 use ReallySimpleJWT\Token;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -118,17 +119,31 @@ class ClientController extends AbstractController
         );
     }
 
-
-    public function test(Request $request, EntityManagerInterface $em)
+    public function getAll(Request $request, ClientRepository $repository): JsonResponse
     {
-        $ing = new Ingredient();
-        $ing->setName("Hello");
-        $ing->setImageName("Test");
+        # TODO:Add roles query parameter support!
+        $requestQuery = $request->query->all();
 
-        $em->persist($ing);
+        try {
+            $objects = $repository->findBy($requestQuery);
+        }
+        catch (DriverException $exception)
+        {
+            return new JsonResponse(
+                ['message' => 'Provided not supported query parameter!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+        $result = ['message' => 'Successful'];
 
-        $em->flush();
+        foreach ($objects as $object)
+        {
+            $result[] = $object->serialize();
+        }
+
+        return new JsonResponse(
+            $result,
+            JsonResponse::HTTP_OK
+        );
     }
-
-
 }
