@@ -43,7 +43,7 @@ class ChoiceEvent
         return $this->choice;
     }
 
-    public function setChoice(string $choice): self
+    public function setChoice($choice): self
     {
         $this->choice = $choice;
 
@@ -62,12 +62,12 @@ class ChoiceEvent
         return $this;
     }
 
-    public function getCreateDate(): ?\DateTimeInterface
+    public function getCreateDate()
     {
         return $this->createDate;
     }
 
-    public function setCreateDate(\DateTimeInterface $createDate): self
+    public function setCreateDate($createDate): self
     {
         $this->createDate = $createDate;
 
@@ -77,6 +77,7 @@ class ChoiceEvent
     public function serialize(): array
     {
         return [
+            'id' => $this->id,
             'choice' => $this->choice,
             'payload' => $this->payload,
             'create_date' => $this->createDate

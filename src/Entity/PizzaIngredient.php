@@ -44,7 +44,7 @@ class PizzaIngredient
         return $this->pizza;
     }
 
-    public function setPizza(int $pizza): self
+    public function setPizza($pizza): self
     {
         $this->pizza = $pizza;
 
@@ -56,7 +56,7 @@ class PizzaIngredient
         return $this->ingredient;
     }
 
-    public function setIngredient(int $ingredient): self
+    public function setIngredient($ingredient): self
     {
         $this->ingredient = $ingredient;
 
@@ -78,8 +78,8 @@ class PizzaIngredient
     public function serialize(): array
     {
         return [
-            'pizza' => $this->pizza->serialize(),
-            'ingredients' => $this->ingredient->serialize(),
+//            'pizza' => $this->pizza->serialize(),
+            'ingredient' => $this->ingredient->serialize(),
             'status' => $this->status
         ];
     }

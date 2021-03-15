@@ -80,12 +80,12 @@ class Order
         return $this;
     }
 
-    public function getPizzeria(): ?string
+    public function getPizzeria()
     {
         return $this->pizzeria;
     }
 
-    public function setPizzeria(string $pizzeria): self
+    public function setPizzeria($pizzeria): self
     {
         $this->pizzeria = $pizzeria;
 
@@ -95,6 +95,7 @@ class Order
     public function serialize(): array
     {
         return [
+            'id' => $this->id,
             'customers_phone_number' => $this->customersPhoneNumber,
             'delivery_address' => $this->deliveryAddress,
             'total_price' => $this->totalPrice,

@@ -59,6 +59,7 @@ class Ingredient
     public function serialize(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'image_path' => $this->imageName
         ];

@@ -33,14 +33,26 @@ class Choice
         return $this->id;
     }
 
-    public function getPizza(): ?string
+    public function getPizza()
     {
         return $this->pizza;
     }
 
-    public function setPizza(string $pizza): self
+    public function setPizza($pizza): self
     {
         $this->pizza = $pizza;
+
+        return $this;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    public function setOrder($order): self
+    {
+        $this->order = $order;
 
         return $this;
     }
@@ -48,6 +60,7 @@ class Choice
     public function serialize(): array
     {
         return [
+            'id' => $this->id,
             'order' => $this->order->serialize(),
             'pizza' => $this->pizza->serialize()
         ];

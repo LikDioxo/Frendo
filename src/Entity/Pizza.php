@@ -110,6 +110,7 @@ class Pizza
     public function serialize(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'image_name' => $this->imageName,
             'weight' => $this->weight,

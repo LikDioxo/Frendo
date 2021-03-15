@@ -28,16 +28,6 @@ class Pizzeria
      */
     private $operator;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Pizza")
-     * @ORM\JoinTable(
-     *     name="pizzeria_pizza",
-     *     joinColumns={@ORM\JoinColumn(name="pizzeria_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="pizza_id", referencedColumnName="id")}
-     * )
-     */
-    private $availablePizzas;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -60,32 +50,20 @@ class Pizzeria
         return $this->operator;
     }
 
-    public function setOperator(string $operator): self
+    public function setOperator($operator): self
     {
         $this->operator = $operator;
 
         return $this;
     }
 
-    public function getAvailablePizzas(): ?string
-    {
-        return $this->availablePizzas;
-    }
-
-    public function setAvailablePizzas(string $availablePizzas): self
-    {
-        $this->availablePizzas = $availablePizzas;
-
-        return $this;
-    }
 
     public function serialize(): array
     {
-        print_r($this->availablePizzas);
         return [
+            'id' => $this->id,
             'address' => $this->address,
-            'operator' => $this->operator->serialize(),
-            'available_pizzas' => $this->availablePizzas
+            'operator' => $this->operator->serialize()
         ];
     }
 }
