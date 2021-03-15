@@ -18,22 +18,16 @@ app_register:
     methods: POST
     controller: App\Controller\ClientController::register
 
-# Getting entities
-
-app_get_all:
-    path: /admin/get/all/{entity}
-    methods: GET
-    controller: App\Controller\AdminController::getAll
-
+# Getting entities. Supports query parameters to define specific entities (for example Clients with role admin)
 app_get_all_ingredients:
     path: /admin/get/all/ingredients
     methods: GET
     controller: App\Controller\IngredientController::getAll
 
-app_get_all_pizza_ingredients:
-    path: /admin/get/all/pizza-ingredients
-    methods: GET
-    controller: App\Controller\PizzaIngredientController::getAll
+#app_get_all_pizza_ingredients:
+#    path: /admin/get/all/pizza-ingredients
+#    methods: GET
+#    controller: App\Controller\PizzaIngredientController::getAll
 
 app_get_app_pizzas:
     path: /admin/get/all/pizzas
@@ -53,7 +47,7 @@ app_get_all_clients:
 app_get_all_orders:
     path: /admin/get/all/orders
     methods: GET
-    controller: App\Controller\OrdersController::getAll
+    controller: App\Controller\OrderController::getAll
 
 app_get_all_choices_for_order:
     path: /admin/get/all/choices
@@ -64,3 +58,35 @@ app_get_all_choices_for_order:
 app_create_ingredient:
     path: /admin/create/ingredient
     methods: POST
+    controller: App\Controller\IngredientController::create
+
+app_create_pizza:
+    path: /admin/create/pizza
+    methods: POST
+    controller: App\Controller\PizzaController::create
+
+app_create_pizzeria:
+    path: /admin/create/pizzeria
+    methods: POST
+    controller: App\Controller\PizzeriaController::create
+
+app_create_order:
+    path: /api/create/order
+    methods: POST
+    controller: App\Controller\OrderController::create
+
+app_create_choice:
+    path: /api/create/choice
+    methods: POST
+    controller: App\Controller\ChoiceController::create
+
+app_create_choice_event:
+    path: /api/create/event
+    methods: POST
+    controller: App\Controller\ChoiceEventController::create
+
+# Update entity
+app_update_order:
+    path: /api/update/order
+    methods: POST
+    controller: App\Controller\OrderController::update
