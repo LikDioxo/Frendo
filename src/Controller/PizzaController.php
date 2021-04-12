@@ -2,67 +2,165 @@
 
 namespace App\Controller;
 
+use App\Domain\IngredientStatus;
 use App\Entity\Pizza;
 use App\Entity\PizzaIngredient;
 use App\Repository\IngredientRepository;
 use App\Repository\PizzaIngredientRepository;
 use App\Repository\PizzaRepository;
-use App\Repository\PizzeriaPizzaRepository;
-use Doctrine\DBAL\Exception\DriverException;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
+use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class PizzaController extends AbstractController
 {
-    # TODO: add validation!
     public function create(
         Request $request,
-        EntityManagerInterface $em,
-        IngredientRepository $ingredientRepository
-    )
+        PizzaRepository $pizzaRepository,
+        IngredientRepository $ingredientRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
     {
-        $data = $request->toArray();
+        try {
+            $data = $request->toArray();
+        }
+        catch (JsonException $exception) {
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
 
-        $newPizza = new Pizza();
-        $newPizza->setName($data['name']);
-        $newPizza->setImageName($data['image_name']);
-        $newPizza->setWeight($data['weight']);
-        $newPizza->setSize($data['size']);
-        $newPizza->setPrice($data['price']);
-
-        $em->persist($newPizza);
-        $em->flush();
-
-        print_r($newPizza);
-
-        foreach ($data['ingredients'] as $requestIngredient)
-        {
-            $newPizzaIngredient = new PizzaIngredient();
-
-            $newPizzaIngredient->setPizza($newPizza);
-
-            $ingredient = $ingredientRepository->findOneBy(['id' => $requestIngredient['id']]);
-
-            $newPizzaIngredient->setIngredient($ingredient);
-            $newPizzaIngredient->setStatus($requestIngredient['status']);
-
-            print_r($newPizzaIngredient);
-
-            $em->persist($newPizzaIngredient);
-            $em->flush();
+        try {
+            $name = $data['name'];
+            $weight = $data['weight'];
+            $size = $data['size'];
+            $price = $data['price'];
+            $ingredients = $data['ingredients'];
+        }
+        catch (ErrorException) {
+            return new JsonResponse(
+                ['message' => 'Request body not provide some of this parameters: 
+                name, weight, size, price, ingredients!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
         }
 
 
+
+        $pizza = $pizzaRepository->findOneBy(['name' => $name]);
+        if ($pizza !== null)
+        {
+            return new JsonResponse(
+                ['message' => "Pizza with name: $name already exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $newPizza = new Pizza($name, $weight, $size, $price);
+
+        $entityManager->persist($newPizza);
+        $entityManager->flush();
+
+        foreach ($ingredients as $requestIngredient)
+        {
+            try {
+                $ingredientId = $requestIngredient['id'];
+                $ingredientStatus = $requestIngredient['status'];
+            }
+            catch (ErrorException) {
+                return new JsonResponse(
+                    ['message' => 'Request body not provide some of this parameters: 
+                    ingredient: id, ingredient: status!'],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+
+            $ingredient = $ingredientRepository->findOneBy(['id' => $ingredientId]);
+            if ($ingredient === null)
+            {
+                return new JsonResponse(
+                    ['message' => "Ingredient with id: $ingredientId not exists!"],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            if (!(IngredientStatus::isStatus($ingredientStatus)))
+            {
+                return new JsonResponse(
+                    ['message' => "Invalid status: $ingredientStatus!"],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            $newPizzaIngredient = new PizzaIngredient($newPizza, $ingredient, $ingredientStatus);
+
+            $entityManager->persist($newPizzaIngredient);
+            $entityManager->flush();
+        }
+
+        return new JsonResponse();
     }
 
-    # TODO: add validation!
+    public function updateImage(
+        Request $request,
+        FileUploader $fileUploader,
+        PizzaRepository $pizzaRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $pizzaName = $request->get('pizza_name');
+        $image = $request->files->get('image');
+
+        if ($pizzaName === null)
+        {
+            return new JsonResponse(
+                ['message' => "Request body not provide key: pizza_name!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        if ($image === null)
+        {
+            return new JsonResponse(
+                ['message' => "Missing file with key: image!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $imageName = $fileUploader->upload($image, 'pizza');
+
+        $pizza = $pizzaRepository->findOneBy(['name' => $pizzaName]);
+
+        if ($pizza === null)
+        {
+            return new JsonResponse(
+                ['message' => "Pizza with name: $pizzaName not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $pizza->setImageName($imageName);
+
+        $entityManager->persist($pizza);
+        $entityManager->flush();
+
+        return new JsonResponse();
+    }
+
     public function getAll(
         Request $request,
         PizzaRepository $pizzaRepository,
         PizzaIngredientRepository $pizzaIngredientRepository,
-        IngredientRepository $ingredientRepository
+        SerializerInterface $serializer
     ): JsonResponse
     {
         $requestQuery = $request->query->all();
@@ -70,28 +168,36 @@ class PizzaController extends AbstractController
         try {
             $objects = $pizzaRepository->findBy($requestQuery);
         }
-        catch (DriverException $exception)
+        catch (ORMException $exception)
         {
             return new JsonResponse(
-                ['message' => 'Provided not supported query parameter!'],
+                ['message' => $exception->getMessage()],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
-        $result = ['message' => 'Successful'];
+        $result = [];
 
         foreach ($objects as $object)
         {
-            $pizzeria = $object->serialize();
-            $pizzeria['ingredients'] = [];
+            $pizza = $serializer->normalize($object);
+            $pizza['ingredients'] = [];
 
-            $pizzas = $pizzaIngredientRepository->findBy(['pizza' => $object->getId()]);
+            $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $object->getId()]);
 
-            foreach ($pizzas as $pizza)
+            foreach ($pizzaIngredients as $pizzaIngredient)
             {
-                $pizzeria['ingredients'][] = $pizza->serialize();
+                $serializedIngredient = $serializer->normalize(
+                    $pizzaIngredient,
+                    context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]
+                );
+
+                $pizza['ingredients'][] = [
+                    'ingredient_id' => $serializedIngredient['ingredient']['id'],
+                    'status' => $serializedIngredient['status']
+                ];
             }
 
-            $result[] = $pizzeria;
+            $result[] = $pizza;
         }
 
         return new JsonResponse(

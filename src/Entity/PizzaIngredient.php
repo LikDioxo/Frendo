@@ -30,16 +30,23 @@ class PizzaIngredient
     private $ingredient;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="integer")
      */
     private $status;
+
+    public function __construct($pizza, $ingredient, $status)
+    {
+        $this->pizza = $pizza;
+        $this->ingredient = $ingredient;
+        $this->status = $status;
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPizza(): ?int
+    public function getPizza(): Pizza
     {
         return $this->pizza;
     }
@@ -51,7 +58,7 @@ class PizzaIngredient
         return $this;
     }
 
-    public function getIngredient(): ?int
+    public function getIngredient(): Ingredient
     {
         return $this->ingredient;
     }
@@ -63,24 +70,16 @@ class PizzaIngredient
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+
+    public function setStatus(int $status): self
     {
         $this->status = $status;
 
         return $this;
-    }
-
-    public function serialize(): array
-    {
-        return [
-//            'pizza' => $this->pizza->serialize(),
-            'ingredient' => $this->ingredient->serialize(),
-            'status' => $this->status
-        ];
     }
 }

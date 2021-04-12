@@ -1,6 +1,7 @@
-#index:
-#    path: /
-#    controller: App\Controller\ClientController::index
+test:
+    path: /test
+    methods: POST|GET
+    controller: App\Controller\PizzeriaController::test
 
 
 # clients creation and authorization
@@ -52,7 +53,13 @@ app_get_all_orders:
 app_get_all_choices_for_order:
     path: /admin/get/all/choices
     methods: GET
-    controller: App\Controller\Orders\Controller::getAllForOrder
+    controller: App\Controller\OrderController::getAllForOrder
+
+get_statuses:
+    path: /operator/get/statuses
+    methods: GET
+    controller: App\Controller\OrderController::getStatuses
+
 
 # Creating entities
 app_create_ingredient:
@@ -71,22 +78,35 @@ app_create_pizzeria:
     controller: App\Controller\PizzeriaController::create
 
 app_create_order:
-    path: /api/create/order
+    path: /admin/create/order
     methods: POST
     controller: App\Controller\OrderController::create
 
 app_create_choice:
-    path: /api/create/choice
+    path: /admin/create/choice
     methods: POST
     controller: App\Controller\ChoiceController::create
 
 app_create_choice_event:
-    path: /api/create/event
+    path: /admin/create/event
     methods: POST
     controller: App\Controller\ChoiceEventController::create
 
-# Update entity
-app_update_order:
-    path: /api/update/order
+# Operator
+app_update_order_status:
+    path: /operator/update/order-status
     methods: POST
-    controller: App\Controller\OrderController::update
+    controller: App\Controller\OrderController::updateStatus
+
+
+app_get_pizzeria_workload:
+    path: /api/get/pizzeria-workload
+    methods: GET
+    controller: App\Controller\PizzeriaController::getWorkload
+
+
+# Update Entities
+app_upade_pizza_image:
+    path: /admin/update/pizza-image
+    methods: POST
+    controller: App\Controller\PizzaController::updateImage

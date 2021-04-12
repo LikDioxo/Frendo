@@ -6,7 +6,9 @@ use App\Entity\Choice;
 use App\Repository\OrderRepository;
 use App\Repository\PizzaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use ErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,25 +17,56 @@ class ChoiceController extends AbstractController
 
     public function create(
         Request $request,
-        EntityManagerInterface $em,
         OrderRepository $orderRepository,
-        PizzaRepository $pizzaRepository
+        PizzaRepository $pizzaRepository,
+        EntityManagerInterface $entityManager
     ): JsonResponse
     {
-        $data = $request->toArray();
-        $order = $orderRepository->findOneBy(['id' => $data['order_id']]);
-        $pizza = $pizzaRepository->findOneBy(['id' => $data['pizza_id']]);
+        try {
+            $data = $request->toArray();
+        }
+        catch (JsonException $exception) {
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
 
-        $newChoice = new Choice();
-        $newChoice->setOrder($order);
-        $newChoice->setPizza($pizza);
+        try {
+            $orderId = $data['order_id'];
+            $pizzaId = $data['pizza_id'];
+            $quantity = $data['quantity'];
+        }
+        catch (ErrorException) {
+            return new JsonResponse(
+                ['message' => 'Request body not provide some of this parameters: order_id, pizza_id, quantity!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
 
-        $em->persist($newChoice);
-        $em->flush();
+        $order = $orderRepository->findOneBy(['id' => $orderId]);
+        if ($order === null)
+        {
+            return new JsonResponse(
+                ['message' => "Order with id: $orderId does not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
 
-        return new JsonResponse(
-            ['message' => 'Successful'],
-            JsonResponse::HTTP_OK
-        );
+        $pizza = $pizzaRepository->findOneBy(['id' => $pizzaId]);
+        if ($pizza === null)
+        {
+            return new JsonResponse(
+                ['message' => "Pizza with id: $pizzaId does not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $newChoice = new Choice($order, $pizza, $quantity);
+
+        $entityManager->persist($newChoice);
+        $entityManager->flush();
+
+        return new JsonResponse();
     }
 }
