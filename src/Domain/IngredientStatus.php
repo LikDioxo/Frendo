@@ -18,7 +18,7 @@ class IngredientStatus
         return $reflection->getConstants();
     }
 
-    public static function isIngredientStatus(int $status)
+    public static function isStatus(int $status)
     {
         $reflection = new ReflectionClass(self::class);
         $constants = $reflection->getConstants();

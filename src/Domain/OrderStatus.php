@@ -17,4 +17,12 @@ class OrderStatus
         $reflection = new ReflectionClass(self::class);
         return $reflection->getConstants();
     }
+
+    public static function isStatus(int $status)
+    {
+        $reflection = new ReflectionClass(self::class);
+        $constants = $reflection->getConstants();
+
+        return array_key_exists($status, array_values($constants));
+    }
 }
