@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ChoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @ORM\Entity(repositoryClass=ChoiceRepository::class)
@@ -22,18 +23,31 @@ class Choice
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
      */
     private $order;
+
     /**
      * @ORM\ManyToOne(targetEntity="Pizza")
      * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id")
      */
     private $pizza;
 
-    public function getId(): ?int
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantity;
+
+    public function __construct($order, $pizza, int $quantity)
+    {
+        $this->order = $order;
+        $this->pizza = $pizza;
+        $this->quantity = $quantity;
+    }
+
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getPizza()
+    public function getPizza(): Pizza
     {
         return $this->pizza;
     }
@@ -45,7 +59,7 @@ class Choice
         return $this;
     }
 
-    public function getOrder()
+    public function getOrder(): Order
     {
         return $this->order;
     }
@@ -57,12 +71,8 @@ class Choice
         return $this;
     }
 
-    public function serialize(): array
+    public function getQuantity()
     {
-        return [
-            'id' => $this->id,
-            'order' => $this->order->serialize(),
-            'pizza' => $this->pizza->serialize()
-        ];
+        return $this->quantity;
     }
 }

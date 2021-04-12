@@ -23,7 +23,7 @@ class Pizza
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
      */
     private $imageName;
 
@@ -41,6 +41,21 @@ class Pizza
      * @ORM\Column(type="decimal", precision=5, scale=2)
      */
     private $price;
+
+    # Constructor not initialize imageName due to ignore validation problems
+    # and because it will be initialized in separated controller
+    public function __construct(
+        string $name,
+        int $weight,
+        int $size,
+        float $price
+    )
+    {
+        $this->name = $name;
+        $this->weight = $weight;
+        $this->size = $size;
+        $this->price = $price;
+    }
 
     public function getId(): ?int
     {
@@ -105,17 +120,5 @@ class Pizza
         $this->price = $price;
 
         return $this;
-    }
-
-    public function serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'image_name' => $this->imageName,
-            'weight' => $this->weight,
-            'size' => $this->size,
-            'price' => $this->price
-        ];
     }
 }

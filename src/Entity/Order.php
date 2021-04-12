@@ -39,6 +39,26 @@ class Order
      */
     private $pizzeria;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
+
+    public function __construct(
+        string $customersPhoneNumber,
+        string $deliveryAddress,
+        string $totalPrice,
+        $pizzeria,
+        int $status
+    )
+    {
+        $this->customersPhoneNumber = $customersPhoneNumber;
+        $this->deliveryAddress = $deliveryAddress;
+        $this->totalPrice = $totalPrice;
+        $this->pizzeria = $pizzeria;
+        $this->status = $status;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,7 +100,7 @@ class Order
         return $this;
     }
 
-    public function getPizzeria()
+    public function getPizzeria(): Pizzeria
     {
         return $this->pizzeria;
     }
@@ -92,14 +112,16 @@ class Order
         return $this;
     }
 
-    public function serialize(): array
+    public function getStatus()
     {
-        return [
-            'id' => $this->id,
-            'customers_phone_number' => $this->customersPhoneNumber,
-            'delivery_address' => $this->deliveryAddress,
-            'total_price' => $this->totalPrice,
-            'pizzeria' => $this->pizzeria->serialize()
-        ];
+        return $this->status;
+    }
+
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }

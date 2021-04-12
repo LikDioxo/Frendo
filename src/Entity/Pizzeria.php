@@ -28,12 +28,18 @@ class Pizzeria
      */
     private $operator;
 
-    public function getId(): ?int
+    public function __construct($address, $operator)
+    {
+        $this->address = $address;
+        $this->operator = $operator;
+    }
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getAddress(): ?string
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -45,7 +51,7 @@ class Pizzeria
         return $this;
     }
 
-    public function getOperator(): ?string
+    public function getOperator(): Client
     {
         return $this->operator;
     }
@@ -55,15 +61,5 @@ class Pizzeria
         $this->operator = $operator;
 
         return $this;
-    }
-
-
-    public function serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'address' => $this->address,
-            'operator' => $this->operator->serialize()
-        ];
     }
 }

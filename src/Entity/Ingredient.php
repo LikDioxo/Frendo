@@ -22,17 +22,17 @@ class Ingredient
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $imageName;
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -42,26 +42,5 @@ class Ingredient
         $this->name = $name;
 
         return $this;
-    }
-
-    public function getImageName(): ?string
-    {
-        return $this->imageName;
-    }
-
-    public function setImageName(string $imageName): self
-    {
-        $this->imageName = $imageName;
-
-        return $this;
-    }
-
-    public function serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'image_path' => $this->imageName
-        ];
     }
 }

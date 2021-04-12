@@ -33,12 +33,19 @@ class ChoiceEvent
      */
     private $createDate;
 
+    public function __construct($choice, array $payload, $createDate)
+    {
+        $this->choice = $choice;
+        $this->choice = $choice;
+        $this->createDate = $createDate;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getChoice(): ?string
+    public function getChoice(): Choice
     {
         return $this->choice;
     }
@@ -72,15 +79,5 @@ class ChoiceEvent
         $this->createDate = $createDate;
 
         return $this;
-    }
-
-    public function serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'choice' => $this->choice,
-            'payload' => $this->payload,
-            'create_date' => $this->createDate
-        ];
     }
 }

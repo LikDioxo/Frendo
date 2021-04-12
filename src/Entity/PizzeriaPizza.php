@@ -29,16 +29,38 @@ class PizzeriaPizza
      */
     private $pizza;
 
-    public function getId(): ?int
+    public function __construct($pizzeria, $pizza)
+    {
+        $this->pizzeria = $pizzeria;
+        $this->pizza = $pizza;
+    }
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function serialize(): array
+    public function getPizza(): Pizza
     {
-        return [
-            'pizzeria' => $this->pizzeria->serialize(),
-            'pizza' => $this->pizza->serialize()
-        ];
+        return $this->pizza;
+    }
+
+    public function setPizza($pizza): self
+    {
+        $this->pizza = $pizza;
+
+        return $this;
+    }
+
+    public function getPizzeria(): Pizzeria
+    {
+        return $this->pizzeria;
+    }
+
+    public function setPizzeria($pizzeria): self
+    {
+        $this->pizzeria = $pizzeria;
+
+        return $this;
     }
 }

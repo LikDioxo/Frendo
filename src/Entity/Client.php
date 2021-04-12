@@ -102,15 +102,4 @@ class Client implements UserInterface
     }
 
     public function eraseCredentials(){}
-
-    public function serialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'username' => $this->username,
-            'password' => $this->password,
-            'roles' => $this->roles
-        ];
-    }
-
 }
