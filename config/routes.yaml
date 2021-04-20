@@ -31,7 +31,7 @@ app_get_app_pizzas:
     controller: App\Controller\PizzaController::getAll
 
 app_get_all_pizzerias:
-    path: /admin/get/all/pizzerias
+    path: /api/get/all/pizzerias
     methods: GET
     controller: App\Controller\PizzeriaController::getAll
 
@@ -83,17 +83,17 @@ app_create_pizzeria:
     controller: App\Controller\PizzeriaController::create
 
 app_create_order:
-    path: /admin/create/order
+    path: /api/create/order
     methods: POST
     controller: App\Controller\OrderController::create
 
 app_create_choice:
-    path: /admin/create/choice
+    path: /api/create/choice
     methods: POST
     controller: App\Controller\ChoiceController::create
 
 app_create_choice_event:
-    path: /admin/create/event
+    path: /api/create/event
     methods: POST
     controller: App\Controller\ChoiceEventController::create
 
