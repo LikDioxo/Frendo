@@ -1,4 +1,4 @@
-import React, {useCallback, useReducer} from 'react';
+import React, {useCallback} from 'react';
 import HeaderImage from "../components/HeaderImage";
 import SearchBox from "../components/SearchBox";
 import Cart from "../components/Cart";

@@ -1,25 +1,34 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Route } from 'react-router';
 
 import Header from "./containers/Header";
 import {createStore} from "redux";
-import {Provider} from "react-redux";
+import {Provider, useDispatch, useSelector} from "react-redux";
 import mainReducer from "./reducers";
 import Post from "./components/Post";
+import ModalWindow from "./components/ModalWindow";
+import PizzeriaChoiceModal from "./components/PizzeriaChoiceModal";
+import {flipFilterView, flipPizzeriasModalView} from "./actions";
+import {getPizzeriasModalView} from "./selectors";
 
 
-const store = createStore(mainReducer);
+
 
 function App() {
 
+    const dispatch = useDispatch();
+    const handlePizzeriasModal = useCallback(() => dispatch(flipPizzeriasModalView()),
+        [dispatch])
+    const PizzeriasModalView = useSelector(getPizzeriasModalView);
     return (
-      <Provider store={store}>
         <div className="App">
           <Header/>
-            <Post onChoosePizzeria={() => alert("Тут должно быть модальное окно")}/>
+            <ModalWindow show={PizzeriasModalView} component={<PizzeriaChoiceModal addresses={[["Донбасс", 42]]}/>}/>
+            <Post onChoosePizzeria={handlePizzeriasModal}/>
+
         </div>
-      </Provider>
+
     );
 }
 

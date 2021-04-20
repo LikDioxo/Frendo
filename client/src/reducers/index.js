@@ -2,7 +2,8 @@ import {combineReducers} from "redux";
 
 import {
     VIEW_FILTER_BOX,
-    ADD_PIZZA_TO_ORDER
+    ADD_PIZZA_TO_ORDER,
+    SHOW_PIZZERIAS_MODAL
 } from "../actions";
 
 
@@ -33,10 +34,29 @@ function orderReducer(state=[], action)
     }
 }
 
+function pizzeriasReducer(state = {}, action)
+{
+    switch (action.type)
+    {
+        case SHOW_PIZZERIAS_MODAL:
+            let tmp =  {...state};
+            tmp.show_pizzerias_modal = !state.show_pizzerias_modal;
+
+            return tmp;
+
+        default:
+            return state;
+    }
+
+}
+
+
+
 
 const mainReducer = combineReducers({
         filter: filterReducer,
-        order: orderReducer
+        order: orderReducer,
+        pizzerias: pizzeriasReducer
     }
 )
 

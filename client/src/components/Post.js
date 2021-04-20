@@ -15,7 +15,7 @@ function Post({ onChoosePizzeria }) {
                         Чтобы посмотреть доступные товары или сделать заказ, выберите
                         пиццерию
                     </p>
-                    <button className="button" onClick={onChoosePizzeria}>
+                    <button className="button-filter" onClick={onChoosePizzeria}>
                         Выбрать пиццерию
                     </button>
                 </div>
