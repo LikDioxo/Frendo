@@ -25,11 +25,6 @@ app_get_all_ingredients:
     methods: GET
     controller: App\Controller\IngredientController::getAll
 
-#app_get_all_pizza_ingredients:
-#    path: /admin/get/all/pizza-ingredients
-#    methods: GET
-#    controller: App\Controller\PizzaIngredientController::getAll
-
 app_get_app_pizzas:
     path: /admin/get/all/pizzas
     methods: GET
@@ -59,6 +54,16 @@ get_statuses:
     path: /operator/get/statuses
     methods: GET
     controller: App\Controller\OrderController::getStatuses
+
+app_get_pizzeria_workload:
+    path: /api/get/pizzeria-workload
+    methods: GET
+    controller: App\Controller\PizzeriaController::getWorkload
+
+app_get_available_pizzas:
+    path: /api/get/pizzeria-pizzas
+    methods: GET
+    controller: App\Controller\PizzeriaController::getAvailablePizzas
 
 
 # Creating entities
@@ -92,18 +97,22 @@ app_create_choice_event:
     methods: POST
     controller: App\Controller\ChoiceEventController::create
 
+
 # Operator
 app_update_order_status:
     path: /operator/update/order-status
     methods: POST
     controller: App\Controller\OrderController::updateStatus
 
+app_change_pizzeria_pizza_status:
+    path: /operator/change/pizza-status
+    methods: POST
+    controller: App\Controller\PizzeriaController::changePizzeriaPizzaStatus
 
-app_get_pizzeria_workload:
-    path: /api/get/pizzeria-workload
-    methods: GET
-    controller: App\Controller\PizzeriaController::getWorkload
-
+app_add_available_pizzas:
+    path: /operator/add/available-pizzas
+    methods: POST
+    controller: App\Controller\PizzeriaPizzaController::addAvailablePizzas
 
 # Update Entities
 app_upade_pizza_image:

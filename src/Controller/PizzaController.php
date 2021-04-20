@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Domain\IngredientStatus;
 use App\Entity\Pizza;
 use App\Entity\PizzaIngredient;
+use App\Entity\PizzeriaPizza;
 use App\Repository\IngredientRepository;
 use App\Repository\PizzaIngredientRepository;
 use App\Repository\PizzaRepository;
+use App\Repository\PizzeriaRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
@@ -25,6 +27,7 @@ class PizzaController extends AbstractController
         Request $request,
         PizzaRepository $pizzaRepository,
         IngredientRepository $ingredientRepository,
+        PizzeriaRepository $pizzeriaRepository,
         EntityManagerInterface $entityManager
     ): JsonResponse
     {
@@ -65,9 +68,7 @@ class PizzaController extends AbstractController
         }
 
         $newPizza = new Pizza($name, $weight, $size, $price);
-
         $entityManager->persist($newPizza);
-        $entityManager->flush();
 
         foreach ($ingredients as $requestIngredient)
         {
@@ -104,8 +105,17 @@ class PizzaController extends AbstractController
             $newPizzaIngredient = new PizzaIngredient($newPizza, $ingredient, $ingredientStatus);
 
             $entityManager->persist($newPizzaIngredient);
-            $entityManager->flush();
         }
+
+        $pizzerias = $pizzeriaRepository->findAll();
+
+        foreach ($pizzerias as $pizzeria)
+        {
+            $pizzeriaPizza = new PizzeriaPizza($pizzeria, $newPizza, true);
+            $entityManager->persist($pizzeriaPizza);
+        }
+
+        $entityManager->flush();
 
         return new JsonResponse();
     }

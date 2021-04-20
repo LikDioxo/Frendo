@@ -5,12 +5,10 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Repository\ClientRepository;
-use App\Service\RequestBodyValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use ErrorException;
 use ReallySimpleJWT\Token;
-use ReflectionMethod;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Request;

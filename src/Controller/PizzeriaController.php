@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Pizzeria;
+use App\Entity\PizzeriaPizza;
 use App\Repository\ClientRepository;
 use App\Repository\OrderRepository;
+use App\Repository\PizzaRepository;
+use App\Repository\PizzeriaPizzaRepository;
 use App\Repository\PizzeriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
@@ -23,6 +26,7 @@ class PizzeriaController extends AbstractController
         Request $request,
         ClientRepository $clientRepository,
         PizzeriaRepository $pizzeriaRepository,
+        PizzaRepository $pizzaRepository,
         EntityManagerInterface $entityManager
     ): JsonResponse
     {
@@ -75,6 +79,15 @@ class PizzeriaController extends AbstractController
         }
 
         $newPizzeria = new Pizzeria($address, $operator);
+
+        $pizzas = $pizzaRepository->findAll();
+
+        foreach ($pizzas as $pizza)
+        {
+            $pizzeriaPizza = new PizzeriaPizza($newPizzeria, $pizza, true);
+            $entityManager->persist($pizzeriaPizza);
+        }
+
         $entityManager->persist($newPizzeria);
         $entityManager->flush();
 
@@ -130,7 +143,7 @@ class PizzeriaController extends AbstractController
         if ($pizzeriaId === null)
         {
             return new JsonResponse(
-                ['message' => "Request body not provide key: pizzeria_id!"],
+                ['message' => "Request not provide parameter: pizzeria_id!"],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -141,5 +154,101 @@ class PizzeriaController extends AbstractController
             ['workload' => sizeof($orders)],
             JsonResponse::HTTP_OK
         );
+    }
+
+    public function getAvailablePizzas(
+        Request $request,
+        SerializerInterface $serializer,
+        PizzeriaRepository $pizzeriaRepository,
+        PizzeriaPizzaRepository $pizzeriaPizzaRepository
+    ): JsonResponse
+    {
+        $pizzeriaId = $request->get('pizzeria_id');
+
+        if ($pizzeriaId === null)
+        {
+            return new JsonResponse(
+                ['message' => "Request not provide parameter: pizzeria_id!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $pizzeria = $pizzeriaRepository->findOneBy(['id' => $pizzeriaId]);
+        if ($pizzeria === null)
+        {
+            return new JsonResponse(
+                ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $objects = $pizzeriaPizzaRepository->findBy(['pizzeria' => $pizzeria, 'is_available' => true]);
+        $result = [];
+
+        foreach ($objects as $object)
+        {
+            $serializedPizzas = $serializer->normalize(
+                $object,
+                context: [AbstractNormalizer::ATTRIBUTES => ['pizza'=> ['id']]]
+            );
+
+            $result[] = $serializedPizzas['pizza']['id'];
+        }
+
+        return new JsonResponse(
+            ['available_pizzas' => $result]
+        );
+    }
+
+    public function changePizzeriaPizzaStatus(
+        Request $request,
+        PizzeriaPizzaRepository $pizzeriaPizzaRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        try {
+            $data = $request->toArray();
+        }
+        catch (JsonException $exception) {
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        try {
+            $pizzeriaPizzaId = $data['pizzeria_pizza_id'];
+            $isAvailable = $data['is_available'];
+        }
+        catch (ErrorException) {
+            return new JsonResponse(
+                ['message' => 'Request body not provide some of this parameters: pizzeria_pizza_id, is_available!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $pizzeriaPizza = $pizzeriaPizzaRepository->findOneBy(['id' => $pizzeriaPizzaId]);
+        if ($pizzeriaPizza === null)
+        {
+            return new JsonResponse(
+                ['message' => "PizzeriaPizza with id: $pizzeriaPizza does not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        if (!is_bool($isAvailable))
+        {
+            return new JsonResponse(
+                ['message' => "is_available must be a boolean!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $pizzeriaPizza->setIsAvailable($isAvailable);
+
+        $entityManager->persist($pizzeriaPizza);
+        $entityManager->flush();
+
+        return new JsonResponse();
     }
 }
