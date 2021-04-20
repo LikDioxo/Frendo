@@ -4,6 +4,7 @@ import logo from "../assets/logo.jpg";
 import SearchBox from "../components/SearchBox";
 import {flipFilterView} from "../actions";
 import {useDispatch} from "react-redux";
+import OrderHelpBox from "../components/OrderHelpBox";
 
 
 function Header()
@@ -15,6 +16,7 @@ function Header()
     return (<div className="header">
             <HeaderImage image_path={logo}/>
             <SearchBox onFilterView={changeFilterView}/>
+            <OrderHelpBox onOrderHelp={() => alert("Здесь должно быть модальное окно!!!")}/>
         </div>
     )
 }
