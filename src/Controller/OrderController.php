@@ -72,7 +72,10 @@ class OrderController extends AbstractController
         $entityManager->persist($newOrder);
         $entityManager->flush();
 
-        return new JsonResponse();
+        return new JsonResponse(
+            ['id' => $newOrder->getId()],
+            JsonResponse::HTTP_CREATED
+        );
     }
 
     public function updateStatus(

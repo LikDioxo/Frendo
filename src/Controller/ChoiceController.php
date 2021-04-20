@@ -67,6 +67,9 @@ class ChoiceController extends AbstractController
         $entityManager->persist($newChoice);
         $entityManager->flush();
 
-        return new JsonResponse();
+        return new JsonResponse(
+            ['id' => $newChoice->getId()],
+            JsonResponse::HTTP_CREATED
+        );
     }
 }
