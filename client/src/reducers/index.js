@@ -1,11 +1,9 @@
 import {combineReducers} from "redux";
 
 import {
-    VIEW_FILTER_BOX
+    VIEW_FILTER_BOX,
+    ADD_PIZZA_TO_ORDER
 } from "../actions";
-
-
-
 
 
 function filterReducer(state={}, action)
@@ -16,25 +14,29 @@ function filterReducer(state={}, action)
             let tmp =  {...state};
             tmp.isFilterView = !state.isFilterView;
 
-            return tmp
+            return tmp;
         default:
             return state;
     }
-
 }
 
-function orderReducer(state)
+function orderReducer(state=[], action)
 {
-
-
-
+    switch (action.type)
+    {
+        case ADD_PIZZA_TO_ORDER:
+            let tmp = [...state];
+            tmp.append(action.payload);
+            return tmp;
+        default:
+            return state;
+    }
 }
-
-
 
 
 const mainReducer = combineReducers({
-        filter: filterReducer
+        filter: filterReducer,
+        order: orderReducer
     }
 )
 

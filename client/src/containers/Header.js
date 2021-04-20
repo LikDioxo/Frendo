@@ -1,11 +1,18 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useReducer} from 'react';
 import HeaderImage from "../components/HeaderImage";
 import SearchBox from "../components/SearchBox";
 import Cart from "../components/Cart";
 import {flipFilterView} from "../actions";
 import {useDispatch, useSelector} from "react-redux";
 import OrderHelpBox from "../components/OrderHelpBox";
-import {getOrderCount} from "../selectors";
+import {getOrder} from "../selectors";
+import main from "../reducers";
+import mainReducer from "../reducers";
+
+function init_order(initArg)
+{
+    return {order: initArg}
+}
 
 
 function Header()
@@ -15,7 +22,8 @@ function Header()
         dispatch(flipFilterView());
     },[dispatch])
 
-    const orderCount = useSelector(getOrderCount);
+    const order = useSelector(getOrder);
+    const orderCount = order.length ? order.reduce((acc, cur_it)=>acc+cur_it.quantity):0;
 
     return (<div className="header">
             <HeaderImage/>

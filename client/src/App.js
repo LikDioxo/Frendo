@@ -10,6 +10,7 @@ import Post from "./components/Post";
 
 
 const store = createStore(mainReducer);
+
 function App() {
 
     return (

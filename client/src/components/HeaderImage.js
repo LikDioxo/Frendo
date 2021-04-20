@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from "../assets/images/logo.jpg";
 
+
 function HeaderImage()
 {
     return (<div className="header-image">

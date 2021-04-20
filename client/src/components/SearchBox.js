@@ -1,6 +1,7 @@
 import React from 'react';
 import loup from "../assets/images/loup.jpg";
 
+
 function SearchBox({onFilterView})
 {
 

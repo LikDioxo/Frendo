@@ -1,9 +1,8 @@
 
 
 
-export function getOrderCount(state)
+export function getOrder(state)
 {
-    return state.orderCount;
-
+    return state.order;
 }
 
