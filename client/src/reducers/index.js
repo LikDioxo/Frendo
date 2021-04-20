@@ -23,6 +23,15 @@ function filterReducer(state={}, action)
 
 }
 
+function orderReducer(state)
+{
+
+
+
+}
+
+
+
 
 const mainReducer = combineReducers({
         filter: filterReducer

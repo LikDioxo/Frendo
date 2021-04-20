@@ -1,18 +1,18 @@
-import React, {useCallback} from 'react';
-import {useSelector} from "react-redux";
+import React from 'react';
+
 import cart_image from "../assets/images/cart.png"
-import {useDispatch} from "react-redux";
 
 
-function Cart()
+
+function Cart({orderCount})
 {
-    const dispatch = useDispatch()
+
     return (
-        <div className="cart" onClick={}>
+        <div className="cart">
             <div className="cart-image">
                 <img src={cart_image} alt="Корзина"/>
             </div>
-            <p></p>
+            <p>{orderCount}</p>
         </div>
     )
 }
