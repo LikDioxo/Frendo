@@ -24,15 +24,21 @@ class PizzeriaPizza
     private $pizzeria;
 
     /**
-     * @ORM\ManyToOne(targetEntity="pizza")
+     * @ORM\ManyToOne(targetEntity="Pizza")
      * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id")
      */
     private $pizza;
 
-    public function __construct($pizzeria, $pizza)
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_available;
+
+    public function __construct($pizzeria, $pizza, $is_available)
     {
         $this->pizzeria = $pizzeria;
         $this->pizza = $pizza;
+        $this->is_available = $is_available;
     }
 
     public function getId(): int
@@ -60,6 +66,18 @@ class PizzeriaPizza
     public function setPizzeria($pizzeria): self
     {
         $this->pizzeria = $pizzeria;
+
+        return $this;
+    }
+
+    public function getIsAvailable():  bool
+    {
+        return $this->is_available;
+    }
+
+    public function setIsAvailable($is_available): self
+    {
+        $this->is_available = $is_available;
 
         return $this;
     }
