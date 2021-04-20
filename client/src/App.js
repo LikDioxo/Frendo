@@ -8,7 +8,7 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import mainReducer from "./reducers";
 
-console.log("ASFAFASFSDFGASGDS")
+
 const store = createStore(mainReducer);
 function App() {
   return (
