@@ -1,0 +1,99 @@
+/* .header-image {
+  text-align: left;
+} */
+body {
+    font-family: "Comic Sans MS";
+}
+.header {
+    /* border: 1px solid red; */
+    border-radius: 30px;
+    border-bottom: 5px solid rgb(158, 154, 154);
+}
+.search-box {
+    border-radius: 30px;
+    border: 2px solid rgb(158, 154, 154);
+    width: 30%;
+}
+.welcome-img {
+    width: 30%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.welcome-content {
+    width: 65%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.welcome-content h3 {
+    font-size: 24pt;
+}
+.welcome-post {
+    margin: 15px;
+    border-radius: 30px;
+    /* border: 5px solid rgb(223, 9, 9); */
+    border: 2px solid rgb(158, 154, 154);
+    width: 80%;
+    margin: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.search-button {
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    margin-top: 7px;
+    margin-left: -25px;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    border: 2px solid rgb(129, 126, 126);
+    /* padding: 15px; */
+    /* display: block; */
+}
+.search-img {
+    height: 30px;
+    width: 30px;
+
+    /* display: block; */
+}
+.search-input {
+    margin: 7px;
+    padding: 8px;
+    width: 70%;
+    border-radius: 20px;
+    background-color: #d7d7db;
+    outline: none;
+    font-size: 16pt;
+    font-family: "Comic Sans MS";
+    border-color: #7c7c7c;
+    /* display: block; */
+}
+.button-filter {
+    transition: color, background-color 0.5s;
+    background-color: #ffd25e;
+    color: black;
+    padding: 5px;
+    font-size: 13pt;
+    font-family: "Comic Sans MS";
+    border-radius: 15px;
+    outline: none;
+    border: 1px solid #c9a54c;
+}
+.search {
+    /* display: inline-block; */
+    display: flex;
+
+    flex-direction: row;
+
+    justify-content: flex-start;
+}
+
+.button-filter:hover {
+    /* color: #f2f5a9; */
+    background-color: #f1a54d;
+}
+.search-p {
+    font-size: 15pt;
+    font-family: "Comic Sans MS";
+    text-align: center;
+}
