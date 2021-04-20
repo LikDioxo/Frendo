@@ -1,9 +1,10 @@
 import React from 'react';
+import logo from "../assets/images/logo.jpg";
 
-function HeaderImage({image_path})
+function HeaderImage()
 {
     return (<div className="header-image">
-            <img src={image_path} alt="Логотип"/>
+            <img src={logo} alt="Логотип"/>
         </div>
     )
 }
