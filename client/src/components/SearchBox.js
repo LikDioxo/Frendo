@@ -1,5 +1,5 @@
 import React from 'react';
-import loup from "../assets/loup.jpg";
+import loup from "../assets/images/loup.jpg";
 
 function SearchBox({onFilterView})
 {
