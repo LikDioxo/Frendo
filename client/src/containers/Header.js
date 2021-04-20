@@ -6,13 +6,7 @@ import {flipFilterView} from "../actions";
 import {useDispatch, useSelector} from "react-redux";
 import OrderHelpBox from "../components/OrderHelpBox";
 import {getOrder} from "../selectors";
-import main from "../reducers";
-import mainReducer from "../reducers";
 
-function init_order(initArg)
-{
-    return {order: initArg}
-}
 
 
 function Header()
