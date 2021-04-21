@@ -178,8 +178,7 @@ class PizzaController extends AbstractController
         try {
             $objects = $pizzaRepository->findBy($requestQuery);
         }
-        catch (ORMException $exception)
-        {
+        catch (ORMException $exception) {
             return new JsonResponse(
                 ['message' => $exception->getMessage()],
                 JsonResponse::HTTP_BAD_REQUEST
@@ -187,15 +186,106 @@ class PizzaController extends AbstractController
         }
         $result = [];
 
-        foreach ($objects as $object)
-        {
+        foreach ($objects as $object) {
             $pizza = $serializer->normalize($object);
             $pizza['ingredients'] = [];
 
             $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $object->getId()]);
 
-            foreach ($pizzaIngredients as $pizzaIngredient)
-            {
+            foreach ($pizzaIngredients as $pizzaIngredient) {
+                $serializedIngredient = $serializer->normalize(
+                    $pizzaIngredient,
+                    context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]
+                );
+
+                $pizza['ingredients'][] = [
+                    'ingredient_id' => $serializedIngredient['ingredient']['id'],
+                    'status' => $serializedIngredient['status']
+                ];
+            }
+
+            $result[] = $pizza;
+        }
+
+        return new JsonResponse(
+            $result,
+            JsonResponse::HTTP_OK
+        );
+    }
+
+    public function getPizza(
+        Request $request,
+        PizzaRepository $pizzaRepository,
+        PizzaIngredientRepository $pizzaIngredientRepository,
+        SerializerInterface $serializer
+    ): JsonResponse
+    {
+        $pizzaId = $request->query->get('pizza_id');
+
+        if ($pizzaId === null) {
+            return new JsonResponse(
+                ['message' => 'Request not provide parameter: pizza_id!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $pizza = $pizzaRepository->findOneBy(['id' => $pizzaId]);
+
+        if ($pizza === null) {
+            return new JsonResponse(
+                ['message' => "Pizza with id: $pizzaId does not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+
+        $normalizedPizza = $serializer->normalize($pizza);
+        $normalizedPizza['ingredients'] = [];
+
+        $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $pizza->getId()]);
+
+        foreach ($pizzaIngredients as $pizzaIngredient) {
+            $serializedIngredient = $serializer->normalize(
+                $pizzaIngredient,
+                context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]
+            );
+
+            $normalizedPizza['ingredients'][] = [
+                'ingredient_id' => $serializedIngredient['ingredient']['id'],
+                'status' => $serializedIngredient['status']
+            ];
+        }
+
+        return new JsonResponse($normalizedPizza);
+    }
+
+    public function search(
+        Request $request,
+        PizzaRepository $pizzaRepository,
+        SerializerInterface $serializer,
+        PizzaIngredientRepository $pizzaIngredientRepository
+    ): JsonResponse
+    {
+        $name = $request->query->get('name');
+
+        if ($name === null) {
+            return new JsonResponse(
+                ['message' => 'Request not provide parameter: name!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $result = [];
+
+        $objects = $pizzaRepository->partialNameMatch($name);
+
+        foreach ($objects as $object) {
+            $pizza = $serializer->normalize($object);
+            $pizza['ingredients'] = [];
+
+            $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $object->getId()]);
+
+            foreach ($pizzaIngredients as $pizzaIngredient) {
                 $serializedIngredient = $serializer->normalize(
                     $pizzaIngredient,
                     context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]

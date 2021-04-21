@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Domain\OrderStatus;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints\Json;
 
 class OrderController extends AbstractController
 {
@@ -185,6 +186,59 @@ class OrderController extends AbstractController
 
         return new JsonResponse(
             $result,
+            JsonResponse::HTTP_OK
+        );
+    }
+
+    public function getQueuePosition(
+        Request $request,
+        OrderRepository $orderRepository
+    ): JsonResponse
+    {
+        $pizzeriaId = $request->get('pizzeria_id');
+        $phoneNumber = $request->get('phone_number');
+
+        if ($pizzeriaId === null)
+        {
+            return new JsonResponse(
+                ['message' => "Request not provide parameter: pizzeria_id!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        if ($phoneNumber === null)
+        {
+            return new JsonResponse(
+                ['message' => "Request not provide parameter: phone_number!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+
+        $targetOrder = $orderRepository->findOneBy(['customersPhoneNumber' => $phoneNumber]);
+        if ($targetOrder === null) {
+            return new JsonResponse(
+                ['message' => "Order with customer's phone number: $phoneNumber does not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $orders = $orderRepository->getRelatedOrders($pizzeriaId);
+        $position = 0;
+
+        foreach ($orders as $order) {
+            $position += 1;
+
+            if ($targetOrder->getCustomersPhoneNumber() === $phoneNumber) {
+                return new JsonResponse(
+                    ['order_position' => $position],
+                    JsonResponse::HTTP_OK
+                );
+            }
+        }
+
+        return new JsonResponse(
+            ['order_position' => $position],
             JsonResponse::HTTP_OK
         );
     }

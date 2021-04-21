@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class IngredientController extends AbstractController
@@ -88,5 +89,34 @@ class IngredientController extends AbstractController
             $result,
             JsonResponse::HTTP_OK
         );
+    }
+
+    public function getIngredient(
+        Request $request,
+        IngredientRepository $ingredientRepository,
+        SerializerInterface $serializer,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $ingredientId = $request->query->get('ingredient_id');
+
+        if ($ingredientId === null) {
+            return new JsonResponse(
+                ['message' => 'Request not provide parameter: ingredient_id!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $ingredient = $ingredientRepository->findOneBy(['id' => $ingredientId]);
+
+        if ($ingredient === null) {
+            return new JsonResponse(
+                ['message' => "Ingredient with id: $ingredientId does not exists!"],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $normalizedIngredient = $serializer->normalize($ingredient);
+        return new JsonResponse($normalizedIngredient);
     }
 }
