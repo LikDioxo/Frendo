@@ -148,7 +148,7 @@ class PizzeriaController extends AbstractController
             );
         }
 
-        $orders = $orderRepository->getWorkload($pizzeriaId);
+        $orders = $orderRepository->getRelatedOrders($pizzeriaId);
 
         return new JsonResponse(
             ['workload' => sizeof($orders)],

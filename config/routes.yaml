@@ -1,10 +1,4 @@
-test:
-    path: /test
-    methods: POST|GET
-    controller: App\Controller\PizzeriaController::test
-
-
-# clients creation and authorization
+# Clients creation and authorization
 app_logout:
     path: /logout
     methods: GET
@@ -30,11 +24,6 @@ app_get_app_pizzas:
     methods: GET
     controller: App\Controller\PizzaController::getAll
 
-app_get_all_pizzerias:
-    path: /api/get/all/pizzerias
-    methods: GET
-    controller: App\Controller\PizzeriaController::getAll
-
 app_get_all_clients:
     path: /admin/get/all/clients
     methods: GET
@@ -55,17 +44,6 @@ get_statuses:
     methods: GET
     controller: App\Controller\OrderController::getStatuses
 
-app_get_pizzeria_workload:
-    path: /api/get/pizzeria-workload
-    methods: GET
-    controller: App\Controller\PizzeriaController::getWorkload
-
-app_get_available_pizzas:
-    path: /api/get/pizzeria-pizzas
-    methods: GET
-    controller: App\Controller\PizzeriaController::getAvailablePizzas
-
-
 # Creating entities
 app_create_ingredient:
     path: /admin/create/ingredient
@@ -82,20 +60,6 @@ app_create_pizzeria:
     methods: POST
     controller: App\Controller\PizzeriaController::create
 
-app_create_order:
-    path: /api/create/order
-    methods: POST
-    controller: App\Controller\OrderController::create
-
-app_create_choice:
-    path: /api/create/choice
-    methods: POST
-    controller: App\Controller\ChoiceController::create
-
-app_create_choice_event:
-    path: /api/create/event
-    methods: POST
-    controller: App\Controller\ChoiceEventController::create
 
 
 # Operator
@@ -109,13 +73,59 @@ app_change_pizzeria_pizza_status:
     methods: POST
     controller: App\Controller\PizzeriaController::changePizzeriaPizzaStatus
 
-app_add_available_pizzas:
-    path: /operator/add/available-pizzas
-    methods: POST
-    controller: App\Controller\PizzeriaPizzaController::addAvailablePizzas
-
 # Update Entities
 app_upade_pizza_image:
     path: /admin/update/pizza-image
     methods: POST
     controller: App\Controller\PizzaController::updateImage
+
+# Client
+app_get_all_pizzerias:
+    path: /api/get/all/pizzerias
+    methods: GET
+    controller: App\Controller\PizzeriaController::getAll
+
+app_get_pizzeria_workload:
+    path: /api/get/pizzeria-workload
+    methods: GET
+    controller: App\Controller\PizzeriaController::getWorkload
+
+app_get_available_pizzas:
+    path: /api/get/pizzeria-pizzas
+    methods: GET
+    controller: App\Controller\PizzeriaController::getAvailablePizzas
+
+app_get_pizza:
+    path: /api/get/pizza
+    methods: GET
+    controller: App\Controller\PizzaController::getPizza
+
+app_get_ingredient:
+    path: /api/get/ingredient
+    methods: GET
+    controller: App\Controller\IngredientController::getIngredient
+
+app_search_pizza:
+    path: /api/search/pizza
+    methods: GET
+    controller: App\Controller\PizzaController::search
+
+app_create_order:
+    path: /api/create/order
+    methods: POST
+    controller: App\Controller\OrderController::create
+
+app_get_queue_position:
+    path: /api/get/order-position
+    methods: GET
+    controller: App\Controller\OrderController::getQueuePosition
+
+app_create_choice:
+    path: /api/create/choice
+    methods: POST
+    controller: App\Controller\ChoiceController::create
+
+app_create_choice_event:
+    path: /api/create/event
+    methods: POST
+    controller: App\Controller\ChoiceEventController::create

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Pizza;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,18 @@ class PizzaRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Pizza::class);
+    }
+
+    public function partialNameMatch(string $pizza_name)
+    {
+        return $this->createQueryBuilder('o')
+            ->addCriteria(
+                Criteria::create()
+                    ->where(Criteria::expr()->startsWith('name', $pizza_name))
+            )
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     // /**
