@@ -1,21 +1,13 @@
 import React from 'react';
 import loup from "../assets/images/loup.jpg";
+import SearchBar from "./SearchBar";
 
 
 function SearchBox({ onFilterView }) {
+    const func = (search) => alert(search);
     return (
         <div className="search-box">
-            <div className="search">
-                <input
-                    placeholder="  Поиск"
-                    className="search-input"
-                    type="text"
-                    size="40"
-                />
-                <button className="search-button">
-                    <img className="search-img" src={loup} alt="" />
-                </button>
-            </div>
+            <SearchBar onSearch={func}/>
             <button className="button-filter" onClick={onFilterView}>
                 Фильтр ингредиентов
             </button>

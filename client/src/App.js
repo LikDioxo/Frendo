@@ -9,7 +9,7 @@ import mainReducer from "./reducers";
 import Post from "./components/Post";
 import ModalWindow from "./components/ModalWindow";
 import PizzeriaChoiceModal from "./components/PizzeriaChoiceModal";
-import {flipFilterView, flipPizzeriasModalView} from "./actions";
+import { flipPizzeriasModalView} from "./actions";
 import {getPizzeriasModalView} from "./selectors";
 
 
@@ -24,7 +24,7 @@ function App() {
     return (
         <div className="App">
           <Header/>
-            <ModalWindow show={PizzeriasModalView} component={<PizzeriaChoiceModal addresses={[["Донбасс", 42]]}/>}/>
+            <ModalWindow handleClose={handlePizzeriasModal} show={PizzeriasModalView} component={<PizzeriaChoiceModal addresses={[["Донбасс", 42]]}/>}/>
             <Post onChoosePizzeria={handlePizzeriasModal}/>
 
         </div>

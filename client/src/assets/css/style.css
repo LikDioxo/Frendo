@@ -5,8 +5,13 @@
     margin: 7px;
     margin-left: 15px;
 }
+html{
+    width: 100%;
+    height: 100%;
+}
 body {
-    font-family: "Comic Sans MS";
+    font-family: "Roboto", Arial, serif;
+
 }
 .header {
     /* border: 1px solid red; */
@@ -87,7 +92,7 @@ body {
     background-color: #d7d7db;
     outline: none;
     font-size: 16pt;
-    font-family: "Comic Sans MS";
+
     border-color: #7c7c7c;
     /* display: block; */
 }
@@ -98,7 +103,7 @@ body {
     color: black;
     padding: 8px;
     font-size: 13pt;
-    font-family: "Comic Sans MS";
+
     border-radius: 15px;
     outline: none;
     border: 1px solid #c9a54c;
@@ -116,7 +121,7 @@ body {
 }
 .search-p {
     font-size: 15pt;
-    font-family: "Comic Sans MS";
+
     text-align: center;
 }
 .cart {
@@ -149,14 +154,27 @@ body {
 .pizzeria-choice-box
 {
     background: #FFFFFF;
-    display: block;
+    border-radius: 10px;
     width: auto;
-    margin: 15px;
+    height: 40%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
-
+.pizzeria-address
+{
+    border-radius: 10px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .pizzeria-choice-box h2,h1
 {
     margin: 0;
+
 }
 
 

@@ -12,9 +12,9 @@ import {getOrder} from "../selectors";
 function Header()
 {
     const dispatch = useDispatch()
-    const changeFilterView = useCallback(() => {
+    const changeFilterView = () => {
         dispatch(flipFilterView());
-    },[dispatch])
+    }
 
     const order = useSelector(getOrder);
     const orderCount = order.length ? order.reduce((acc, cur_it)=>acc+cur_it.quantity):0;

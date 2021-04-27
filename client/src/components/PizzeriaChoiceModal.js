@@ -10,11 +10,11 @@ function PizzeriaChoiceModal({addresses})
             <h1>Выберите пиццерию</h1>
             <h2>TODO: Зделать компонент SearchBar</h2>
             <div className="pizzerias-addresses">
-                {addresses.map((address,  orders_quantity) =>
+                {addresses.map((data) =>
                 <div className="pizzeria-address">
-                    <p>{address}</p>
+                    <p>{data[0]}</p>
                     <p>Заказов в очереди:</p>
-                    <p>{orders_quantity}</p>
+                    <p>{data[1]}</p>
                 </div>
             )}
 
