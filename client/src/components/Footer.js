@@ -1,5 +1,6 @@
 import React from "react";
 import HeaderImage from "../components/HeaderImage";
+import {Link} from "react-router-dom";
 
 function Footer() {
   return (
@@ -15,7 +16,7 @@ function Footer() {
 
       <div className="footer-text">
         <a href="">
-          <h2>FAQ</h2>
+            <Link exact to="/FAQ"><h2>FAQ</h2></Link>
         </a>
       </div>
     </footer>

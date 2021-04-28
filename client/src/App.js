@@ -1,36 +1,28 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Route } from "react-router";
 
-import Header from "./containers/Header";
-import { createStore } from "redux";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import mainReducer from "./reducers";
-import Post from "./components/Post";
-import ModalWindow from "./components/ModalWindow";
-import PizzeriaChoiceModal from "./components/PizzeriaChoiceModal";
-import { flipPizzeriasModalView } from "./actions";
-import { getPizzeriasModalView } from "./selectors";
-import Footer from "./components/Footer";
 
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import mainReducer from "./reducers";
+
+import ClientStartPage from "./containers/ClientStartPage";
+import FAQPage from "./containers/FAQPage";
+
+
+
+const store = createStore(mainReducer);
 function App() {
-  const dispatch = useDispatch();
-  const handlePizzeriasModal = useCallback(
-    () => dispatch(flipPizzeriasModalView()),
-    [dispatch]
-  );
-  const PizzeriasModalView = useSelector(getPizzeriasModalView);
+
   return (
-    <div className="App">
-      <Header />
-      <ModalWindow
-        handleClose={handlePizzeriasModal}
-        show={PizzeriasModalView}
-        component={<PizzeriaChoiceModal addresses={[["Донбасс", 42]]} />}
-      />
-      <Post onChoosePizzeria={handlePizzeriasModal} />
-      <Footer />
-    </div>
+      <Provider store={store}>
+          <BrowserRouter>
+              <Route exact path={'/'} component={ClientStartPage}/>
+              <Route path={'/FAQ'} component={FAQPage}/>
+
+          </BrowserRouter>
+      </Provider>
   );
 }
 
