@@ -1,0 +1,11 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 17vh;
+
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    box-shadow: 0 4px 4px 4px rgba(0, 0, 0, 0.25)
+}

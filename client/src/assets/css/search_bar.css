@@ -1,0 +1,30 @@
+.search {
+    display: flex;
+    align-items: center;
+    height: 5vh;
+}
+
+.search-button {
+    height: 5vh;
+    background-color: white;
+    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.search-img {
+    height: 5vh;
+}
+
+.search-input {
+    height: 5vh;
+    width: 30vw;
+    background-color: #ececec;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+    font-size: 2.6vmin;
+    text-indent: 1vw;
+}
+
+.search-button {
+    background-color: #c4c4c4;
+}

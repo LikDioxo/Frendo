@@ -1,7 +1,5 @@
 import React from 'react';
-
 import cart_image from "../assets/images/cart.png"
-
 
 
 function Cart({orderCount})
@@ -16,5 +14,6 @@ function Cart({orderCount})
         </div>
     )
 }
+
 
 export default Cart

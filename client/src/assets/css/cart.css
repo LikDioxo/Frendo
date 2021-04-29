@@ -1,0 +1,25 @@
+.cart {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    min-width: 10vw;
+    width: fit-content;
+    border-radius: 1rem;
+    height: 12vh;
+}
+.cart-image {
+    width: fit-content;
+}
+
+.cart-image img {
+    width: 10vmin;
+}
+
+.cart p {
+    width: fit-content;
+    font-size: 6vmin;
+    color: red;
+    margin: 0;
+}

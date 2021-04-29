@@ -1,0 +1,46 @@
+.welcome-post {
+    width: 80vw;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vh;
+
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+
+    border-radius: 1rem;
+}
+
+.welcome-img {
+    margin: 3vmin 0;
+}
+
+.welcome-img img {
+    width: 45vmin;
+}
+
+.welcome-content {
+
+    text-align: center;
+}
+
+.welcome-content h3 {
+    font-size: 5vmin;
+    text-align: center;
+
+    margin-bottom: 4vmin;
+}
+
+.welcome-content p {
+    font-size: 2.7vmin;
+    font-weight: bold;
+
+    margin-bottom: 2vmin;
+}
+
+
+.post-button {
+    font-size: 4vmin !important;
+}

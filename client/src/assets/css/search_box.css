@@ -1,0 +1,22 @@
+.search-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    text-align: center;
+    border-radius: 1rem;
+    width: 40vw;
+    height: 12vh;
+}
+
+.button-filter-wrapper {
+    width: 32.6vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.button-filter:hover {
+    background-color: #f1a54d;
+}
