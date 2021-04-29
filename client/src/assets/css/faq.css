@@ -1,0 +1,28 @@
+.question {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+}
+
+.question-title {
+    font-size: 3.2vmin;
+    font-weight: bold;
+}
+
+.question-answer-container {
+    border-radius: 1rem;
+    margin-top: 1vmin;
+
+    padding-left: 2vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+
+.answer {
+    font-size: 2.6vmin;
+    font-weight: bold;
+    font-style: italic;
+    color: #1D1A1A;
+}
+

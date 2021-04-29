@@ -1,16 +1,18 @@
 import React from 'react';
+import "../assets/css/order_help_box.css"
 
 
-
-function OrderHelpBox({ onOrderHelp }) {
+function OrderHelpBox({ onOrderHelp })
+{
     return (
-        <div align="center" className="search-box">
-            <p className="search-p">Уже сделали заказ?</p>
-            <button className="button-filter" onClick={onOrderHelp}>
+        <div className="order-help-box shadowed">
+            <p className="order-help-p">Уже сделали заказ?</p>
+            <button className="order-help-button default-button" onClick={onOrderHelp}>
                 Узнать номер в очереди
             </button>
         </div>
     );
 }
+
 
 export default OrderHelpBox

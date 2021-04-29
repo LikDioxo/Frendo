@@ -1,8 +1,6 @@
 import React from 'react';
 
 
-
-
 function PizzeriaChoiceModal({addresses})
 {
     return (
@@ -22,5 +20,6 @@ function PizzeriaChoiceModal({addresses})
         </div>
     )
 }
+
 
 export default PizzeriaChoiceModal

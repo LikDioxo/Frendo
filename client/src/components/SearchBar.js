@@ -1,6 +1,6 @@
-import loup from "../assets/images/loup.jpg";
+import loup from "../assets/images/loupe.png";
 import React, {useRef} from "react";
-
+import "../assets/css/search_bar.css"
 
 
 function SearchBar({onSearch}) {
@@ -11,10 +11,9 @@ function SearchBar({onSearch}) {
         <div className="search">
             <input
                 ref = {to_search}
-                placeholder="  Поиск"
+                placeholder="Поиск"
                 className="search-input"
                 type="text"
-                size="40"
             />
             <button className="search-button" onClick={onSearchCallback}>
                 <img className="search-img" src={loup} alt="" />

@@ -1,26 +1,28 @@
 import React from "react";
 import HeaderImage from "../components/HeaderImage";
 import {Link} from "react-router-dom";
+import "../assets/css/footer.css"
 
-function Footer() {
+
+function Footer()
+{
   return (
-    <footer className="footer">
-      <div className="footer-text">
-        <h2>почта: frendopizza@gmail.com</h2>
-
-        <h2>телефон: 8 800 555 3535</h2>
+    <div className="footer">
+      <div className="footer-text footer-info">
+        <p>почта: frendopizza@gmail.com</p>
+        <p>телефон: 8 800 555 3535</p>
       </div>
       <div className="footer-image">
         <HeaderImage />
       </div>
-
-      <div className="footer-text">
+      <div className="footer-text footer-links">
         <a href="">
-            <Link exact to="/FAQ"><h2>FAQ</h2></Link>
+            <Link exact to="/FAQ">FAQ</Link>
         </a>
       </div>
-    </footer>
+    </div>
   );
 }
+
 
 export default Footer;

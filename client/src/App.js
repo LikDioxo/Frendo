@@ -9,6 +9,7 @@ import mainReducer from "./reducers";
 
 import ClientStartPage from "./containers/ClientStartPage";
 import FAQPage from "./containers/FAQPage";
+import "./assets/css/main.css";
 
 
 
