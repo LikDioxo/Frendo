@@ -24,7 +24,18 @@ function ClientStartPage() {
                 <ModalWindow
                     handleClose={handlePizzeriasModal}
                     show={PizzeriasModalView}
-                    component={<PizzeriaChoiceModal addresses={[["Донбасс", 42]]} />}
+                    component={<PizzeriaChoiceModal addresses={
+                        [
+                            ["Донбасс", 42],
+                            ["Донбасс", 42],
+                            ["Донбасс", 42],
+                            ["Донбасс", 42],
+                            ["Донбасс", 42],
+                            ["Донбасс", 42],
+                            ["Донбасс", 42],
+                            ["Донбасс", 42]
+                        ]
+                    } />}
                 />
                 <Post onChoosePizzeria={handlePizzeriasModal} />
             </div>

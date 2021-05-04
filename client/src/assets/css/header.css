@@ -1,11 +1,15 @@
 .header {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    height: 17vh;
 
     border-bottom-right-radius: 1rem;
     border-bottom-left-radius: 1rem;
-    box-shadow: 0 0.5vmin 0.5vmin 0.5vmin rgba(0, 0, 0, 0.25)
+    box-shadow: 0 0.5vmin 0.5vmin 0.5vmin rgba(0, 0, 0, 0.25);
+    padding: 15px;
+}
+
+.header .search-box .search-input {
+
 }
