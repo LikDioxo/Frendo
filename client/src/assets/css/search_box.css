@@ -1,17 +1,19 @@
 .search-box {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
     text-align: center;
     border-radius: 1rem;
     width: 40vw;
-    height: 12vh;
+    height: 100px;
+    padding: 10px;
 }
 
 .button-filter-wrapper {
-    width: 32.6vw;
+    width: 100%;
+    max-width: 90%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -19,4 +21,13 @@
 
 .button-filter:hover {
     background-color: #f1a54d;
+}
+
+.search-box .search {
+    width: 100%;
+    max-width: 90%;
+}
+
+.search-box .search-input {
+    width: 100%;
 }

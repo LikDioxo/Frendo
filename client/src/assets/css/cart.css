@@ -4,22 +4,22 @@
     justify-content: space-around;
     align-items: center;
 
-    min-width: 10vw;
-    width: fit-content;
     border-radius: 1rem;
-    height: 12vh;
+    height: 100px;
+
+    padding: 10px;
 }
+
 .cart-image {
-    width: fit-content;
+    height: 100%;
+    padding-right: 4px;
 }
 
 .cart-image img {
-    width: 10vmin;
+    height: inherit;
 }
 
 .cart p {
-    width: fit-content;
-    font-size: 6vmin;
+    font-size: 40px;
     color: red;
-    margin: 0;
 }
