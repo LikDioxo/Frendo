@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./Header";
 import Footer from "../components/Footer";
 import FAQ from "../components/FAQ";
-import {withRouter} from "react-router";
 import "../assets/css/faq_page.css";
 
 
@@ -57,4 +56,4 @@ function FAQPage()
 }
 
 
-export default withRouter(FAQPage);
+export default FAQPage;

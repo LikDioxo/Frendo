@@ -16,9 +16,7 @@ function Footer()
         <HeaderImage />
       </div>
       <div className="footer-text footer-links">
-        <a href="">
-            <Link exact to="/FAQ">FAQ</Link>
-        </a>
+          <Link exact to="/FAQ">FAQ</Link>
       </div>
     </div>
   );

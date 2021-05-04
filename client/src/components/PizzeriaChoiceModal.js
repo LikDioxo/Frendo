@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 import "../assets/css/pizzeria_choice_modal.css"
 
 
-function PizzeriaChoiceModal({addresses})
+function PizzeriaChoiceModal({onPizzeriaChosen, addresses})
 {
     return (
         <div className="pizzeria-choice-box">
@@ -11,9 +11,9 @@ function PizzeriaChoiceModal({addresses})
             <SearchBar/>
             <div className="pizzerias-info-box">
                 {addresses.map((data) =>
-                <div className="pizzeria-info double-shadowed">
-                    <p className="pizzeria-address">{data[0]}</p>
-                    <p className="pizzeria-queue">Заказов в очереди: {data[1]}</p>
+                <div className="pizzeria-info double-shadowed" key={data[0]}  onClick={() => onPizzeriaChosen(data)}>
+                    <p className="pizzeria-address">{data[1]}</p>
+                    <p className="pizzeria-queue">Заказов в очереди: {data[2]}</p>
                 </div>
             )}
 
