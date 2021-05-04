@@ -36,7 +36,7 @@ class ChoiceEvent
     public function __construct($choice, array $payload, $createDate)
     {
         $this->choice = $choice;
-        $this->choice = $choice;
+        $this->payload = $payload;
         $this->createDate = $createDate;
     }
 
