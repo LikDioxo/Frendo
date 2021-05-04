@@ -1,0 +1,70 @@
+.pizzeria-choice-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: white;
+    border-radius: 1rem;
+
+    padding: 10px;
+}
+
+.pizzeria-choice-box h1 {
+    text-align: center;
+    font-size: 30px;
+}
+
+.pizzeria-choice-box .search {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    width: 100%;
+}
+
+.pizzeria-choice-box .search input{
+    box-shadow:
+            -0.1vmin 0 0.1vmin 0 rgba(0,0,0,0.25),
+            0 0.1vmin 0.1vmin 0 rgba(0,0,0,0.25),
+            0 -0.1vmin 0.1vmin 0 rgba(0,0,0,0.25);
+
+    width: 100%;
+}
+
+.pizzeria-choice-box .search-button {
+    box-shadow:
+            0.1vmin 0 0.1vmin 0 rgba(0,0,0,0.25),
+            0 0.1vmin 0.1vmin 0 rgba(0,0,0,0.25),
+            0 -0.1vmin 0.1vmin 0 rgba(0,0,0,0.25);
+}
+
+.pizzerias-info-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 300px;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+.pizzeria-info {
+    border-radius: 1rem;
+    width: 100%;
+
+    padding: 10px;
+    margin: 6px 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pizzeria-address {
+    font-size: 18px;
+}
+
+.pizzeria-queue {
+    font-size: 14px;
+}

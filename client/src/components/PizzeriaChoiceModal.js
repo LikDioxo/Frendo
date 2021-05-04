@@ -1,4 +1,6 @@
 import React from 'react';
+import SearchBar from "./SearchBar";
+import "../assets/css/pizzeria_choice_modal.css"
 
 
 function PizzeriaChoiceModal({addresses})
@@ -6,13 +8,12 @@ function PizzeriaChoiceModal({addresses})
     return (
         <div className="pizzeria-choice-box">
             <h1>Выберите пиццерию</h1>
-            <h2>TODO: Зделать компонент SearchBar</h2>
-            <div className="pizzerias-addresses">
+            <SearchBar/>
+            <div className="pizzerias-info-box">
                 {addresses.map((data) =>
-                <div className="pizzeria-address">
-                    <p>{data[0]}</p>
-                    <p>Заказов в очереди:</p>
-                    <p>{data[1]}</p>
+                <div className="pizzeria-info double-shadowed">
+                    <p className="pizzeria-address">{data[0]}</p>
+                    <p className="pizzeria-queue">Заказов в очереди: {data[1]}</p>
                 </div>
             )}
 

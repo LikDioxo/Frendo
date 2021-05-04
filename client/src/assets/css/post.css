@@ -11,10 +11,13 @@
     align-items: center;
 
     border-radius: 1rem;
+
+    padding: 15px;
 }
 
 .welcome-img {
     margin: 3vmin 0;
+    padding-right: 15px;
 }
 
 .welcome-img img {
@@ -22,7 +25,6 @@
 }
 
 .welcome-content {
-
     text-align: center;
 }
 

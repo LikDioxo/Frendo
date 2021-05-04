@@ -1,5 +1,6 @@
 .modal {
     position: fixed;
+
     top: 0;
     left: 0;
     width:100%;
@@ -41,16 +42,14 @@
 
     transition: 0.5s;
 }
+
 .close:hover
 {
     background-color: #f1a54d;
-
+    cursor: pointer;
 }
+
  .close-icon
  {
-
      width: 25px;
-
  }
-
-
