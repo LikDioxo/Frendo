@@ -4,7 +4,8 @@ import {
     VIEW_FILTER_BOX,
     ADD_PIZZA_TO_ORDER,
     SHOW_PIZZERIAS_MODAL,
-    SET_CHOSEN_PIZZERIA
+    SET_CHOSEN_PIZZERIA,
+    SET_PIZZERIAS
 } from "../actions";
 
 
@@ -53,6 +54,11 @@ function pizzeriasReducer(state = {show_welcome_post: true}, action)
             tmp.chosen = true;
             tmp.show_welcome_post = false;
             return tmp;
+        case SET_PIZZERIAS:
+            tmp = {...state}
+            tmp.pizzerias_list = action.payload.pizzerias
+            return tmp
+
         default:
             return state;
     }

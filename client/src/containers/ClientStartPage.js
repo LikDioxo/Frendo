@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback} from "react";
-import {flipPizzeriasModalView, setChosenPizzeria} from "../actions";
-import {getChosenPizzeria, getPizzeriasModalView, getWelcomePost} from "../selectors";
+import React, {useCallback, useEffect} from "react";
+import {flipPizzeriasModalView, getPizzerias, setChosenPizzeria} from "../actions";
+import {getChosenPizzeria, getPizzeriasModalView, getPizzeriasSelector, getWelcomePost} from "../selectors";
 import Header from "./Header";
 import ModalWindow from "../components/ModalWindow";
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
@@ -13,19 +13,24 @@ import ChosenPizzeria from "../components/ChosenPizzeria";
 
 function ClientStartPage() {
     const dispatch = useDispatch();
-    const handlePizzeriasModal = useCallback(
-        () => dispatch(flipPizzeriasModalView()),
-        [dispatch]
-    );
-    const handlePizzeriaChosen = useCallback((data) => {
-        dispatch(setChosenPizzeria(data[0], data[1], data[2]));
+
+    useEffect(() =>
+    {
+        dispatch(getPizzerias())
+    },[dispatch])
+
+    const handlePizzeriasModal = () => dispatch(flipPizzeriasModalView());
+
+    const handlePizzeriaChosen = ({id, address, workload}) => {
+        dispatch(setChosenPizzeria(id, address, workload));
         dispatch(flipPizzeriasModalView());
-    },
-    [dispatch]
-    );
+    };
+
     const PizzeriasModalView = useSelector(getPizzeriasModalView);
     const WelcomePost = useSelector(getWelcomePost);
     const Pizzeria = useSelector(getChosenPizzeria);
+    const Pizzerias = useSelector(getPizzeriasSelector)
+
 
 
     return (
@@ -45,17 +50,7 @@ function ClientStartPage() {
                     component={
                         <PizzeriaChoiceModal
                             onPizzeriaChosen={handlePizzeriaChosen}
-                            addresses={
-                                [
-                                    [42,"Донбасс", 448],
-                                    [43,"пвапвапвап", 448],
-                                    [44,"ваырпыапры", 45488],
-                                    [45,"парвыпраы", 487],
-                                    [46,"апвррвп", 4586],
-                                    [47,"Давпорвыпар", 45678],
-                                    [48,"ырпаыврап", 6578],
-                                    [49,"варыпвр", 6575]
-                                ]}
+                            addresses={Pizzerias}
                         />
                     }
                 />

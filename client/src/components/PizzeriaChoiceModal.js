@@ -11,9 +11,9 @@ function PizzeriaChoiceModal({onPizzeriaChosen, addresses})
             <SearchBar/>
             <div className="pizzerias-info-box">
                 {addresses.map((data) =>
-                <div className="pizzeria-info double-shadowed" key={data[0]}  onClick={() => onPizzeriaChosen(data)}>
-                    <p className="pizzeria-address">{data[1]}</p>
-                    <p className="pizzeria-queue">Заказов в очереди: {data[2]}</p>
+                <div className="pizzeria-info double-shadowed" key={data.id}  onClick={() => onPizzeriaChosen(data)}>
+                    <p className="pizzeria-address">{data.address}</p>
+                    <p className="pizzeria-queue">Заказов в очереди: {data.workload}</p>
                 </div>
             )}
 
