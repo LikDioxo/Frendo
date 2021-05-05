@@ -69,7 +69,10 @@ class DatabaseInitController extends AbstractController
             elseif ($targetEntityName == "Ingredient") {
 
                 foreach ($instruction['values'] as $ingredient) {
-                    $newIngredient = new Ingredient($ingredient['name']);
+                    $newIngredient = new Ingredient(
+                        $ingredient['name'],
+                        $ingredient['price']
+                    );
 
                     $entityManager->persist($newIngredient);
                 }

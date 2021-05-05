@@ -22,9 +22,15 @@ class Ingredient
      */
     private $name;
 
-    public function __construct(string $name)
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2)
+     */
+    private $price;
+
+    public function __construct(string $name, float $price)
     {
         $this->name = $name;
+        $this->price = $price;
     }
 
     public function getId(): int
@@ -40,6 +46,18 @@ class Ingredient
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

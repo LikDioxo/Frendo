@@ -36,10 +36,11 @@ class IngredientController extends AbstractController
 
         try {
             $name = $data['name'];
+            $price = $data['price'];
         }
         catch (ErrorException) {
             return new JsonResponse(
-                ['message' => 'Request body not provide some of this parameters: name!'],
+                ['message' => 'Request body not provide some of this parameters: name, price!'],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -53,7 +54,7 @@ class IngredientController extends AbstractController
             );
         }
 
-        $newIngredient = new Ingredient($name);
+        $newIngredient = new Ingredient($name, $price);
 
         $entityManager->persist($newIngredient);
         $entityManager->flush();

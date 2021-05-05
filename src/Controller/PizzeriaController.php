@@ -214,13 +214,13 @@ class PizzeriaController extends AbstractController
 
                 $ingredientName = $serializer->normalize(
                     $ingredient,
-                    context: [AbstractNormalizer::ATTRIBUTES => ['id', 'name']]
+                    context: [AbstractNormalizer::ATTRIBUTES => ['id', 'name', 'price']]
                 );
 
-                $normalizedPizza['ingredients'][] = [
-                    'ingredient' => $ingredientName,
-                    'status' => $serializedIngredient['status']
-                ];
+                $normalizedPizza['ingredients'][] = array_merge(
+                    ['status' => $serializedIngredient['status']],
+                    $ingredientName
+                );
             }
 
             $result[] = $normalizedPizza;
