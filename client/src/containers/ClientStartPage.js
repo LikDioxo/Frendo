@@ -33,23 +33,31 @@ function ClientStartPage() {
             <Header />
             <div className="page">
                 {Pizzeria.chosen ?
-                    <ChosenPizzeria pizzeria_address={Pizzeria.pizzeria_address} order_count={Pizzeria.orders_count} onChange={handlePizzeriasModal}/> : null
+                    <ChosenPizzeria
+                        pizzeria_address={Pizzeria.pizzeria_address}
+                        order_count={Pizzeria.orders_count}
+                        onChange={handlePizzeriasModal}
+                    /> : null
                 }
                 <ModalWindow
                     handleClose={handlePizzeriasModal}
                     show={PizzeriasModalView}
-                    component={<PizzeriaChoiceModal onPizzeriaChosen={handlePizzeriaChosen} addresses={
-                        [
-                            [42,"Донбасс", 448],
-                            [43,"пвапвапвап", 448],
-                            [44,"ваырпыапры", 45488],
-                            [45,"парвыпраы", 487],
-                            [46,"апвррвп", 4586],
-                            [47,"Давпорвыпар", 45678],
-                            [48,"ырпаыврап", 6578],
-                            [49,"варыпвр", 6575]
-                        ]
-                    } />}
+                    component={
+                        <PizzeriaChoiceModal
+                            onPizzeriaChosen={handlePizzeriaChosen}
+                            addresses={
+                                [
+                                    [42,"Донбасс", 448],
+                                    [43,"пвапвапвап", 448],
+                                    [44,"ваырпыапры", 45488],
+                                    [45,"парвыпраы", 487],
+                                    [46,"апвррвп", 4586],
+                                    [47,"Давпорвыпар", 45678],
+                                    [48,"ырпаыврап", 6578],
+                                    [49,"варыпвр", 6575]
+                                ]}
+                        />
+                    }
                 />
                 {WelcomePost?<Post onChoosePizzeria={handlePizzeriasModal} />:null}
             </div>

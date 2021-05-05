@@ -61,8 +61,14 @@
     justify-content: space-between;
 }
 
+.pizzeria-info:hover {
+    background-color: #9aadff;
+    cursor: pointer;
+}
+
 .pizzeria-address {
     font-size: 18px;
+    margin-right: 6px;
 }
 
 .pizzeria-queue {
