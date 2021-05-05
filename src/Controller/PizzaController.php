@@ -18,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -89,7 +90,7 @@ class PizzaController extends AbstractController
             if ($ingredient === null)
             {
                 return new JsonResponse(
-                    ['message' => "Ingredient with id: $ingredientId not exists!"],
+                    ['message' => "Ingredient with id: $ingredientId does not exists!"],
                     JsonResponse::HTTP_BAD_REQUEST
                 );
             }
@@ -117,26 +118,21 @@ class PizzaController extends AbstractController
 
         $entityManager->flush();
 
-        return new JsonResponse();
+        return new JsonResponse(
+            ['id' => $newPizza->getId()],
+            JsonResponse::HTTP_CREATED
+        );
     }
 
     public function updateImage(
         Request $request,
+        $id,
         FileUploader $fileUploader,
         PizzaRepository $pizzaRepository,
         EntityManagerInterface $entityManager
-    ): JsonResponse
+    ): Response
     {
-        $pizzaName = $request->get('pizza_name');
         $image = $request->files->get('image');
-
-        if ($pizzaName === null)
-        {
-            return new JsonResponse(
-                ['message' => "Request body not provide key: pizza_name!"],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
 
         if ($image === null)
         {
@@ -148,13 +144,13 @@ class PizzaController extends AbstractController
 
         $imageName = $fileUploader->upload($image, 'pizza');
 
-        $pizza = $pizzaRepository->findOneBy(['name' => $pizzaName]);
+        $pizza = $pizzaRepository->find($id);
 
         if ($pizza === null)
         {
             return new JsonResponse(
-                ['message' => "Pizza with name: $pizzaName not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                ['message' => "Pizza with id: $id does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -163,7 +159,7 @@ class PizzaController extends AbstractController
         $entityManager->persist($pizza);
         $entityManager->flush();
 
-        return new JsonResponse();
+        return new Response();
     }
 
     public function getAll(
@@ -207,10 +203,7 @@ class PizzaController extends AbstractController
             $result[] = $pizza;
         }
 
-        return new JsonResponse(
-            $result,
-            JsonResponse::HTTP_OK
-        );
+        return new JsonResponse($result);
     }
 
     public function getPizza(
@@ -234,10 +227,9 @@ class PizzaController extends AbstractController
         if ($pizza === null) {
             return new JsonResponse(
                 ['message' => "Pizza with id: $pizzaId does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
-
 
         $normalizedPizza = $serializer->normalize($pizza);
         $normalizedPizza['ingredients'] = [];
@@ -300,9 +292,6 @@ class PizzaController extends AbstractController
             $result[] = $pizza;
         }
 
-        return new JsonResponse(
-            $result,
-            JsonResponse::HTTP_OK
-        );
+        return new JsonResponse($result);
     }
 }

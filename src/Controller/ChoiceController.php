@@ -49,7 +49,7 @@ class ChoiceController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Order with id: $orderId does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -58,7 +58,7 @@ class ChoiceController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Pizza with id: $pizzaId does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 

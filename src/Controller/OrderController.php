@@ -9,6 +9,7 @@ use App\Repository\PizzeriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use ErrorException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Domain\OrderStatus;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Constraints\Json;
 
 class OrderController extends AbstractController
 {
@@ -64,7 +64,7 @@ class OrderController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -83,7 +83,7 @@ class OrderController extends AbstractController
         Request $request,
         OrderRepository $orderRepository,
         EntityManagerInterface $entityManager
-    ): JsonResponse
+    ): Response
     {
         try {
             $data = $request->toArray();
@@ -111,7 +111,7 @@ class OrderController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Order with id: $orderId does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -128,7 +128,7 @@ class OrderController extends AbstractController
         $entityManager->persist($order);
         $entityManager->flush();
 
-        return new JsonResponse();
+        return new Response();
     }
 
     public function getAll(
@@ -184,10 +184,7 @@ class OrderController extends AbstractController
             $result[] = $serializedOrder;
         }
 
-        return new JsonResponse(
-            $result,
-            JsonResponse::HTTP_OK
-        );
+        return new JsonResponse($result);
     }
 
     public function getQueuePosition(
@@ -214,7 +211,6 @@ class OrderController extends AbstractController
             );
         }
 
-
         $targetOrder = $orderRepository->findOneBy(['customersPhoneNumber' => $phoneNumber]);
         if ($targetOrder === null) {
             return new JsonResponse(
@@ -230,24 +226,15 @@ class OrderController extends AbstractController
             $position += 1;
 
             if ($targetOrder->getCustomersPhoneNumber() === $phoneNumber) {
-                return new JsonResponse(
-                    ['order_position' => $position],
-                    JsonResponse::HTTP_OK
-                );
+                return new JsonResponse(['order_position' => $position]);
             }
         }
 
-        return new JsonResponse(
-            ['order_position' => $position],
-            JsonResponse::HTTP_OK
-        );
+        return new JsonResponse(['order_position' => $position]);
     }
 
     public function getStatuses(): JsonResponse
     {
-        return new JsonResponse(
-            OrderStatus::getAllStatuses(),
-            JsonResponse::HTTP_OK
-        );
+        return new JsonResponse(OrderStatus::getAllStatuses());
     }
 }

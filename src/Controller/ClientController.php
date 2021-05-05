@@ -49,7 +49,7 @@ class ClientController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Client with username $username does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -126,7 +126,11 @@ class ClientController extends AbstractController
         $salt = base64_encode(random_bytes(15));
 
 
-        $hashedPassword = password_hash($password . $salt, PASSWORD_DEFAULT, ['cost' => 15]);
+        $hashedPassword = password_hash(
+            $password . $salt,
+            PASSWORD_DEFAULT,
+            ['cost' => 15]
+        );
 
         $newUser = new Client(
             $username,
@@ -138,7 +142,10 @@ class ClientController extends AbstractController
         $entityManager->persist($newUser);
         $entityManager->flush();
 
-        return new JsonResponse();
+        return new JsonResponse(
+            ['id' => $newUser->getId()],
+            JsonResponse::HTTP_CREATED
+        );
     }
 
     public function getAll(
@@ -170,9 +177,6 @@ class ClientController extends AbstractController
             );
         }
 
-        return new JsonResponse(
-            $result,
-            JsonResponse::HTTP_OK
-        );
+        return new JsonResponse($result);
     }
 }

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -21,7 +22,7 @@ class IngredientController extends AbstractController
         Request $request,
         IngredientRepository $ingredientRepository,
         EntityManagerInterface $entityManager
-    ): JsonResponse
+    ): Response
     {
         try {
             $data = $request->toArray();
@@ -48,7 +49,7 @@ class IngredientController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Ingredient with name: $name already exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 
@@ -57,7 +58,10 @@ class IngredientController extends AbstractController
         $entityManager->persist($newIngredient);
         $entityManager->flush();
 
-        return new JsonResponse();
+        return new JsonResponse(
+            ['id' => $newIngredient->getId()],
+            JsonResponse::HTTP_CREATED
+        );
     }
 
     public function getAll(
@@ -85,10 +89,7 @@ class IngredientController extends AbstractController
             $result[] = $serializer->normalize($object);
         }
 
-        return new JsonResponse(
-            $result,
-            JsonResponse::HTTP_OK
-        );
+        return new JsonResponse($result);
     }
 
     public function getIngredient(
@@ -112,7 +113,7 @@ class IngredientController extends AbstractController
         if ($ingredient === null) {
             return new JsonResponse(
                 ['message' => "Ingredient with id: $ingredientId does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 

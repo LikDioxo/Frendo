@@ -47,7 +47,7 @@ class ChoiceEventController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Choice with id: $choiceId does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
+                JsonResponse::HTTP_NOT_FOUND
             );
         }
 

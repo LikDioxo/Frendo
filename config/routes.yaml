@@ -1,62 +1,62 @@
 # Clients creation and authorization
 app_logout:
-    path: /logout
+    path: /users/logout
     methods: GET
 
 app_login:
-    path: /api/login
+    path: /users/login
     methods: GET
     controller: App\Controller\ClientController::login
 
 app_register:
-    path: /api/register
+    path: /users
     methods: POST
     controller: App\Controller\ClientController::register
 
 # Getting entities. Supports query parameters to define specific entities (for example Clients with role admin)
 app_get_all_ingredients:
-    path: /admin/get/all/ingredients
+    path: /admin/ingredients
     methods: GET
     controller: App\Controller\IngredientController::getAll
 
 app_get_app_pizzas:
-    path: /admin/get/all/pizzas
+    path: /admin/pizzas
     methods: GET
     controller: App\Controller\PizzaController::getAll
 
 app_get_all_clients:
-    path: /admin/get/all/clients
+    path: /admin/users
     methods: GET
     controller: App\Controller\ClientController::getAll
 
 app_get_all_orders:
-    path: /admin/get/all/orders
+    path: /admin/orders
     methods: GET
     controller: App\Controller\OrderController::getAll
 
 app_get_all_choices_for_order:
-    path: /admin/get/all/choices
+    path: /admin/orders/{id}/choices
     methods: GET
     controller: App\Controller\OrderController::getAllForOrder
 
 get_statuses:
-    path: /operator/get/statuses
+    path: /operator/statuses
     methods: GET
     controller: App\Controller\OrderController::getStatuses
 
 # Creating entities
 app_create_ingredient:
-    path: /admin/create/ingredient
+    path: /admin/ingredients
     methods: POST
     controller: App\Controller\IngredientController::create
 
 app_create_pizza:
-    path: /admin/create/pizza
+    path: /admin/pizzas
     methods: POST
     controller: App\Controller\PizzaController::create
 
 app_create_pizzeria:
-    path: /admin/create/pizzeria
+    path: /admin/pizzerias
     methods: POST
     controller: App\Controller\PizzeriaController::create
 
@@ -69,63 +69,63 @@ app_update_order_status:
     controller: App\Controller\OrderController::updateStatus
 
 app_change_pizzeria_pizza_status:
-    path: /operator/change/pizza-status
-    methods: POST
+    path: /operator/pizzeria-pizza/{id}
+    methods: PUT
     controller: App\Controller\PizzeriaController::changePizzeriaPizzaStatus
 
 # Update Entities
 app_upade_pizza_image:
-    path: /admin/update/pizza-image
-    methods: POST
+    path: /admin/pizzas/{id}/image
+    methods: PUT
     controller: App\Controller\PizzaController::updateImage
 
 # Client
 app_get_all_pizzerias:
-    path: /api/get/all/pizzerias
+    path: /pizzerias
     methods: GET
     controller: App\Controller\PizzeriaController::getAll
 
 app_get_pizzeria_workload:
-    path: /api/get/pizzeria-workload
+    path: /pizzerias/{id}/workload
     methods: GET
     controller: App\Controller\PizzeriaController::getWorkload
 
 app_get_available_pizzas:
-    path: /api/get/pizzeria-pizzas
+    path: /pizzerias/{id}/pizzas
     methods: GET
     controller: App\Controller\PizzeriaController::getAvailablePizzas
 
 app_get_pizza:
-    path: /api/get/pizza
+    path: /pizzas/{id}
     methods: GET
     controller: App\Controller\PizzaController::getPizza
 
 app_get_ingredient:
-    path: /api/get/ingredient
+    path: /ingredients/{id}
     methods: GET
     controller: App\Controller\IngredientController::getIngredient
 
 app_search_pizza:
-    path: /api/search/pizza
+    path: /pizzas
     methods: GET
     controller: App\Controller\PizzaController::search
 
 app_create_order:
-    path: /api/create/order
+    path: /orders
     methods: POST
     controller: App\Controller\OrderController::create
 
 app_get_queue_position:
-    path: /api/get/order-position
+    path: /orders/queue-position
     methods: GET
     controller: App\Controller\OrderController::getQueuePosition
 
 app_create_choice:
-    path: /api/create/choice
+    path: /choices
     methods: POST
     controller: App\Controller\ChoiceController::create
 
 app_create_choice_event:
-    path: /api/create/event
+    path: /events
     methods: POST
     controller: App\Controller\ChoiceEventController::create
