@@ -339,11 +339,16 @@ class PizzeriaController extends AbstractController
                 );
             }
 
+            $isAll = true;
             foreach ($ingredients as $ingredientId) {
-                if (in_array($ingredientId, $ingredientIds)) {
-                    $result[] = $normalizedPizza;
+                if (!in_array($ingredientId, $ingredientIds)) {
+                    $isAll = false;
                     break;
                 }
+            }
+
+            if ($isAll) {
+                $result[] = $normalizedPizza;
             }
         }
 
