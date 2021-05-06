@@ -62,7 +62,7 @@
 }
 
 .pizzeria-info:hover {
-    background-color: #9aadff;
+    background-color: rgba(241, 165, 77, 1);
     cursor: pointer;
 }
 
