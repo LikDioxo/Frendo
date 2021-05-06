@@ -2,12 +2,15 @@
     padding: 15px;
     border-radius: 1rem;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-rows: min-content min-content;
+    row-gap: 5px;
 
     transition: all 0.2s;
+}
+
+.pizza-name {
+    text-align: center;
 }
 
 .pizza-card:hover {
@@ -21,8 +24,11 @@
 .pizza-footer-wrapper {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    margin-top: 8px;
+    align-self: end;
+
+    width: 100%;
 }
 
 .pizza-choose-button {
@@ -37,4 +43,10 @@
 
 .pizza-image-wrapper, .pizza-image-wrapper img {
     width: 100%;
+}
+
+.pizza-ingredients {
+    color: #7E7E7E;
+    font-style: italic;
+    font-size: 16px;
 }
