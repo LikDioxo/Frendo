@@ -4,8 +4,13 @@ export const SHOW_PIZZERIAS_MODAL = "SHOW_PIZZERIAS_MODAL"
 export const SET_CHOSEN_PIZZERIA = "SET_CHOSEN_PIZZERIA"
 export const SET_PIZZERIAS = "SET_PIZZERIAS"
 export const GET_PIZZERIAS = "GET_PIZZERIA"
-export const SET_AVAILABLE_PIZZAS = "SET_AVAILABLE_PIZZAS"
+export const SET_PIZZAS = "SET_PIZZAS"
 export const GET_AVAILABLE_PIZZAS = "GET_AVAILABLE_PIZZAS"
+export const GET_FILTERED_PIZZAS = "GET_FILTERED_PIZZAS"
+export const SET_INGREDIENTS = "SET_INGREDIENTS"
+export const GET_INGREDIENTS = "GET_INGREDIENTS"
+export const FLIP_INGREDIENT_SELECTION = "FLIP_INGREDIENT_SELECTION"
+export const RESET_INGREDIENT_SELECTION = "RESET_INGREDIENT_SELECTION"
 
 
 export function flipFilterView()
@@ -31,7 +36,19 @@ export function getPizzerias()
     }
 
 }
-
+export function flipIngredientSelection(ingredient_id)
+{
+    return {
+        type: FLIP_INGREDIENT_SELECTION,
+        payload:{ingredient_id}
+    }
+}
+export function resetIngredientSelection()
+{
+    return {
+        type: RESET_INGREDIENT_SELECTION
+    }
+}
 
 export function setPizzerias(pizzerias)
 {
@@ -52,16 +69,49 @@ export function getAvailablePizzas(pizzeria_id)
     }
 
 }
+export function getFilteredPizzas(pizzeria_id,ingredients)
+{
+
+    //"["+fetch_ingredients.join(",")+"]"
+
+    return{
+        type: GET_FILTERED_PIZZAS,
+        payload: {
+            pizzeria_id: pizzeria_id,
+            ingredients: ingredients
+        }
+    }
+
+}
 
 
-export function setAvailablePizzas(pizzas) {
+
+export function setPizzas(pizzas) {
     return {
-        type: SET_AVAILABLE_PIZZAS,
+        type: SET_PIZZAS,
         payload: { pizzas }
     }
 
 }
 
+export function getIngredients()
+{
+    return{
+        type: GET_INGREDIENTS,
+        payload: {}
+    }
+
+}
+
+
+export function setIngredients(ingredients)
+{
+    return{
+        type: SET_INGREDIENTS,
+        payload: {ingredients}
+    }
+
+}
 
 
 

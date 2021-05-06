@@ -10,11 +10,12 @@ export function getPizzeriasModalView(state)
 {
     return state.pizzerias.show_pizzerias_modal;
 }
-export function getWelcomePost(state)
-{
-    return state.pizzerias.show_welcome_post;
-}
 
+
+export function isFilterView(state)
+{
+    return state.filter.isFilterView;
+}
 
 
 export function getPizzeriasSelector(state)
@@ -38,3 +39,10 @@ export function getChosenPizzeria(state)
     }
 
 }
+
+export function getIngredientsSelector(state)
+{
+    return state.filter.ingredients
+
+}
+

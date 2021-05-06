@@ -11,7 +11,7 @@ function PizzasContainer({pizzeria_id}) {
     const dispatch = useDispatch()
     useEffect(() => {
             dispatch(getAvailablePizzas(pizzeria_id))
-        },[dispatch,pizzeria_id])
+        },[dispatch, pizzeria_id])
 
     const Pizzas = useSelector(getAvailablePizzasSelector)
     if (Pizzas === undefined) {

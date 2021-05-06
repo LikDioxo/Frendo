@@ -6,19 +6,45 @@ import {
     SHOW_PIZZERIAS_MODAL,
     SET_CHOSEN_PIZZERIA,
     SET_PIZZERIAS,
-    SET_AVAILABLE_PIZZAS
+    SET_PIZZAS,
+    SET_INGREDIENTS,
+    FLIP_INGREDIENT_SELECTION,
+    RESET_INGREDIENT_SELECTION
 } from "../actions";
 
 
 function filterReducer(state={}, action)
 {
+    let tmp
     switch (action.type)
     {
         case VIEW_FILTER_BOX:
-            let tmp =  {...state};
+            tmp = {...state};
             tmp.isFilterView = !state.isFilterView;
 
             return tmp;
+        case SET_INGREDIENTS:
+            tmp = {...state};
+            const ingredients = {};
+
+            for (let ingredient of action.payload.ingredients) {
+                ingredients[ingredient.id] = {
+                    name: ingredient.name,
+                    flag: false
+                }
+            }
+            tmp.ingredients = ingredients
+            return tmp;
+        case FLIP_INGREDIENT_SELECTION:
+            tmp = {...state};
+            tmp.ingredients[action.payload.ingredient_id].flag = !tmp.ingredients[action.payload.ingredient_id].flag;
+            return tmp
+        case RESET_INGREDIENT_SELECTION:
+            tmp = {...state};
+            for (let ingredient in tmp.ingredients) {
+                tmp.ingredients[ingredient].flag = false;
+            }
+            return tmp
         default:
             return state;
     }
@@ -37,7 +63,7 @@ function orderReducer(state=[], action)
     }
 }
 
-function pizzeriasReducer(state = {show_welcome_post: true}, action)
+function pizzeriasReducer(state = {}, action)
 {
     let tmp
     switch (action.type)
@@ -53,7 +79,6 @@ function pizzeriasReducer(state = {show_welcome_post: true}, action)
             tmp.pizzeria_address = action.payload.pizzeria_address;
             tmp.orders_count = action.payload.orders_count;
             tmp.chosen = true;
-            tmp.show_welcome_post = false;
             return tmp;
         case SET_PIZZERIAS:
             tmp = {...state}
@@ -70,7 +95,7 @@ function pizzaReducer(state={}, action) {
     let tmp;
     switch (action.type)
     {
-        case SET_AVAILABLE_PIZZAS:
+        case SET_PIZZAS:
             tmp = {...state}
             tmp.pizzas = action.payload.pizzas
             return tmp

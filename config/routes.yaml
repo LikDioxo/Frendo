@@ -15,7 +15,7 @@ app_register:
 
 # Getting entities. Supports query parameters to define specific entities (for example Clients with role admin)
 app_get_all_ingredients:
-    path: /admin/ingredients
+    path: /ingredients
     methods: GET
     controller: App\Controller\IngredientController::getAll
 
