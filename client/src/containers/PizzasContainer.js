@@ -3,31 +3,34 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAvailablePizzas} from "../actions";
 import {getAvailablePizzasSelector} from "../selectors";
 import PizzaCard from "../components/PizzaCard";
+import Loading from "../components/Loading";
 
 function PizzasContainer({pizzeria_id}) {
     const dispatch = useDispatch()
     useEffect(() => {
             dispatch(getAvailablePizzas(pizzeria_id))
-        },[])
+        },[dispatch,pizzeria_id])
 
     const Pizzas = useSelector(getAvailablePizzasSelector)
-    if (Pizzas !== undefined) {
+    if (Pizzas === undefined) {
         return (
-
-            <div className="pizzas-wrapper">
-                {Pizzas.map(({image_name, name, ingredients, price}) =>
-                    (<PizzaCard
-                        image_name={image_name}
-                        name={name}
-                        ingredients={ingredients}
-                        price={price}
-                        onPizzaSelect={() => alert(name)}
-                    />))}
-            </div>
-
-        );
+            <Loading/>
+        )
     }
-    return null
+    return (
+        <div className="pizzas-wrapper">
+            {Pizzas.map(({id,image_name, name, ingredients, price}) =>
+                (<PizzaCard
+                    key={id}
+                    image_name={image_name}
+                    name={name}
+                    ingredients={ingredients}
+                    price={price}
+                    ff   onPizzaSelect={() => alert(name)}
+                />))}
+        </div>
+
+    );
 }
 
 

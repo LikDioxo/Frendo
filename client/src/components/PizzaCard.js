@@ -5,7 +5,13 @@ import React from "react";
 function PizzaCard({image_name, name, ingredients, price, onPizzaSelect}) {
 
 
-    const perm_ingredients = ingredients.filter((el)=>{return el.status === 0});
+    let show_ingredients = ingredients
+        .filter((el)=>{return (el.status === 0 || el.status === 1)})
+        .map((el) => {return el.name.toLowerCase()});
+    if(show_ingredients.length !== 0){
+        show_ingredients[0] = show_ingredients[0].charAt(0).toUpperCase() + show_ingredients[0].slice(1);
+        show_ingredients = show_ingredients.join(", ");
+    }
     return (
         <div className="pizza-card" onClick={onPizzaSelect}>
             <div className="pizza-image-wrapper">
@@ -13,10 +19,7 @@ function PizzaCard({image_name, name, ingredients, price, onPizzaSelect}) {
             </div>
             <div>{name}</div>
             <div className="ingredients">
-                {perm_ingredients.map(({name})=> (
-                        <div>{name}</div>
-                    ))
-                }
+                {show_ingredients}
             </div>
             <div>
                 <div>{price}</div>

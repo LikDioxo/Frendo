@@ -31,6 +31,7 @@ function* fetchAllPizzerias(action)
 function* fetchAvailablePizzas(action)
 {
     try {
+
         const {data} = yield call(
             fetchAvailablePizzasService,
             action.payload.pizzeria_id

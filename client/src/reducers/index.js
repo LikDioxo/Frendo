@@ -5,7 +5,8 @@ import {
     ADD_PIZZA_TO_ORDER,
     SHOW_PIZZERIAS_MODAL,
     SET_CHOSEN_PIZZERIA,
-    SET_PIZZERIAS, SET_AVAILABLE_PIZZAS
+    SET_PIZZERIAS,
+    SET_AVAILABLE_PIZZAS
 } from "../actions";
 
 
@@ -73,6 +74,7 @@ function pizzaReducer(state={}, action) {
             tmp = {...state}
             tmp.pizzas = action.payload.pizzas
             return tmp
+
         default:
             return state;
     }
