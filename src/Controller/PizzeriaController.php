@@ -292,8 +292,7 @@ class PizzeriaController extends AbstractController
         SerializerInterface $serializer
     ): JsonResponse
     {
-
-        $ingredients = json_decode($request->query->get("ingredients"));
+        $ingredients = $request->query->get("ingredients");
         $pizzeria = $pizzeriaRepository->find($id);
         $result = [];
 
