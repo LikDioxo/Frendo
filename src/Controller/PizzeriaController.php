@@ -280,4 +280,73 @@ class PizzeriaController extends AbstractController
 
         return new Response();
     }
+
+    public function filterAvailablePizzas(
+        Request $request,
+        $id,
+        IngredientRepository $ingredientRepository,
+        PizzaRepository $pizzaRepository,
+        PizzeriaPizzaRepository $pizzeriaPizzaRepository,
+        PizzaIngredientRepository $pizzaIngredientRepository,
+        PizzeriaRepository $pizzeriaRepository,
+        SerializerInterface $serializer
+    ): JsonResponse
+    {
+
+        $ingredients = json_decode($request->query->get("ingredients"));
+        $pizzeria = $pizzeriaRepository->find($id);
+        $result = [];
+
+        $pizzeriaPizzas = $pizzeriaPizzaRepository->findBy(['pizzeria' => $pizzeria, 'is_available' => true]);
+
+        foreach ($pizzeriaPizzas as $pizzeriaPizza) {
+            $ingredientIds = [];
+
+            $pizzaId = $serializer->normalize(
+                $pizzeriaPizza,
+                context: [AbstractNormalizer::ATTRIBUTES => ['pizza'=> ['id']]]
+            )['pizza']['id'];
+
+            $pizza = $pizzaRepository->find($pizzaId);
+
+            $normalizedPizza = $serializer->normalize($pizza);
+
+            unset($normalizedPizza['__initializer__']);
+            unset($normalizedPizza['__cloner__']);
+            unset($normalizedPizza['__is_initialized__']);
+
+            $normalizedPizza['ingredients'] = [];
+
+            $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $pizza->getId()]);
+
+            foreach ($pizzaIngredients as $pizzaIngredient) {
+                $serializedIngredient = $serializer->normalize(
+                    $pizzaIngredient,
+                    context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]
+                );
+                $ingredientIds[] = $serializedIngredient['ingredient']['id'];
+
+                $ingredient = $ingredientRepository->find($serializedIngredient['ingredient']['id']);
+
+                $ingredientName = $serializer->normalize(
+                    $ingredient,
+                    context: [AbstractNormalizer::ATTRIBUTES => ['id', 'name', 'price']]
+                );
+
+                $normalizedPizza['ingredients'][] = array_merge(
+                    ['status' => $serializedIngredient['status']],
+                    $ingredientName
+                );
+            }
+
+            foreach ($ingredients as $ingredientId) {
+                if (in_array($ingredientId, $ingredientIds)) {
+                    $result[] = $normalizedPizza;
+                    break;
+                }
+            }
+        }
+
+        return new JsonResponse($result);
+    }
 }

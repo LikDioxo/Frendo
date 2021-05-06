@@ -86,8 +86,11 @@ class DatabaseInitController extends AbstractController
                     $weight = $pizza['weight'];
                     $size = $pizza['size'];
                     $price = $pizza['price'];
+                    $image = $pizza['image'];
 
                     $newPizza = new Pizza($name, $weight, $size, $price);
+                    $newPizza->setImageName($image);
+
                     $entityManager->persist($newPizza);
 
                     foreach ($pizza['ingredients'] as $requestIngredient)
