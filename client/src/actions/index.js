@@ -8,7 +8,6 @@ export const SET_AVAILABLE_PIZZAS = "SET_AVAILABLE_PIZZAS"
 export const GET_AVAILABLE_PIZZAS = "GET_AVAILABLE_PIZZAS"
 
 
-
 export function flipFilterView()
 {
     return {
@@ -55,14 +54,14 @@ export function getAvailablePizzas(pizzeria_id)
 }
 
 
-export function setAvailablePizzas(pizzas)
-{
+export function setAvailablePizzas(pizzas) {
     return {
         type: SET_AVAILABLE_PIZZAS,
         payload: { pizzas }
     }
 
 }
+
 
 
 

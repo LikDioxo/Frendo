@@ -3,17 +3,21 @@ import "../assets/css/modal.css";
 import close_icon from "../assets/images/close_icon.png"
 
 
-function ModalWindow({show, component, handleClose})
+function ModalWindow({show, component, handleClose, loading_modal=false})
 {
     const showClassHideName = show ? "modal display-block" : "modal display-none";
+    const Modal = loading_modal ? showClassHideName+" loading-modal" : showClassHideName;
+
     if (show) {
         return (
-            <div className={showClassHideName}>
+            <div className={Modal}>
 
                 <div className="modal-main">
-                    <div className="close" onClick={handleClose}>
-                        <img className="close-icon" src={close_icon} alt=""/>
-                    </div>
+                    {handleClose !== null ?
+                        <div className="close" onClick={handleClose}>
+                            <img className="close-icon" src={close_icon} alt=""/>
+                        </div> : null
+                    }
                     {component}
                 </div>
             </div>

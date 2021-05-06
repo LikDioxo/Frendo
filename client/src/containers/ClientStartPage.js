@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useCallback, useEffect} from "react";
+import React, {useEffect} from "react";
 import {flipPizzeriasModalView, getPizzerias, setChosenPizzeria} from "../actions";
 import {getChosenPizzeria, getPizzeriasModalView, getPizzeriasSelector, getWelcomePost} from "../selectors";
 import Header from "./Header";
@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 
 import ChosenPizzeria from "../components/ChosenPizzeria";
 import PizzasContainer from "./PizzasContainer";
+import Loading from "../components/Loading";
 
 
 function ClientStartPage() {
@@ -49,6 +50,7 @@ function ClientStartPage() {
                     </>
                         : null
                 }
+                {Pizzerias !== undefined ?
                 <ModalWindow
                     handleClose={handlePizzeriasModal}
                     show={PizzeriasModalView}
@@ -58,7 +60,8 @@ function ClientStartPage() {
                             addresses={Pizzerias}
                         />
                     }
-                />
+                /> : <Loading/>
+                }
                 {WelcomePost?<Post onChoosePizzeria={handlePizzeriasModal} />:null}
             </div>
             <Footer />
