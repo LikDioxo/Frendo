@@ -4,6 +4,8 @@ import {getAvailablePizzas} from "../actions";
 import {getAvailablePizzasSelector} from "../selectors";
 import PizzaCard from "../components/PizzaCard";
 import Loading from "../components/Loading";
+import "../assets/css/pizzas_container.css"
+
 
 function PizzasContainer({pizzeria_id}) {
     const dispatch = useDispatch()
@@ -26,7 +28,7 @@ function PizzasContainer({pizzeria_id}) {
                     name={name}
                     ingredients={ingredients}
                     price={price}
-                    ff   onPizzaSelect={() => alert(name)}
+                    onPizzaSelect={() => alert(name)}
                 />))}
         </div>
 

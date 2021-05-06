@@ -1,0 +1,40 @@
+.pizza-card {
+    padding: 15px;
+    border-radius: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    transition: all 0.2s;
+}
+
+.pizza-card:hover {
+    cursor: pointer;
+    border-radius: 0;
+
+    box-shadow: 0 0 0.7vmin 0.7vmin rgba(0,0,0,0.25)
+
+}
+
+.pizza-footer-wrapper {
+    display: flex;
+    align-items: center;
+
+    margin-top: 8px;
+}
+
+.pizza-choose-button {
+    margin-left: 5px;
+}
+
+.pizza-name, .pizza-price {
+    font-size: 18px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.pizza-image-wrapper, .pizza-image-wrapper img {
+    width: 100%;
+}

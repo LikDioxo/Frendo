@@ -26,7 +26,7 @@ body, #root, .content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 25px 50px;
+  padding: 25px 80px;
 }
 
 .shadowed {
