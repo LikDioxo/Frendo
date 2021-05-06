@@ -4,6 +4,9 @@ export const SHOW_PIZZERIAS_MODAL = "SHOW_PIZZERIAS_MODAL"
 export const SET_CHOSEN_PIZZERIA = "SET_CHOSEN_PIZZERIA"
 export const SET_PIZZERIAS = "SET_PIZZERIAS"
 export const GET_PIZZERIAS = "GET_PIZZERIA"
+export const SET_AVAILABLE_PIZZAS = "SET_AVAILABLE_PIZZAS"
+export const GET_AVAILABLE_PIZZAS = "GET_AVAILABLE_PIZZAS"
+
 
 
 export function flipFilterView()
@@ -21,7 +24,6 @@ export function flipPizzeriasModalView()
 }
 
 
-
 export function getPizzerias()
 {
     return{
@@ -30,7 +32,6 @@ export function getPizzerias()
     }
 
 }
-
 
 
 export function setPizzerias(pizzerias)
@@ -42,6 +43,26 @@ export function setPizzerias(pizzerias)
 
 }
 
+export function getAvailablePizzas(pizzeria_id)
+{
+    return{
+        type: GET_AVAILABLE_PIZZAS,
+        payload: {
+            pizzeria_id: pizzeria_id
+        }
+    }
+
+}
+
+
+export function setAvailablePizzas(pizzas)
+{
+    return {
+        type: SET_AVAILABLE_PIZZAS,
+        payload: { pizzas }
+    }
+
+}
 
 
 

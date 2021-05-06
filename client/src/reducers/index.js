@@ -5,7 +5,7 @@ import {
     ADD_PIZZA_TO_ORDER,
     SHOW_PIZZERIAS_MODAL,
     SET_CHOSEN_PIZZERIA,
-    SET_PIZZERIAS
+    SET_PIZZERIAS, SET_AVAILABLE_PIZZAS
 } from "../actions";
 
 
@@ -65,13 +65,28 @@ function pizzeriasReducer(state = {show_welcome_post: true}, action)
 
 }
 
+function pizzaReducer(state={}, action) {
+    let tmp;
+    switch (action.type)
+    {
+        case SET_AVAILABLE_PIZZAS:
+            tmp = {...state}
+            tmp.pizzas = action.payload.pizzas
+            return tmp
+        default:
+            return state;
+    }
+
+
+}
 
 
 
 const mainReducer = combineReducers({
         filter: filterReducer,
         order: orderReducer,
-        pizzerias: pizzeriasReducer
+        pizzerias: pizzeriasReducer,
+        pizza: pizzaReducer
     }
 )
 

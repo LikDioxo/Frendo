@@ -9,6 +9,7 @@ import Post from "../components/Post";
 import Footer from "../components/Footer";
 
 import ChosenPizzeria from "../components/ChosenPizzeria";
+import PizzasContainer from "./PizzasContainer";
 
 
 function ClientStartPage() {
@@ -38,11 +39,15 @@ function ClientStartPage() {
             <Header />
             <div className="page">
                 {Pizzeria.chosen ?
-                    <ChosenPizzeria
-                        pizzeria_address={Pizzeria.pizzeria_address}
-                        order_count={Pizzeria.orders_count}
-                        onChange={handlePizzeriasModal}
-                    /> : null
+                    <>
+                        <ChosenPizzeria
+                            pizzeria_address={Pizzeria.pizzeria_address}
+                            order_count={Pizzeria.orders_count}
+                            onChange={handlePizzeriasModal}
+                        />
+                        <PizzasContainer pizzeria_id={Pizzeria.pizzeria_id}/>
+                    </>
+                        : null
                 }
                 <ModalWindow
                     handleClose={handlePizzeriasModal}

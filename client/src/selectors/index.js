@@ -21,6 +21,10 @@ export function getPizzeriasSelector(state)
     return state.pizzerias.pizzerias_list
 }
 
+export function getAvailablePizzasSelector(state)
+{
+    return state.pizza.pizzas
+}
 
 export function getChosenPizzeria(state)
 {
