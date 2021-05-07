@@ -1,12 +1,12 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
-import {flipPizzeriasModalView, getIngredients, getPizzerias, setChosenPizzeria} from "../actions";
+import {flipPizzeriasModalView, getIngredients, getPizzerias, setChosenPizzeria, unsetSelectedPizza} from "../actions";
 import {
     getChosenPizzeria,
     getIngredientsSelector,
     getPizzeriasModalView,
     getPizzeriasSelector,
-    isFilterView
+    isFilterView, isPizzaSelected
 } from "../selectors";
 import Header from "./Header";
 import ModalWindow from "../components/ModalWindow";
@@ -18,6 +18,7 @@ import ChosenPizzeria from "../components/ChosenPizzeria";
 import PizzasContainer from "./PizzasContainer";
 import Loading from "../components/Loading";
 import FilterBox from "./FilterBox";
+import PizzaModal from "./PizzaModal";
 
 
 function ClientStartPage() {
@@ -41,11 +42,17 @@ function ClientStartPage() {
         dispatch(flipPizzeriasModalView());
     };
 
+    const handlePizzaModalClose = () => {
+        dispatch(unsetSelectedPizza())
+    }
+
+
     const PizzeriasModalView = useSelector(getPizzeriasModalView);
     const Pizzeria = useSelector(getChosenPizzeria);
     const Pizzerias = useSelector(getPizzeriasSelector);
     const isFilter = useSelector(isFilterView);
     const Ingredients = useSelector(getIngredientsSelector);
+    const PizzaSelected = useSelector(isPizzaSelected);
 
     if(Pizzerias === undefined || Ingredients === undefined){
         return <Loading/>
@@ -78,7 +85,11 @@ function ClientStartPage() {
                         />
                     }
                 />
-
+                <ModalWindow
+                    handleClose={handlePizzaModalClose}
+                    show={PizzaSelected}
+                    component={<PizzaModal/>}
+                />
             </div>
             <Footer />
         </div>

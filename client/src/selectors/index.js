@@ -24,14 +24,23 @@ export function isFilterView(state)
 
 export function getPizzeriasSelector(state)
 {
-    return state.pizzerias.pizzerias_list
+    return state.pizzerias.pizzerias_list;
 }
 
 export function getAvailablePizzasSelector(state)
 {
-    return state.pizza.pizzas
+    return state.pizza.pizzas;
 }
 
+export function getSelectedPizza(state)
+{
+    return state.pizza.selected_pizza;
+}
+
+export function isPizzaSelected(state)
+{
+    return state.pizza.pizza_selected;
+}
 
 export function getChosenPizzeria(state)
 {
@@ -46,7 +55,7 @@ export function getChosenPizzeria(state)
 
 export function getIngredientsSelector(state)
 {
-    return state.filter.ingredients
+    return state.filter.ingredients;
 
 }
 

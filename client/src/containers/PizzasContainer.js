@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getAvailablePizzas} from "../actions";
+import {getAvailablePizzas, setSelectedPizza} from "../actions";
 import {getAvailablePizzasSelector, isLoading} from "../selectors";
 import PizzaCard from "../components/PizzaCard";
 import Loading from "../components/Loading";
@@ -22,15 +22,15 @@ function PizzasContainer({pizzeria_id}) {
     }
     return (
         <div className="pizzas-wrapper">
-            {Pizzas.map(({id,image_name, name, ingredients, price}) =>
+            {Pizzas.map((el) =>
                 (<PizzaCard
-                    key={id}
-                    image_name={image_name}
-                    name={name}
-                    ingredients={ingredients}
-                    price={price}
+                    key={el.id}
+                    image_name={el.image_name}
+                    name={el.name}
+                    ingredients={el.ingredients}
+                    price={el.price}
                     onPizzaSelect={(event) => {
-                        alert(name);
+                        dispatch(setSelectedPizza(el))
                         event.stopPropagation();
                     }}
                 />))}

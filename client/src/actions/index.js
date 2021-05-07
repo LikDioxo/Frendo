@@ -13,6 +13,10 @@ export const FLIP_INGREDIENT_SELECTION = "FLIP_INGREDIENT_SELECTION"
 export const RESET_INGREDIENT_SELECTION = "RESET_INGREDIENT_SELECTION"
 export const START_PIZZA_LOADING = "START_PIZZA_LOADING"
 export const END_PIZZA_LOADING = "END_PIZZA_LOADING"
+export const SET_SELECTED_PIZZA = "SET_SELECTED_PIZZA"
+export const UNSET_SELECTED_PIZZA = "UNSET_SELECTED_PIZZA"
+
+
 
 export function startPizzaLoading()
 {
@@ -52,6 +56,9 @@ export function getPizzerias()
     }
 
 }
+
+
+
 export function flipIngredientSelection(ingredient_id)
 {
     return {
@@ -88,8 +95,6 @@ export function getAvailablePizzas(pizzeria_id)
 export function getFilteredPizzas(pizzeria_id,ingredients)
 {
 
-    //"["+fetch_ingredients.join(",")+"]"
-
     return{
         type: GET_FILTERED_PIZZAS,
         payload: {
@@ -109,6 +114,19 @@ export function setPizzas(pizzas) {
     }
 
 }
+export function setSelectedPizza(pizza) {
+    return {
+        type: SET_SELECTED_PIZZA,
+        payload: { pizza }
+    }
+}
+
+export function unsetSelectedPizza() {
+    return {
+        type: UNSET_SELECTED_PIZZA,
+    }
+}
+
 
 export function getIngredients()
 {

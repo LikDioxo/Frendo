@@ -11,7 +11,7 @@ import {
     FLIP_INGREDIENT_SELECTION,
     RESET_INGREDIENT_SELECTION,
     START_PIZZA_LOADING,
-    END_PIZZA_LOADING
+    END_PIZZA_LOADING, SET_SELECTED_PIZZA, UNSET_SELECTED_PIZZA
 } from "../actions";
 
 function loadingReducer(state={}, action)
@@ -36,7 +36,7 @@ function loadingReducer(state={}, action)
 
 function filterReducer(state={}, action)
 {
-    let tmp
+    let tmp;
     switch (action.type)
     {
         case VIEW_FILTER_BOX:
@@ -59,13 +59,13 @@ function filterReducer(state={}, action)
         case FLIP_INGREDIENT_SELECTION:
             tmp = {...state};
             tmp.ingredients[action.payload.ingredient_id].flag = !tmp.ingredients[action.payload.ingredient_id].flag;
-            return tmp
+            return tmp;
         case RESET_INGREDIENT_SELECTION:
             tmp = {...state};
             for (let ingredient in tmp.ingredients) {
                 tmp.ingredients[ingredient].flag = false;
             }
-            return tmp
+            return tmp;
         default:
             return state;
     }
@@ -102,9 +102,9 @@ function pizzeriasReducer(state = {}, action)
             tmp.chosen = true;
             return tmp;
         case SET_PIZZERIAS:
-            tmp = {...state}
-            tmp.pizzerias_list = action.payload.pizzerias
-            return tmp
+            tmp = {...state};
+            tmp.pizzerias_list = action.payload.pizzerias;
+            return tmp;
 
         default:
             return state;
@@ -117,10 +117,36 @@ function pizzaReducer(state={}, action) {
     switch (action.type)
     {
         case SET_PIZZAS:
-            tmp = {...state}
-            tmp.pizzas = action.payload.pizzas
-            return tmp
+            tmp = {...state};
+            tmp.pizzas = action.payload.pizzas;
+            return tmp;
+        case SET_SELECTED_PIZZA:
+            tmp = {...state};
+            tmp.pizza_selected = true;
+            tmp.selected_pizza = {...action.payload.pizza};
 
+            tmp.selected_pizza.ingredients = {};
+            let ingredients = [...action.payload.pizza.ingredients]
+
+            for (let ingredient of ingredients) {
+                tmp.selected_pizza.ingredients[ingredient.id] = {
+                    id: ingredient.id,
+                    status: ingredient.status,
+                    name: ingredient.name,
+                    price: ingredient.price,
+                    flag: ingredient.status === 0 || ingredient.status === 1
+
+                };
+            }
+
+
+            return tmp
+        case UNSET_SELECTED_PIZZA:
+            tmp = {...state};
+            tmp.pizza_selected = false;
+            tmp.selected_pizza = null;
+
+            return tmp
         default:
             return state;
     }
