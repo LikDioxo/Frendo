@@ -1,0 +1,40 @@
+.filter-box {
+    border-radius: 1rem;
+    width: 90%;
+    padding: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredients-wrapper {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 20.5% 20.5% 20.5% 20.5%;
+    row-gap: 2%;
+    column-gap: 6%;
+
+    padding: 15px 0;
+}
+
+.filter-ingredient-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons-wrapper {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-box-clear{
+    background-color: #F57D82;
+}
+
+.filter-box-clear:hover {
+    background-color: #F95D63;
+}

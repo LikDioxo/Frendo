@@ -1,9 +1,9 @@
 .pizzas-wrapper {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: 23.5% 23.5% 23.5% 23.5%;
     grid-template-rows: auto;
-    row-gap: 20px;
-    column-gap: 20px;
-    padding: 20px;
-    width: 80%;
+    row-gap: 2%;
+    column-gap: 2%;
+    padding: 20px 0;
+    width: 90%;
 }

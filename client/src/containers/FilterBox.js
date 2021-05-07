@@ -9,8 +9,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {getIngredientsSelector} from "../selectors";
 import Loading from "../components/Loading";
-
-
+import "../assets/css/filter_box.css";
 
 
 function FilterBox({pizzeria_id}) {
@@ -41,26 +40,27 @@ function FilterBox({pizzeria_id}) {
     const handleFilter = () => dispatch(getFilteredPizzas(pizzeria_id, fetch_ingredients))
 
     return (
-        <div className="filter-box">
+        <div className="filter-box double-shadowed">
             <h3>Фильтр ингредиентов</h3>
             <div className="ingredients-wrapper">
                 {show_ingredients.map(({id,name, flag})=>(
-                    <div>
-                        <div>{name}</div>
+                    <div className="filter-ingredient-wrapper">
+                        <div className="filter-box-ingredient-name">{name}</div>
                         <input type="checkbox" onClick={(()=>dispatch(flipIngredientSelection(id)))} checked={flag}/>
                     </div>
 
                 ))}
             </div>
             <div className="buttons-wrapper">
-                <button onClick={() => {
+                <button  className="filter-box-clear default-button" onClick={() => {
                     dispatch(resetIngredientSelection());
                     dispatch(getAvailablePizzas(pizzeria_id));
                 }}>Сбросить</button>
-                <button onClick={handleFilter}>Применить</button>
+                <button className="filter-box-apply default-button" onClick={handleFilter}>Применить</button>
             </div>
         </div>
     );
 }
+
 
 export default FilterBox;

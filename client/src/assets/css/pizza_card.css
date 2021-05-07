@@ -17,8 +17,8 @@
     cursor: pointer;
     border-radius: 0;
 
-    box-shadow: 0 0 0.7vmin 0.7vmin rgba(0,0,0,0.25)
-
+    box-shadow: 0 0 0.7vmin 0.7vmin rgba(0,0,0,0.25);
+    border: 1px solid gray;
 }
 
 .pizza-footer-wrapper {
