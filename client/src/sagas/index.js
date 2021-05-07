@@ -6,26 +6,31 @@ import {
     fetchIngredientsService
 } from "../services";
 import {
-    GET_AVAILABLE_PIZZAS, GET_FILTERED_PIZZAS,
+    GET_AVAILABLE_PIZZAS,
+    GET_FILTERED_PIZZAS,
     GET_INGREDIENTS,
     GET_PIZZERIAS
 } from "../actions";
 import {
     setPizzas,
     setPizzerias,
-    setIngredients
+    setIngredients,
+    endPizzaLoading,
+    startPizzaLoading
 } from "../actions";
 
 
 function* fetchAllPizzerias(action)
 {
     try {
+
         const {data} = yield call(
             fetchAllPizzeriasService
         )
 
 
         yield put(setPizzerias(data))
+
     }catch (e) {
 
     }
@@ -35,7 +40,7 @@ function* fetchAllPizzerias(action)
 function* fetchAvailablePizzas(action)
 {
     try {
-
+        yield put(startPizzaLoading())
         const {data} = yield call(
             fetchAvailablePizzasService,
             action.payload.pizzeria_id
@@ -43,6 +48,7 @@ function* fetchAvailablePizzas(action)
 
 
         yield put(setPizzas(data))
+        yield put(endPizzaLoading())
     }catch (e) {
 
     }
@@ -51,7 +57,7 @@ function* fetchAvailablePizzas(action)
 function* fetchFilteredPizzas(action)
 {
     try {
-
+        yield put(startPizzaLoading())
         const {data} = yield call(
             fetchFilteredPizzasService,
             action.payload.pizzeria_id,
@@ -60,6 +66,7 @@ function* fetchFilteredPizzas(action)
 
 
         yield put(setPizzas(data))
+        yield put(endPizzaLoading())
     }catch (e) {
 
     }
@@ -76,6 +83,7 @@ function* fetchIngredients(action)
 
 
         yield put(setIngredients(data))
+
     }catch (e) {
 
     }

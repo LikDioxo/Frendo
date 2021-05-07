@@ -3,7 +3,7 @@ import "../assets/css/pizza_card.css"
 
 
 function PizzaCard({image_name, name, ingredients, price, onPizzaSelect}) {
-    const perm_ingredients = ingredients.filter((el)=>{return el.status === 0});
+
 
     let show_ingredients = ingredients
         .filter((el)=>{return (el.status === 0 || el.status === 1)})

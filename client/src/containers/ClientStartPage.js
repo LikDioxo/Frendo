@@ -1,7 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
-import {flipPizzeriasModalView, getPizzerias, setChosenPizzeria} from "../actions";
-import {getChosenPizzeria, getPizzeriasModalView, getPizzeriasSelector, isFilterView} from "../selectors";
+import {flipPizzeriasModalView, getIngredients, getPizzerias, setChosenPizzeria} from "../actions";
+import {
+    getChosenPizzeria,
+    getIngredientsSelector,
+    getPizzeriasModalView,
+    getPizzeriasSelector,
+    isFilterView
+} from "../selectors";
 import Header from "./Header";
 import ModalWindow from "../components/ModalWindow";
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
@@ -19,11 +25,17 @@ function ClientStartPage() {
 
     useEffect(() =>
     {
-        dispatch(getPizzerias())
+        dispatch(getPizzerias());
+        dispatch(getIngredients())
     },[dispatch])
 
-    const handlePizzeriasModal = () => dispatch(flipPizzeriasModalView());
-
+    const handlePizzeriasModal = () => {
+        dispatch(flipPizzeriasModalView());
+    };
+    const handlePizzeriaChange = () => {
+        dispatch(flipPizzeriasModalView());
+        dispatch(getPizzerias());
+    }
     const handlePizzeriaChosen = ({id, address, workload}) => {
         dispatch(setChosenPizzeria(id, address, workload));
         dispatch(flipPizzeriasModalView());
@@ -32,7 +44,12 @@ function ClientStartPage() {
     const PizzeriasModalView = useSelector(getPizzeriasModalView);
     const Pizzeria = useSelector(getChosenPizzeria);
     const Pizzerias = useSelector(getPizzeriasSelector);
-    const isFilter = useSelector(isFilterView)
+    const isFilter = useSelector(isFilterView);
+    const Ingredients = useSelector(getIngredientsSelector);
+
+    if(Pizzerias === undefined || Ingredients === undefined){
+        return <Loading/>
+    }
 
 
     return (
@@ -44,14 +61,13 @@ function ClientStartPage() {
                         <ChosenPizzeria
                             pizzeria_address={Pizzeria.pizzeria_address}
                             order_count={Pizzeria.orders_count}
-                            onChange={handlePizzeriasModal}
+                            onChange={handlePizzeriaChange}
                         />
-                        {isFilter ? <FilterBox pizzeria_id={Pizzeria.pizzeria_id}/> : null}
+                        {isFilter ? <FilterBox pizzeria_id={Pizzeria.pizzeria_id} ingredients={Ingredients}/> : null}
                         <PizzasContainer pizzeria_id={Pizzeria.pizzeria_id}/>
                     </>
                         : <Post onChoosePizzeria={handlePizzeriasModal} />
                 }
-                {Pizzerias !== undefined ?
                 <ModalWindow
                     handleClose={handlePizzeriasModal}
                     show={PizzeriasModalView}
@@ -61,8 +77,7 @@ function ClientStartPage() {
                             addresses={Pizzerias}
                         />
                     }
-                /> : <Loading/>
-                }
+                />
 
             </div>
             <Footer />

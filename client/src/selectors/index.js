@@ -1,4 +1,8 @@
 
+export function isLoading(state)
+{
+    return state.loading.isLoading;
+}
 
 
 export function getOrder(state)

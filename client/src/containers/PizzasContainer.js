@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getAvailablePizzas} from "../actions";
-import {getAvailablePizzasSelector} from "../selectors";
+import {getAvailablePizzasSelector, isLoading} from "../selectors";
 import PizzaCard from "../components/PizzaCard";
 import Loading from "../components/Loading";
 import "../assets/css/pizzas_container.css"
@@ -14,7 +14,8 @@ function PizzasContainer({pizzeria_id}) {
         },[dispatch, pizzeria_id])
 
     const Pizzas = useSelector(getAvailablePizzasSelector)
-    if (Pizzas === undefined) {
+    const loading = useSelector(isLoading);
+    if (Pizzas === undefined || loading) {
         return (
             <Loading/>
         )
@@ -28,7 +29,10 @@ function PizzasContainer({pizzeria_id}) {
                     name={name}
                     ingredients={ingredients}
                     price={price}
-                    onPizzaSelect={() => alert(name)}
+                    onPizzaSelect={(event) => {
+                        alert(name);
+                        event.stopPropagation();
+                    }}
                 />))}
         </div>
 

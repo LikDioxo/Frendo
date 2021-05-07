@@ -1,27 +1,19 @@
-import React, {useCallback, useEffect} from 'react';
+import React from 'react';
 import {
-    getIngredients,
     flipIngredientSelection,
     resetIngredientSelection,
     getFilteredPizzas,
     getAvailablePizzas
 } from "../actions";
-import {useDispatch, useSelector} from "react-redux";
-import {getIngredientsSelector} from "../selectors";
-import Loading from "../components/Loading";
+import {useDispatch} from "react-redux";
 import "../assets/css/filter_box.css";
 
 
-function FilterBox({pizzeria_id}) {
+function FilterBox({pizzeria_id, ingredients}) {
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getIngredients())
-    },[dispatch])
 
-    const ingredients = useSelector(getIngredientsSelector)
-    if(ingredients === undefined){
-       return <Loading/>
-    }
+
+
 
     const show_ingredients = []
     const fetch_ingredients = []

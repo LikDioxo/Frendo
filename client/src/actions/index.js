@@ -11,6 +11,22 @@ export const SET_INGREDIENTS = "SET_INGREDIENTS"
 export const GET_INGREDIENTS = "GET_INGREDIENTS"
 export const FLIP_INGREDIENT_SELECTION = "FLIP_INGREDIENT_SELECTION"
 export const RESET_INGREDIENT_SELECTION = "RESET_INGREDIENT_SELECTION"
+export const START_PIZZA_LOADING = "START_PIZZA_LOADING"
+export const END_PIZZA_LOADING = "END_PIZZA_LOADING"
+
+export function startPizzaLoading()
+{
+    return {
+        type: START_PIZZA_LOADING
+    }
+}
+
+export function endPizzaLoading()
+{
+    return {
+        type: END_PIZZA_LOADING
+    }
+}
 
 
 export function flipFilterView()

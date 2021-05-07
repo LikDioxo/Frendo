@@ -9,8 +9,29 @@ import {
     SET_PIZZAS,
     SET_INGREDIENTS,
     FLIP_INGREDIENT_SELECTION,
-    RESET_INGREDIENT_SELECTION
+    RESET_INGREDIENT_SELECTION,
+    START_PIZZA_LOADING,
+    END_PIZZA_LOADING
 } from "../actions";
+
+function loadingReducer(state={}, action)
+{
+    let tmp;
+    switch (action.type)
+    {
+        case START_PIZZA_LOADING:
+            tmp = {...state};
+            tmp.isLoading = true;
+            return tmp;
+        case END_PIZZA_LOADING:
+            tmp = {...state};
+            tmp.isLoading = false;
+            return tmp;
+        default:
+            return state;
+    }
+}
+
 
 
 function filterReducer(state={}, action)
@@ -113,7 +134,8 @@ const mainReducer = combineReducers({
         filter: filterReducer,
         order: orderReducer,
         pizzerias: pizzeriasReducer,
-        pizza: pizzaReducer
+        pizza: pizzaReducer,
+        loading: loadingReducer
     }
 )
 
