@@ -29,7 +29,22 @@ function FilterBox({pizzeria_id, ingredients}) {
         }
 
     }
-    const handleFilter = () => dispatch(getFilteredPizzas(pizzeria_id, fetch_ingredients))
+    const handleReset = () =>
+    {
+        dispatch(resetIngredientSelection());
+        dispatch(getAvailablePizzas(pizzeria_id));
+    }
+
+    const handleFilter = () => {
+        if(fetch_ingredients.length !== 0)
+        {
+            dispatch(getFilteredPizzas(pizzeria_id, fetch_ingredients))
+        }
+        else
+        {
+            handleReset();
+        }
+    }
 
     return (
         <div className="filter-box double-shadowed">
@@ -44,10 +59,7 @@ function FilterBox({pizzeria_id, ingredients}) {
                 ))}
             </div>
             <div className="buttons-wrapper">
-                <button  className="filter-box-clear default-button" onClick={() => {
-                    dispatch(resetIngredientSelection());
-                    dispatch(getAvailablePizzas(pizzeria_id));
-                }}>Сбросить</button>
+                <button  className="filter-box-clear default-button" onClick={handleReset}>Сбросить</button>
                 <button className="filter-box-apply default-button" onClick={handleFilter}>Применить</button>
             </div>
         </div>
