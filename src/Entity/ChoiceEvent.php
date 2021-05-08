@@ -24,19 +24,26 @@ class ChoiceEvent
     private $choice;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\ManyToOne(targetEntity="Ingredient")
+     * @ORM\JoinColumn(name="ingredient_id", referencedColumnName="id")
      */
-    private $payload = [];
+    private $ingredient;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isEnabled;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $createDate;
 
-    public function __construct($choice, array $payload, $createDate)
+    public function __construct($choice, $ingredient, $isEnabled, $createDate)
     {
         $this->choice = $choice;
-        $this->payload = $payload;
+        $this->ingredient = $ingredient;
+        $this->isEnabled = $isEnabled;
         $this->createDate = $createDate;
     }
 
@@ -57,14 +64,26 @@ class ChoiceEvent
         return $this;
     }
 
-    public function getPayload(): ?array
+    public function getIngredient(): Ingredient
     {
-        return $this->payload;
+        return $this->ingredient;
     }
 
-    public function setPayload(array $payload): self
+    public function setIngredient(Ingredient $ingredient): self
     {
-        $this->payload = $payload;
+        $this->ingredient = $ingredient;
+
+        return $this;
+    }
+
+    public function getIsEnabled(): bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): self
+    {
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }

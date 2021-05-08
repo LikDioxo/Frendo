@@ -170,11 +170,18 @@ class DatabaseInitController extends AbstractController
 
                 foreach ($instruction['values'] as $choiceEvent) {
                     $choiceId = $choiceEvent['choice_id'];
-                    $event = $choiceEvent['event'];
+                    $ingredientId = $choiceEvent['ingredient_id'];
+                    $isEnabled = $choiceEvent['is_enabled'];
 
-                    $choice = $choiceRepository->findOneBy(['id' => $choiceId]);
+                    $choice = $choiceRepository->find($choiceId);
+                    $ingredient = $ingredientRepository->find($ingredientId);
 
-                    $newChoiceEvent = new ChoiceEvent($choice, $event, new DateTime());
+                    $newChoiceEvent = new ChoiceEvent(
+                        $choice,
+                        $ingredient,
+                        $isEnabled,
+                        new DateTime()
+                    );
 
                     $entityManager->persist($newChoiceEvent);
                 }

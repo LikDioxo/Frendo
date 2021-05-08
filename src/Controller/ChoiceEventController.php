@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ChoiceEvent;
 use App\Repository\ChoiceRepository;
+use App\Repository\IngredientRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
@@ -17,6 +18,7 @@ class ChoiceEventController extends AbstractController
     public function create(
         Request $request,
         ChoiceRepository $choiceRepository,
+        IngredientRepository $ingredientRepository,
         EntityManagerInterface $entityManager
     ): JsonResponse
     {
@@ -33,16 +35,17 @@ class ChoiceEventController extends AbstractController
 
         try {
             $choiceId = $data['choice_id'];
-            $event = $data['event'];
+            $ingredientId = $data['ingredient_id'];
+            $isEnabled = $data['is_enabled'];
         }
         catch (ErrorException) {
             return new JsonResponse(
-                ['message' => 'Request body not provide some of this parameters: choice_id, event!'],
+                ['message' => 'Request body not provide some of this parameters: choice_id, ingredient_id, is_enabled!'],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
 
-        $choice = $choiceRepository->findOneBy(['id' => $choiceId]);
+        $choice = $choiceRepository->find($choiceId);
         if ($choice === null)
         {
             return new JsonResponse(
@@ -51,7 +54,21 @@ class ChoiceEventController extends AbstractController
             );
         }
 
-        $newChoiceEvent = new ChoiceEvent($choice, $event, new DateTime());
+        $ingredient = $ingredientRepository->find($choiceId);
+        if ($ingredient === null)
+        {
+            return new JsonResponse(
+                ['message' => "Ingredient with id: $ingredientId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $newChoiceEvent = new ChoiceEvent(
+            $choice,
+            $ingredient,
+            $isEnabled,
+            new DateTime()
+        );
 
         $entityManager->persist($newChoiceEvent);
         $entityManager->flush();
