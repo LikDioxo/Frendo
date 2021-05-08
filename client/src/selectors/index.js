@@ -42,6 +42,10 @@ export function isPizzaSelected(state)
     return state.pizza.pizza_selected;
 }
 
+
+
+
+
 export function getChosenPizzeria(state)
 {
     return {

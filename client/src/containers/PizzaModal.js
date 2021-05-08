@@ -1,14 +1,21 @@
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getSelectedPizza} from "../selectors";
 import {formatIngredients} from "../utils";
 import "../assets/css/pizza_modal.css";
+import {addPizzaToOrder} from "../actions";
 
 
 function PizzaModal()
 {
+    const dispatch = useDispatch();
+
+
+
     const pizza = useSelector(getSelectedPizza);
     let show_ingredients = []
-
+    const handleAddPizzaToCart = () => {
+        dispatch(addPizzaToOrder(pizza))
+    }
     for (const ingredient in pizza.ingredients) {
         show_ingredients.push({
             id: ingredient,
@@ -74,7 +81,7 @@ function PizzaModal()
                 <div className="selected-pizza-price">
                     Стоимость: {pizza.price} грн.
                 </div>
-                <button className="control-button default-button">
+                <button className="control-button default-button" onClick={handleAddPizzaToCart}>
                     Добавить в корзину
                 </button>
             </div>

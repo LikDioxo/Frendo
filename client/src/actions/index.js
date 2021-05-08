@@ -59,6 +59,7 @@ export function getPizzerias()
 
 
 
+
 export function flipIngredientSelection(ingredient_id)
 {
     return {
@@ -163,19 +164,11 @@ export function setChosenPizzeria(pizzeria_id, pizzeria_address, orders_count) {
 
 
 
-export function addPizzaToOrder(pizza_id, ingredients)
+export function addPizzaToOrder(pizza)
 {
     return {
         type: ADD_PIZZA_TO_ORDER,
-        payload: {
-                pizza_id: pizza_id,
-                quantity: 1,
-                ingredient: ingredients.map((ingredient_id, isEnabled) => {return {
-                    ingredient_id: isEnabled
-                }
-                })
-
-            }
+        payload: {pizza}
     }
 }
 
