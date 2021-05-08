@@ -1,7 +1,7 @@
-import "../assets/css/pizzeria_choice_modal.css"
 import {useSelector} from "react-redux";
 import {getSelectedPizza} from "../selectors";
 import {formatIngredients} from "../utils";
+import "../assets/css/pizza_modal.css";
 
 
 function PizzaModal()
@@ -21,53 +21,66 @@ function PizzaModal()
     }
 
 
-
     const necessary_ingredients = formatIngredients(show_ingredients.filter((el)=>(el.status === 0)));
     const optional_ingredients = show_ingredients.filter((el)=>(el.status === 1));
     const additional_ingredients = show_ingredients.filter((el)=>(el.status === 2));
 
     return (
-        <div className="pizzas-selected-box">
-            <div className="pizza-large-img">
-                <img alt="тут картинка"/>
-                <div>Стоимость: {pizza.price}</div>
+        <div className="selected-pizza-wrapper">
+            <div className="selected-pizza">
+                <div className="selected-pizza-image-wrapper">
+                    <img src={`http://127.0.0.1:8000/images/pizzas/${pizza.image_name}`} alt={`Картика пиццы: ${pizza.name}`}/>
+                </div>
+                <div className="selected-pizza-info">
+                    <div className="selected-pizza-name">
+                        Пицца "{pizza.name}"
+                    </div>
+                    <div className="selected-pizza-common-info">
+                        {pizza.size} см, {pizza.weight} г
+                    </div>
+                    <div className="selected-pizza-necessary-ingredients">
+                        {necessary_ingredients}
+                    </div>
+                    <div className="selected-pizza-ingredients-wrapper">
+                        <div className="ingredients-type-name">Опциональные ингредиенты</div>
+                        <div className="ingredient-wrapper">
+                            {
+                                optional_ingredients.map((el)=>(
+                                    <div className="ingredient optional-ingredient">
+                                        <input className="ingredient-select" type="checkbox" checked={el.flag}/>
+                                        <div className="ingredient-name">{el.name}</div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <div className="selected-pizza-ingredients-wrapper">
+                        <div className="ingredients-type-name">Добавить пиццу</div>
+                        <div  className="ingredient-wrapper">
+                            {
+                                additional_ingredients.map((el)=>(
+                                    <div className="ingredient additional-ingredient">
+                                        <input className="ingredient-select" type="checkbox" checked={el.flag}/>
+                                        <div className="ingredient-name">{el.name}</div>
+                                        <div className="ingredient-price">{el.price} грн.</div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="selected-pizza-wrapper">
-                <div>Пицца "{pizza.name}"</div>
-                <div>{pizza.size} см, {pizza.weight} г</div>
-                <div>{necessary_ingredients}</div>
-                <div>Опциональные ингредиенты</div>
-                <div>
-                    {
-                        optional_ingredients.map((el)=>(
-                            <div>
-                                <input type="checkbox" checked={el.flag}/>
-                                <div>{el.name}</div>
-                            </div>
-
-                        ))
-
-                    }
+            <div className="selected-pizza-footer">
+                <div className="selected-pizza-price">
+                    Стоимость: {pizza.price} грн.
                 </div>
-                <div>Добавить пиццу</div>
-                <div>
-                    {
-                        additional_ingredients.map((el)=>(
-                            <div>
-                                <input type="checkbox" checked={el.flag}/>
-                                <div>{el.name}</div>
-                                <div>{el.price}</div>
-                            </div>
-
-                        ))
-
-                    }
-                </div>
-                <button>Добавить в корзину</button>
+                <button className="control-button default-button">
+                    Добавить в корзину
+                </button>
             </div>
         </div>
     )
 }
 
 
-export default PizzaModal
+export default PizzaModal;

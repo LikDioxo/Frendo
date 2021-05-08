@@ -1,0 +1,84 @@
+.selected-pizza-wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 20px 20px 10px 15px;
+}
+
+.selected-pizza {
+    display: flex;
+}
+
+.selected-pizza-image-wrapper {
+    margin-right: 15px;
+}
+
+.selected-pizza-image-wrapper img {
+    width: 100%;
+}
+
+.selected-pizza-info {
+    min-width: 40%;
+    overflow-y: auto;
+    height: 330px;
+}
+
+.selected-pizza-name {
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.selected-pizza-common-info {
+    color: #7E7E7E;
+}
+
+.selected-pizza-ingredients-wrapper {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredients-type-name {
+    font-style: italic;
+    font-size: 18px;
+    white-space: normal;
+}
+
+.ingredient-wrapper {
+    width: 100%;
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+}
+
+.ingredient.additional-ingredient {
+    justify-content: space-between;
+}
+
+.ingredient-price {
+    white-space: nowrap;
+}
+
+input.ingredient-select {
+    margin-right: 5px;
+}
+.ingredient-name {
+    width: 100%;
+}
+
+.selected-pizza-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+}
+
+.selected-pizza-price {
+    font-weight: bold;
+    font-size: 20px;
+    font-style: italic;
+}
