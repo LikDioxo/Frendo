@@ -71,14 +71,16 @@ function filterReducer(state={}, action)
     }
 }
 
-function orderReducer(state=[], action)
+function orderReducer(state={ordered_pizzas: {}}, action)
 {
     switch (action.type)
     {
         case ADD_PIZZA_TO_ORDER:
-            let tmp = [...state];
-            tmp.append(action.payload);
+            let tmp = {...state};
+            tmp.ordered_pizzas[action.payload.pizza.id] = {...action.payload.pizza};
+            tmp.ordered_pizzas[action.payload.pizza.id].quantity = 1;
             return tmp;
+
         default:
             return state;
     }

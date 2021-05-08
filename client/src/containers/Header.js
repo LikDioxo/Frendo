@@ -16,8 +16,24 @@ function Header()
         dispatch(flipFilterView());
     }
 
-    const order = useSelector(getOrder);
-    const orderCount = order.length ? order.reduce((acc, cur_it)=>acc+cur_it.quantity):0;
+    const order = useSelector(getOrder)
+
+    const show_order = []
+    for (const item in order.ordered_pizzas) {
+        show_order.push({
+                quantity: order.ordered_pizzas[item].quantity
+            }
+        )
+    }
+    let orderCount = 0;
+    if(show_order.length)
+    {
+        for(const el of show_order)
+        {
+            orderCount += el.quantity
+        }
+    }
+
 
     return (
         <div className="header">

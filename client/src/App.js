@@ -11,6 +11,7 @@ import ClientStartPage from "./containers/ClientStartPage";
 import FAQPage from "./containers/FAQPage";
 import "./assets/css/main.css";
 import rootSaga from "./sagas";
+import CartPage from "./containers/CartPage";
 
 
 
@@ -24,14 +25,16 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
+
+
 function App() {
 
   return (
       <Provider store={store}>
           <BrowserRouter>
               <Route exact path={'/'} component={ClientStartPage}/>
-              <Route path={'/FAQ'} component={FAQPage}/>
-
+              <Route exact path={'/cart'} component={CartPage}/>
+              <Route exact path={'/FAQ'} component={FAQPage}/>
           </BrowserRouter>
       </Provider>
   );

@@ -4,16 +4,6 @@ import {formatIngredients} from "../utils"
 
 function PizzaCard({image_name, name, ingredients, price, onPizzaSelect}) {
 
-    // let show_ingredients = []
-    //
-    // for (const ingredient of ingredients) {
-    //     show_ingredients.push({
-    //         id: ingredient,
-    //         name: ingredients[ingredient].name,
-    //         flag: ingredients[ingredient].flag,
-    //         price: ingredients[ingredient].price
-    //     })
-    // }
 
     let show_ingredients = formatIngredients(ingredients.filter((el)=>{return (el.status === 0 || el.status === 1)}))
     console.log(show_ingredients)
