@@ -1,9 +1,10 @@
 import React from "react";
 import OrderItem from "../components/OrderItem";
+import "../assets/css/order_list.css";
+
 
 function OrderList({ordered_pizzas})
 {
-
     return (
         <div className="order-list">
             {ordered_pizzas.map((pizza)=>
@@ -19,8 +20,4 @@ function OrderList({ordered_pizzas})
 }
 
 
-
 export default OrderList
-
-
-

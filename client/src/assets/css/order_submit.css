@@ -1,0 +1,22 @@
+.order-submit-wrapper {
+    align-self: flex-end;
+    display: flex;
+    width: 45%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-submit-price-wrapper {
+    display: flex;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.order-submit-price-title {
+    font-style: italic;
+    margin-right: 4px;
+}
+
+.order-submit{
+    padding: 10px;
+}

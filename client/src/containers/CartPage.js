@@ -10,7 +10,7 @@ import {flipPizzeriasModalView, getPizzerias, setChosenPizzeria, unsetSelectedPi
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
 import ModalWindow from "../components/ModalWindow";
 import OrderSubmit from "../components/OrderSubmit";
-
+import "../assets/css/cart_page.css";
 
 
 function CartPage()
@@ -83,4 +83,4 @@ function CartPage()
 }
 
 
-export default CartPage
+export default CartPage;

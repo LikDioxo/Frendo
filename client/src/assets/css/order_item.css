@@ -1,0 +1,37 @@
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100px;
+    height: 100px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+
+    margin-bottom: 20px;
+}
+
+.order-item-image-wrapper, .order-item-image-wrapper img {
+    height: 100%;
+}
+
+.order-item-buttons-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.order-item-quantity-button-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.order-item-quantity-minus-wrapper, .order-item-quantity-plus-wrapper {
+    width: 40px;
+}
+
+.order-item-quantity-minus-wrapper img, .order-item-quantity-plus-wrapper img {
+    width: 100%;
+}
