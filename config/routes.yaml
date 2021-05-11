@@ -96,12 +96,12 @@ app_get_available_pizzas:
     controller: App\Controller\PizzeriaController::getAvailablePizzas
 
 app_get_pizza:
-    path: /pizzas/{id}
+    path: /pizzas/{pizzaId}
     methods: GET
     controller: App\Controller\PizzaController::getPizza
 
 app_get_ingredient:
-    path: /ingredients/{id}
+    path: /ingredients/{ingredientId}
     methods: GET
     controller: App\Controller\IngredientController::getIngredient
 
@@ -116,7 +116,7 @@ app_create_order:
     controller: App\Controller\OrderController::create
 
 app_get_queue_position:
-    path: /orders/queue-position
+    path: /pizzerias/{pizzeriaId}/orders/queue-position
     methods: GET
     controller: App\Controller\OrderController::getQueuePosition
 
@@ -134,3 +134,13 @@ app_filter_availiable_pizzas:
     path: /pizzerias/{id}/pizzas-with-ingredients
     methods: GET
     controller: App\Controller\PizzeriaController::filterAvailablePizzas
+
+app_get_pizzeria_orders:
+    path: /operator/pizzerias/{pizzeriaId}/orders
+    methods: GET
+    controller: App\Controller\OrderController::getPizzeriaOrders
+
+app_make_order:
+    path: /pizzerias/{pizzeriaId}/orders
+    methods: POST
+    controller: App\Controller\OrderController::makeOrder
