@@ -11,6 +11,14 @@ html {
   height: 100%;
 }
 
+button {
+  background: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
 body {
   font-family: "Roboto", Arial, serif;
 }
@@ -55,7 +63,6 @@ body, #root, .content {
 
 .default-button:hover {
   background-color: #f1a54d;
-  cursor: pointer;
 }
 
 .default-denying-button {
@@ -74,7 +81,6 @@ body, #root, .content {
 
 .default-denying-button:hover {
   background-color: #F95D63;
-  cursor: pointer;
 }
 
 .rounded-container {
@@ -94,5 +100,4 @@ body, #root, .content {
   object-fit: contain;
   width: 30vw;
   height: auto;
-
 }
