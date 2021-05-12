@@ -15,6 +15,8 @@ export const START_PIZZA_LOADING = "START_PIZZA_LOADING"
 export const END_PIZZA_LOADING = "END_PIZZA_LOADING"
 export const SET_SELECTED_PIZZA = "SET_SELECTED_PIZZA"
 export const UNSET_SELECTED_PIZZA = "UNSET_SELECTED_PIZZA"
+export const CLEAR_CART = "CLEAR_CART"
+
 
 
 
@@ -55,6 +57,14 @@ export function getPizzerias()
         payload: {}
     }
 
+}
+
+export function clearCart()
+{
+    return{
+        type: CLEAR_CART,
+        payload: {}
+    }
 }
 
 

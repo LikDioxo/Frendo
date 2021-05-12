@@ -30,12 +30,11 @@ export function fetchAvailablePizzasService(pizzeria_id)
 }
 export function fetchFilteredPizzasService(pizzeria_id, ingredients)
 {
-    return axios.get(GET_FILTERED_PIZZAS.format(pizzeria_id),{
-        params:{
+    return axios.get(GET_FILTERED_PIZZAS.format(pizzeria_id), {
+        params: {
             ingredients: ingredients
         }
-    }
-    );
+    });
 }
 
 export function fetchIngredientsService()

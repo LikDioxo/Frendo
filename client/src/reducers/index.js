@@ -11,7 +11,7 @@ import {
     FLIP_INGREDIENT_SELECTION,
     RESET_INGREDIENT_SELECTION,
     START_PIZZA_LOADING,
-    END_PIZZA_LOADING, SET_SELECTED_PIZZA, UNSET_SELECTED_PIZZA
+    END_PIZZA_LOADING, SET_SELECTED_PIZZA, UNSET_SELECTED_PIZZA, CLEAR_CART
 } from "../actions";
 
 function loadingReducer(state={}, action)
@@ -73,14 +73,18 @@ function filterReducer(state={}, action)
 
 function orderReducer(state={ordered_pizzas: {}}, action)
 {
+    let tmp;
     switch (action.type)
     {
         case ADD_PIZZA_TO_ORDER:
-            let tmp = {...state};
+            tmp = {...state};
             tmp.ordered_pizzas[action.payload.pizza.id] = {...action.payload.pizza};
             tmp.ordered_pizzas[action.payload.pizza.id].quantity = 1;
             return tmp;
-
+        case CLEAR_CART:
+            tmp = {...state};
+            tmp.ordered_pizzas = {};
+            return tmp;
         default:
             return state;
     }

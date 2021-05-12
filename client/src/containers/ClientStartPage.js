@@ -1,6 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
-import {flipPizzeriasModalView, getIngredients, getPizzerias, setChosenPizzeria, unsetSelectedPizza} from "../actions";
+import {
+    clearCart,
+    flipPizzeriasModalView,
+    getIngredients,
+    getPizzerias,
+    setChosenPizzeria,
+    unsetSelectedPizza
+} from "../actions";
 import {
     getChosenPizzeria,
     getIngredientsSelector,
@@ -40,6 +47,7 @@ function ClientStartPage() {
     const handlePizzeriaChosen = ({id, address, workload}) => {
         dispatch(setChosenPizzeria(id, address, workload));
         dispatch(flipPizzeriasModalView());
+        dispatch(clearCart());
     };
 
     const handlePizzaModalClose = () => {

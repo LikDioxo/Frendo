@@ -6,7 +6,7 @@ import Header from "./Header";
 import Footer from "../components/Footer";
 import ChosenPizzeria from "../components/ChosenPizzeria";
 import Post from "../components/Post";
-import {flipPizzeriasModalView, getPizzerias, setChosenPizzeria, unsetSelectedPizza} from "../actions";
+import {clearCart, flipPizzeriasModalView, getPizzerias, setChosenPizzeria, unsetSelectedPizza} from "../actions";
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
 import ModalWindow from "../components/ModalWindow";
 import OrderSubmit from "../components/OrderSubmit";
@@ -32,6 +32,7 @@ function CartPage()
     const handlePizzeriaChosen = ({id, address, workload}) => {
         dispatch(setChosenPizzeria(id, address, workload));
         dispatch(flipPizzeriasModalView());
+        dispatch(clearCart());
     };
 
 
@@ -61,7 +62,7 @@ function CartPage()
                             onChange={handlePizzeriaChange}
                         />
                         <OrderList ordered_pizzas={show_order}/>
-                        <OrderSubmit order_price={price}/>
+                        {show_order.length !== 0 ? <OrderSubmit order_price={price}/>:null}
                     </>
                     : <Post onChoosePizzeria={handlePizzeriasModal} />
                 }
