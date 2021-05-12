@@ -8,14 +8,13 @@ import {addPizzaToOrder} from "../actions";
 function PizzaModal()
 {
     const dispatch = useDispatch();
-
-
-
     const pizza = useSelector(getSelectedPizza);
+
     let show_ingredients = []
     const handleAddPizzaToCart = () => {
         dispatch(addPizzaToOrder(pizza))
     }
+
     for (const ingredient in pizza.ingredients) {
         show_ingredients.push({
             id: ingredient,
@@ -24,7 +23,6 @@ function PizzaModal()
             status: pizza.ingredients[ingredient].status,
             price: pizza.ingredients[ingredient].price
         })
-
     }
 
 

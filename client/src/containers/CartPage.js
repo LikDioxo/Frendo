@@ -25,7 +25,7 @@ function CartPage()
     const handlePizzeriaChange = () => {
         dispatch(flipPizzeriasModalView());
         dispatch(getPizzerias());
-    }
+    };
     const handlePizzeriasModal = () => {
         dispatch(flipPizzeriasModalView());
     };
@@ -40,6 +40,7 @@ function CartPage()
     let price = 0;
     for (const item in order.ordered_pizzas) {
         show_order.push({
+            id: order.ordered_pizzas[item].id,
             image_name: order.ordered_pizzas[item].image_name,
             name: order.ordered_pizzas[item].name,
             quantity: order.ordered_pizzas[item].quantity,

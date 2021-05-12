@@ -16,39 +16,42 @@ export const END_PIZZA_LOADING = "END_PIZZA_LOADING"
 export const SET_SELECTED_PIZZA = "SET_SELECTED_PIZZA"
 export const UNSET_SELECTED_PIZZA = "UNSET_SELECTED_PIZZA"
 export const CLEAR_CART = "CLEAR_CART"
-
-
+export const INCREASE_SELECTED_PIZZA_QUANTITY = "INCREASE_SELECTED_PIZZA_QUANTITY"
+export const DECREASE_SELECTED_PIZZA_QUANTITY = "DECREASE_SELECTED_PIZZA_QUANTITY"
+export const DELETE_PIZZA_FROM_ORDER = "DELETE_PIZZA_FROM_ORDER"
 
 
 export function startPizzaLoading()
 {
     return {
-        type: START_PIZZA_LOADING
+        type: START_PIZZA_LOADING,
+        payload: {}
     }
 }
 
 export function endPizzaLoading()
 {
     return {
-        type: END_PIZZA_LOADING
+        type: END_PIZZA_LOADING,
+        payload: {}
     }
 }
-
 
 export function flipFilterView()
 {
     return {
-        type: VIEW_FILTER_BOX
+        type: VIEW_FILTER_BOX,
+        payload: {}
     }
 }
 
 export function flipPizzeriasModalView()
 {
     return {
-        type: SHOW_PIZZERIAS_MODAL
+        type: SHOW_PIZZERIAS_MODAL,
+        payload: {}
     }
 }
-
 
 export function getPizzerias()
 {
@@ -56,7 +59,6 @@ export function getPizzerias()
         type: GET_PIZZERIAS,
         payload: {}
     }
-
 }
 
 export function clearCart()
@@ -67,9 +69,6 @@ export function clearCart()
     }
 }
 
-
-
-
 export function flipIngredientSelection(ingredient_id)
 {
     return {
@@ -77,10 +76,12 @@ export function flipIngredientSelection(ingredient_id)
         payload:{ingredient_id}
     }
 }
+
 export function resetIngredientSelection()
 {
     return {
-        type: RESET_INGREDIENT_SELECTION
+        type: RESET_INGREDIENT_SELECTION,
+        payload: {}
     }
 }
 
@@ -90,7 +91,6 @@ export function setPizzerias(pizzerias)
         type: SET_PIZZERIAS,
         payload: { pizzerias }
     }
-
 }
 
 export function getAvailablePizzas(pizzeria_id)
@@ -101,11 +101,10 @@ export function getAvailablePizzas(pizzeria_id)
             pizzeria_id: pizzeria_id
         }
     }
-
 }
+
 export function getFilteredPizzas(pizzeria_id,ingredients)
 {
-
     return{
         type: GET_FILTERED_PIZZAS,
         payload: {
@@ -113,31 +112,31 @@ export function getFilteredPizzas(pizzeria_id,ingredients)
             ingredients: ingredients
         }
     }
-
 }
 
-
-
-export function setPizzas(pizzas) {
+export function setPizzas(pizzas)
+{
     return {
         type: SET_PIZZAS,
         payload: { pizzas }
     }
-
 }
-export function setSelectedPizza(pizza) {
+
+export function setSelectedPizza(pizza)
+{
     return {
         type: SET_SELECTED_PIZZA,
         payload: { pizza }
     }
 }
 
-export function unsetSelectedPizza() {
+export function unsetSelectedPizza()
+{
     return {
         type: UNSET_SELECTED_PIZZA,
+        payload: {}
     }
 }
-
 
 export function getIngredients()
 {
@@ -145,9 +144,7 @@ export function getIngredients()
         type: GET_INGREDIENTS,
         payload: {}
     }
-
 }
-
 
 export function setIngredients(ingredients)
 {
@@ -155,13 +152,10 @@ export function setIngredients(ingredients)
         type: SET_INGREDIENTS,
         payload: {ingredients}
     }
-
 }
 
-
-
-export function setChosenPizzeria(pizzeria_id, pizzeria_address, orders_count) {
-
+export function setChosenPizzeria(pizzeria_id, pizzeria_address, orders_count)
+{
     return {
         type: SET_CHOSEN_PIZZERIA,
         payload: {
@@ -172,8 +166,6 @@ export function setChosenPizzeria(pizzeria_id, pizzeria_address, orders_count) {
     }
 }
 
-
-
 export function addPizzaToOrder(pizza)
 {
     return {
@@ -182,8 +174,26 @@ export function addPizzaToOrder(pizza)
     }
 }
 
+export function increaseSelectedPizzaQuantity(pizza_id)
+{
+    return {
+        type: INCREASE_SELECTED_PIZZA_QUANTITY,
+        payload: {pizza_id}
+    }
+}
 
+export function decreaseSelectedPizzaQuantity(pizza_id)
+{
+    return {
+        type: DECREASE_SELECTED_PIZZA_QUANTITY,
+        payload: {pizza_id}
+    }
+}
 
-
-
-
+export function deletePizzaFromOrder(pizza_id)
+{
+    return {
+        type: DELETE_PIZZA_FROM_ORDER,
+        payload: {pizza_id}
+    }
+}

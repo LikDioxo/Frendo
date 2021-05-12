@@ -11,8 +11,15 @@ import {
     FLIP_INGREDIENT_SELECTION,
     RESET_INGREDIENT_SELECTION,
     START_PIZZA_LOADING,
-    END_PIZZA_LOADING, SET_SELECTED_PIZZA, UNSET_SELECTED_PIZZA, CLEAR_CART
+    END_PIZZA_LOADING,
+    SET_SELECTED_PIZZA,
+    UNSET_SELECTED_PIZZA,
+    CLEAR_CART,
+    INCREASE_SELECTED_PIZZA_QUANTITY,
+    DECREASE_SELECTED_PIZZA_QUANTITY,
+    DELETE_PIZZA_FROM_ORDER
 } from "../actions";
+
 
 function loadingReducer(state={}, action)
 {
@@ -32,8 +39,6 @@ function loadingReducer(state={}, action)
     }
 }
 
-
-
 function filterReducer(state={}, action)
 {
     let tmp;
@@ -42,8 +47,8 @@ function filterReducer(state={}, action)
         case VIEW_FILTER_BOX:
             tmp = {...state};
             tmp.isFilterView = !state.isFilterView;
-
             return tmp;
+
         case SET_INGREDIENTS:
             tmp = {...state};
             const ingredients = {};
@@ -56,16 +61,19 @@ function filterReducer(state={}, action)
             }
             tmp.ingredients = ingredients
             return tmp;
+
         case FLIP_INGREDIENT_SELECTION:
             tmp = {...state};
             tmp.ingredients[action.payload.ingredient_id].flag = !tmp.ingredients[action.payload.ingredient_id].flag;
             return tmp;
+
         case RESET_INGREDIENT_SELECTION:
             tmp = {...state};
             for (let ingredient in tmp.ingredients) {
                 tmp.ingredients[ingredient].flag = false;
             }
             return tmp;
+
         default:
             return state;
     }
@@ -81,10 +89,35 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             tmp.ordered_pizzas[action.payload.pizza.id] = {...action.payload.pizza};
             tmp.ordered_pizzas[action.payload.pizza.id].quantity = 1;
             return tmp;
+
         case CLEAR_CART:
             tmp = {...state};
             tmp.ordered_pizzas = {};
             return tmp;
+
+        case INCREASE_SELECTED_PIZZA_QUANTITY:
+            tmp = {...state};
+            let single_price = tmp.ordered_pizzas[action.payload.pizza_id].price / tmp.ordered_pizzas[action.payload.pizza_id].quantity
+            tmp.ordered_pizzas[action.payload.pizza_id].quantity++;
+            tmp.ordered_pizzas[action.payload.pizza_id].price = single_price * tmp.ordered_pizzas[action.payload.pizza_id].quantity
+            return tmp;
+
+        case DECREASE_SELECTED_PIZZA_QUANTITY:
+            tmp = {...state};
+
+            if (tmp.ordered_pizzas[action.payload.pizza_id].quantity > 1) {
+                let single_price = tmp.ordered_pizzas[action.payload.pizza_id].price / tmp.ordered_pizzas[action.payload.pizza_id].quantity
+                tmp.ordered_pizzas[action.payload.pizza_id].quantity--;
+                tmp.ordered_pizzas[action.payload.pizza_id].price = single_price * tmp.ordered_pizzas[action.payload.pizza_id].quantity
+            }
+            return tmp;
+
+        case DELETE_PIZZA_FROM_ORDER:
+            tmp = {...state};
+            delete tmp.ordered_pizzas[action.payload.pizza_id];
+
+            return tmp;
+
         default:
             return state;
     }
@@ -98,8 +131,8 @@ function pizzeriasReducer(state = {}, action)
         case SHOW_PIZZERIAS_MODAL:
             tmp =  {...state};
             tmp.show_pizzerias_modal = !state.show_pizzerias_modal;
-
             return tmp;
+
         case SET_CHOSEN_PIZZERIA:
             tmp = {...state};
             tmp.pizzeria_id = action.payload.pizzeria_id;
@@ -107,6 +140,7 @@ function pizzeriasReducer(state = {}, action)
             tmp.orders_count = action.payload.orders_count;
             tmp.chosen = true;
             return tmp;
+
         case SET_PIZZERIAS:
             tmp = {...state};
             tmp.pizzerias_list = action.payload.pizzerias;
@@ -115,7 +149,6 @@ function pizzeriasReducer(state = {}, action)
         default:
             return state;
     }
-
 }
 
 function pizzaReducer(state={}, action) {
@@ -126,6 +159,7 @@ function pizzaReducer(state={}, action) {
             tmp = {...state};
             tmp.pizzas = action.payload.pizzas;
             return tmp;
+
         case SET_SELECTED_PIZZA:
             tmp = {...state};
             tmp.pizza_selected = true;
@@ -141,25 +175,21 @@ function pizzaReducer(state={}, action) {
                     name: ingredient.name,
                     price: ingredient.price,
                     flag: ingredient.status === 0 || ingredient.status === 1
-
                 };
             }
 
-
             return tmp
+
         case UNSET_SELECTED_PIZZA:
             tmp = {...state};
             tmp.pizza_selected = false;
             tmp.selected_pizza = null;
-
             return tmp
+
         default:
             return state;
     }
-
-
 }
-
 
 
 const mainReducer = combineReducers({

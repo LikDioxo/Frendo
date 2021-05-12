@@ -9,11 +9,11 @@ function OrderItem(
         image_name,
         name,
         quantity,
-        price
-        // onItemChange,
-        // onItemDelete,
-        // onItemIncrease,
-        // onItemDecrease
+        price,
+        onItemChange,
+        onItemDelete,
+        onItemIncrease,
+        onItemDecrease
     }
 )
 {
@@ -30,11 +30,15 @@ function OrderItem(
                 <div className="order-item-quantity-title">Количество</div>
                 <div className="order-item-quantity-button-wrapper">
                     <div className="order-item-quantity-minus-wrapper">
-                        <img src={minus_image}/>
+                        <button onClick={onItemDecrease}>
+                            <img src={minus_image}/>
+                        </button>
                     </div>
                     <div className="order-item-quantity">{quantity}</div>
                     <div className="order-item-quantity-plus-wrapper">
-                        <img src={plus_image}/>
+                        <button onClick={onItemIncrease}>
+                            <img src={plus_image}/>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -43,8 +47,12 @@ function OrderItem(
                 <div className="order-item-price">{price} грн</div>
             </div>
             <div className="order-item-buttons-wrapper">
-                <button className="order-item-remove default-denying-button">Удалить</button>
-                <button className="order-item-change default-button">Изменить состав</button>
+                <button className="order-item-remove default-denying-button" onClick={onItemDelete}>
+                    Удалить
+                </button>
+                <button className="order-item-change default-button" onClick={onItemChange}>
+                    Изменить состав
+                </button>
             </div>
         </div>
 

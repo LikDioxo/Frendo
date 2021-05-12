@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/css/chosen-pizzeria.css";
+import "../assets/css/chosen_pizzeria.css";
 
 
 function ChosenPizzeria({onChange, pizzeria_address, order_count}) {

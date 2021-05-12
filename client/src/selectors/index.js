@@ -1,9 +1,7 @@
-
 export function isLoading(state)
 {
     return state.loading.isLoading;
 }
-
 
 export function getOrder(state)
 {
@@ -15,12 +13,10 @@ export function getPizzeriasModalView(state)
     return state.pizzerias.show_pizzerias_modal;
 }
 
-
 export function isFilterView(state)
 {
     return state.filter.isFilterView;
 }
-
 
 export function getPizzeriasSelector(state)
 {
@@ -42,10 +38,6 @@ export function isPizzaSelected(state)
     return state.pizza.pizza_selected;
 }
 
-
-
-
-
 export function getChosenPizzeria(state)
 {
     return {
@@ -54,12 +46,9 @@ export function getChosenPizzeria(state)
         orders_count: state.pizzerias.orders_count,
         chosen: state.pizzerias.chosen
     }
-
 }
 
 export function getIngredientsSelector(state)
 {
     return state.filter.ingredients;
-
 }
-
