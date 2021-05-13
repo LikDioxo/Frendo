@@ -12,7 +12,7 @@ function SearchBar({onSearch}) {
             <input
                 ref = {to_search}
                 placeholder="Поиск"
-                className="search-input"
+                className="search-input default-input-bar"
                 type="text"
             />
             <button className="search-button" onClick={onSearchCallback}>

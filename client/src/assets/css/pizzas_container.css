@@ -2,8 +2,15 @@
     display: grid;
     grid-template-columns: 23.5% 23.5% 23.5% 23.5%;
     grid-template-rows: auto;
+    grid-template-areas: "error error error error";
     row-gap: 2%;
     column-gap: 2%;
     padding: 20px 0;
     width: 90%;
+}
+
+.pizzas-wrapper > .nothing-found {
+    grid-area: error;
+    justify-self: center;
+    font-size: 20px;
 }

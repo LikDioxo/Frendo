@@ -11,12 +11,12 @@ function SearchBox({ onFilterView }) {
     const dispatch = useDispatch();
     const selected_pizzeria = useSelector(getChosenPizzeria);
 
-    const func = (search) => {
+    const searchPizzas = (search) => {
         dispatch(getFoundPizzas(selected_pizzeria.pizzeria_id, search))
     };
     return (
         <div className="search-box  shadowed">
-            <SearchBar onSearch={func}/>
+            <SearchBar onSearch={searchPizzas}/>
             <div className="button-filter-wrapper">
                 <button className="button-filter default-button" onClick={onFilterView}>
                     Фильтр ингредиентов

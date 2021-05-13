@@ -83,6 +83,13 @@ body, #root, .content {
   background-color: #F95D63;
 }
 
+.default-input-bar {
+  background-color: #ececec;
+  border-radius: 1rem;
+  font-size: 16px;
+  text-indent: 1vw;
+}
+
 .rounded-container {
   padding: 15px;
   border-radius: 1rem;

@@ -15,6 +15,10 @@
     height: 100%;
 }
 
+.order-item-name-wrapper {
+    width: 150px;
+}
+
 .order-item-buttons-wrapper {
     display: flex;
     flex-direction: column;

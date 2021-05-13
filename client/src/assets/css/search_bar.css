@@ -21,11 +21,8 @@
 .search-input {
     height: 40px;
     width: 30vw;
-    background-color: #ececec;
-    border-bottom-left-radius: 1rem;
-    border-top-left-radius: 1rem;
-    font-size: 16px;
-    text-indent: 1vw;
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
 
 .search-button:hover {

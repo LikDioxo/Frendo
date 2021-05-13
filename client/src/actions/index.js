@@ -25,6 +25,9 @@ export const DELETE_PIZZA_FROM_ORDER = "DELETE_PIZZA_FROM_ORDER"
 export const CHANGE_INGREDIENT_IN_SELECTED_PIZZA = "CHANGE_INGREDIENT_IN_SELECTED_PIZZA"
 export const CHANGE_INGREDIENT_IN_CART_PIZZA = "CHANGE_INGREDIENT_IN_CART_PIZZA"
 export const GET_FOUND_PIZZAS = "GET_FOUND_PIZZAS"
+export const GET_FOUND_PIZZERIAS = "GET_FOUND_PIZZERIAS"
+export const SHOW_ORDER_HELP_MODAL = "SHOW_ORDER_HELP_MODAL"
+export const GET_ORDER_INFO = "GET_ORDER_INFO"
 
 
 export function startPizzaLoading()
@@ -249,11 +252,39 @@ export function deletePizzaFromOrder(pizza_id)
 
 export function getFoundPizzas(pizzeria_id, name)
 {
-    return{
+    return {
         type: GET_FOUND_PIZZAS,
         payload: {
             pizzeria_id: pizzeria_id,
             name: name
+        }
+    }
+}
+
+export function getFoundPizzerias(address)
+{
+    return {
+        type: GET_FOUND_PIZZERIAS,
+        payload: {
+            address: address
+        }
+    }
+}
+
+export function flipOrderHelpModalView()
+{
+    return {
+        type: SHOW_ORDER_HELP_MODAL,
+        payload: {}
+    }
+}
+
+export function getOrderInfo(customers_phone_number)
+{
+    return {
+        type: GET_ORDER_INFO,
+        payload: {
+            phone_number: customers_phone_number
         }
     }
 }

@@ -18,7 +18,7 @@ function PizzaCard({image_name, name, ingredients, price, onPizzaSelect}) {
                 {show_ingredients}
             </div>
             <div className="pizza-footer-wrapper">
-                <div className="pizza-price">{price}</div>
+                <div className="pizza-price">{price} грн.</div>
                 <button className="pizza-choose-button default-button" onClick={onPizzaSelect}>Выбрать</button>
             </div>
         </div>
