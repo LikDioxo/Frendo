@@ -283,7 +283,7 @@ class PizzeriaController extends AbstractController
 
     public function filterAvailablePizzas(
         Request $request,
-        $id,
+        $pizzeriaId,
         IngredientRepository $ingredientRepository,
         PizzaRepository $pizzaRepository,
         PizzeriaPizzaRepository $pizzeriaPizzaRepository,

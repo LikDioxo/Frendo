@@ -9,6 +9,7 @@ use App\Entity\PizzeriaPizza;
 use App\Repository\IngredientRepository;
 use App\Repository\PizzaIngredientRepository;
 use App\Repository\PizzaRepository;
+use App\Repository\PizzeriaPizzaRepository;
 use App\Repository\PizzeriaRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -251,15 +252,17 @@ class PizzaController extends AbstractController
         return new JsonResponse($normalizedPizza);
     }
 
-    public function search(
+    public function searchThroughAvailablePizzas(
         Request $request,
+        $pizzeriaId,
         PizzaRepository $pizzaRepository,
+        PizzeriaRepository $pizzeriaRepository,
+        PizzeriaPizzaRepository $pizzeriaPizzaRepository,
         SerializerInterface $serializer,
         PizzaIngredientRepository $pizzaIngredientRepository
     ): JsonResponse
     {
         $name = $request->query->get('name');
-
         if ($name === null) {
             return new JsonResponse(
                 ['message' => 'Request not provide parameter: name!'],
@@ -267,9 +270,28 @@ class PizzaController extends AbstractController
             );
         }
 
+        $pizzeria = $pizzeriaRepository->find($pizzeriaId);
+        if ($pizzeria === null) {
+            return new JsonResponse(
+                ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $name = mb_strtoupper(mb_substr($name, 0, 1)) . mb_substr($name, 1);
         $result = [];
 
-        $objects = $pizzaRepository->partialNameMatch($name);
+        $matchedPizzas = $pizzaRepository->partialNameMatch($name);
+        $objects = [];
+
+        foreach ($matchedPizzas as $pizza) {
+            $pizzeriaPizza = $pizzeriaPizzaRepository->findOneBy(
+                ['pizzeria' => $pizzeria, 'pizza' => $pizza]
+            );
+            if ($pizzeriaPizza->getIsAvailable()) {
+                $objects[] = $pizza;
+            }
+        }
 
         foreach ($objects as $object) {
             $pizza = $serializer->normalize($object);

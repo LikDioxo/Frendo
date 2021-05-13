@@ -106,9 +106,9 @@ app_get_ingredient:
     controller: App\Controller\IngredientController::getIngredient
 
 app_search_pizza:
-    path: /pizzas
+    path: /pizzerias/{pizzeriaId}/pizzas-by-name
     methods: GET
-    controller: App\Controller\PizzaController::search
+    controller: App\Controller\PizzaController::searchThroughAvailablePizzas
 
 app_create_order:
     path: /orders
@@ -131,7 +131,7 @@ app_create_choice_event:
     controller: App\Controller\ChoiceEventController::create
 
 app_filter_availiable_pizzas:
-    path: /pizzerias/{id}/pizzas-with-ingredients
+    path: /pizzerias/{pizzeriaId}/pizzas-with-ingredients
     methods: GET
     controller: App\Controller\PizzeriaController::filterAvailablePizzas
 
