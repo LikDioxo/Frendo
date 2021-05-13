@@ -85,6 +85,11 @@ app_get_all_pizzerias:
     methods: GET
     controller: App\Controller\PizzeriaController::getAll
 
+app_search_pizzerias:
+    path: /pizzerias-by-address
+    methods: GET
+    controller: App\Controller\PizzeriaController::searchPizzerias
+
 app_get_pizzeria_workload:
     path: /pizzerias/{id}/workload
     methods: GET
@@ -105,10 +110,10 @@ app_get_ingredient:
     methods: GET
     controller: App\Controller\IngredientController::getIngredient
 
-app_search_pizza:
+app_search_pizzas:
     path: /pizzerias/{pizzeriaId}/pizzas-by-name
     methods: GET
-    controller: App\Controller\PizzaController::searchThroughAvailablePizzas
+    controller: App\Controller\PizzeriaController::searchAvailablePizzas
 
 app_create_order:
     path: /orders

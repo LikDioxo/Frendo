@@ -35,8 +35,7 @@ class PizzaController extends AbstractController
     {
         try {
             $data = $request->toArray();
-        }
-        catch (JsonException $exception) {
+        } catch (JsonException $exception) {
             return new JsonResponse(
                 ['message' => $exception->getMessage()],
                 JsonResponse::HTTP_BAD_REQUEST
@@ -49,8 +48,7 @@ class PizzaController extends AbstractController
             $size = $data['size'];
             $price = $data['price'];
             $ingredients = $data['ingredients'];
-        }
-        catch (ErrorException) {
+        } catch (ErrorException) {
             return new JsonResponse(
                 ['message' => 'Request body not provide some of this parameters: 
                 name, weight, size, price, ingredients!'],
@@ -59,10 +57,8 @@ class PizzaController extends AbstractController
         }
 
 
-
         $pizza = $pizzaRepository->findOneBy(['name' => $name]);
-        if ($pizza !== null)
-        {
+        if ($pizza !== null) {
             return new JsonResponse(
                 ['message' => "Pizza with name: $name already exists!"],
                 JsonResponse::HTTP_BAD_REQUEST
@@ -72,13 +68,11 @@ class PizzaController extends AbstractController
         $newPizza = new Pizza($name, $weight, $size, $price);
         $entityManager->persist($newPizza);
 
-        foreach ($ingredients as $requestIngredient)
-        {
+        foreach ($ingredients as $requestIngredient) {
             try {
                 $ingredientId = $requestIngredient['id'];
                 $ingredientStatus = $requestIngredient['status'];
-            }
-            catch (ErrorException) {
+            } catch (ErrorException) {
                 return new JsonResponse(
                     ['message' => 'Request body not provide some of this parameters: 
                     ingredient: id, ingredient: status!'],
@@ -88,16 +82,14 @@ class PizzaController extends AbstractController
 
 
             $ingredient = $ingredientRepository->findOneBy(['id' => $ingredientId]);
-            if ($ingredient === null)
-            {
+            if ($ingredient === null) {
                 return new JsonResponse(
                     ['message' => "Ingredient with id: $ingredientId does not exists!"],
                     JsonResponse::HTTP_BAD_REQUEST
                 );
             }
 
-            if (!(IngredientStatus::isStatus($ingredientStatus)))
-            {
+            if (!(IngredientStatus::isStatus($ingredientStatus))) {
                 return new JsonResponse(
                     ['message' => "Invalid status: $ingredientStatus!"],
                     JsonResponse::HTTP_BAD_REQUEST
@@ -111,8 +103,7 @@ class PizzaController extends AbstractController
 
         $pizzerias = $pizzeriaRepository->findAll();
 
-        foreach ($pizzerias as $pizzeria)
-        {
+        foreach ($pizzerias as $pizzeria) {
             $pizzeriaPizza = new PizzeriaPizza($pizzeria, $newPizza, true);
             $entityManager->persist($pizzeriaPizza);
         }
@@ -135,8 +126,7 @@ class PizzaController extends AbstractController
     {
         $image = $request->files->get('image');
 
-        if ($image === null)
-        {
+        if ($image === null) {
             return new JsonResponse(
                 ['message' => "Missing file with key: image!"],
                 JsonResponse::HTTP_BAD_REQUEST
@@ -147,8 +137,7 @@ class PizzaController extends AbstractController
 
         $pizza = $pizzaRepository->find($id);
 
-        if ($pizza === null)
-        {
+        if ($pizza === null) {
             return new JsonResponse(
                 ['message' => "Pizza with id: $id does not exists!"],
                 JsonResponse::HTTP_NOT_FOUND
@@ -174,8 +163,7 @@ class PizzaController extends AbstractController
 
         try {
             $objects = $pizzaRepository->findBy($requestQuery);
-        }
-        catch (ORMException $exception) {
+        } catch (ORMException $exception) {
             return new JsonResponse(
                 ['message' => $exception->getMessage()],
                 JsonResponse::HTTP_BAD_REQUEST
@@ -250,70 +238,5 @@ class PizzaController extends AbstractController
         }
 
         return new JsonResponse($normalizedPizza);
-    }
-
-    public function searchThroughAvailablePizzas(
-        Request $request,
-        $pizzeriaId,
-        PizzaRepository $pizzaRepository,
-        PizzeriaRepository $pizzeriaRepository,
-        PizzeriaPizzaRepository $pizzeriaPizzaRepository,
-        SerializerInterface $serializer,
-        PizzaIngredientRepository $pizzaIngredientRepository
-    ): JsonResponse
-    {
-        $name = $request->query->get('name');
-        if ($name === null) {
-            return new JsonResponse(
-                ['message' => 'Request not provide parameter: name!'],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
-
-        $pizzeria = $pizzeriaRepository->find($pizzeriaId);
-        if ($pizzeria === null) {
-            return new JsonResponse(
-                ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
-                JsonResponse::HTTP_NOT_FOUND
-            );
-        }
-
-        $name = mb_strtoupper(mb_substr($name, 0, 1)) . mb_substr($name, 1);
-        $result = [];
-
-        $matchedPizzas = $pizzaRepository->partialNameMatch($name);
-        $objects = [];
-
-        foreach ($matchedPizzas as $pizza) {
-            $pizzeriaPizza = $pizzeriaPizzaRepository->findOneBy(
-                ['pizzeria' => $pizzeria, 'pizza' => $pizza]
-            );
-            if ($pizzeriaPizza->getIsAvailable()) {
-                $objects[] = $pizza;
-            }
-        }
-
-        foreach ($objects as $object) {
-            $pizza = $serializer->normalize($object);
-            $pizza['ingredients'] = [];
-
-            $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $object->getId()]);
-
-            foreach ($pizzaIngredients as $pizzaIngredient) {
-                $serializedIngredient = $serializer->normalize(
-                    $pizzaIngredient,
-                    context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]
-                );
-
-                $pizza['ingredients'][] = [
-                    'ingredient_id' => $serializedIngredient['ingredient']['id'],
-                    'status' => $serializedIngredient['status']
-                ];
-            }
-
-            $result[] = $pizza;
-        }
-
-        return new JsonResponse($result);
     }
 }
