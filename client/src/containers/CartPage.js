@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import OrderList from "./OrderList";
 import {useDispatch, useSelector} from "react-redux";
 import {getChosenPizzeria, getOrder, getPizzeriasModalView, getPizzeriasSelector} from "../selectors";
@@ -6,21 +6,35 @@ import Header from "./Header";
 import Footer from "../components/Footer";
 import ChosenPizzeria from "../components/ChosenPizzeria";
 import Post from "../components/Post";
-import {clearCart, flipPizzeriasModalView, getPizzerias, setChosenPizzeria, unsetSelectedPizza} from "../actions";
+import {
+    clearCart,
+    flipPizzeriasModalView,
+    getIngredients,
+    getPizzerias,
+    setChosenPizzeria,
+    unsetSelectedPizza
+} from "../actions";
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
 import ModalWindow from "../components/ModalWindow";
 import OrderSubmit from "../components/OrderSubmit";
 import "../assets/css/cart_page.css";
+import Loading from "../components/Loading";
 
 
 function CartPage()
 {
     const dispatch = useDispatch();
-
+    useEffect(() =>
+    {
+        dispatch(getPizzerias());
+        dispatch(getIngredients())
+    },[dispatch])
     const order = useSelector(getOrder);
     const PizzeriasModalView = useSelector(getPizzeriasModalView);
     const Pizzeria = useSelector(getChosenPizzeria);
     const Pizzerias = useSelector(getPizzeriasSelector);
+    const Ingredients = useSelector(getIngredients);
+
 
     const handlePizzeriaChange = () => {
         dispatch(flipPizzeriasModalView());
@@ -34,6 +48,10 @@ function CartPage()
         dispatch(flipPizzeriasModalView());
         dispatch(clearCart());
     };
+
+    if(Pizzerias === undefined || Ingredients === undefined){
+        return <Loading/>
+    }
 
 
     const show_order = [];
