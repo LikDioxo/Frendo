@@ -12,9 +12,6 @@ import "../assets/css/filter_box.css";
 function FilterBox({pizzeria_id, ingredients}) {
     const dispatch = useDispatch()
 
-
-
-
     const show_ingredients = []
     const fetch_ingredients = []
     for (const ingredient in ingredients) {
@@ -55,7 +52,6 @@ function FilterBox({pizzeria_id, ingredients}) {
                         <div className="filter-box-ingredient-name">{name}</div>
                         <input type="checkbox" onClick={(()=>dispatch(flipIngredientSelection(id)))} checked={flag}/>
                     </div>
-
                 ))}
             </div>
             <div className="buttons-wrapper">

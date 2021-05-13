@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class PizzeriaController extends AbstractController
@@ -110,7 +111,7 @@ class PizzeriaController extends AbstractController
         $requestQuery = $request->query->all();
 
         try {
-            $objects = $pizzeriaRepository->findBy($requestQuery);
+            $pizzerias = $pizzeriaRepository->findBy($requestQuery);
         }
         catch (ORMException $exception)
         {
@@ -121,10 +122,10 @@ class PizzeriaController extends AbstractController
         }
         $result = [];
 
-        foreach ($objects as $object)
+        foreach ($pizzerias as $pizzeria)
         {
             $serializedPizzeria = $serializer->normalize(
-                $object,
+                $pizzeria,
                 context: [AbstractNormalizer::ATTRIBUTES => ['id', 'address', 'operator' => ['id']]]
             );
 
@@ -182,13 +183,13 @@ class PizzeriaController extends AbstractController
             );
         }
 
-        $objects = $pizzeriaPizzaRepository->findBy(['pizzeria' => $pizzeria, 'is_available' => true]);
+        $pizzeriaPizzas = $pizzeriaPizzaRepository->findBy(['pizzeria' => $pizzeria, 'is_available' => true]);
         $result = [];
 
-        foreach ($objects as $object)
+        foreach ($pizzeriaPizzas as $pizzeriaPizza)
         {
             $pizzaId = $serializer->normalize(
-                $object,
+                $pizzeriaPizza,
                 context: [AbstractNormalizer::ATTRIBUTES => ['pizza'=> ['id']]]
             )['pizza']['id'];
 
@@ -293,7 +294,7 @@ class PizzeriaController extends AbstractController
     ): JsonResponse
     {
         $ingredients = $request->query->get("ingredients");
-        $pizzeria = $pizzeriaRepository->find($id);
+        $pizzeria = $pizzeriaRepository->find($pizzeriaId);
         $result = [];
 
         $pizzeriaPizzas = $pizzeriaPizzaRepository->findBy(['pizzeria' => $pizzeria, 'is_available' => true]);
@@ -349,6 +350,117 @@ class PizzeriaController extends AbstractController
             if ($isAll) {
                 $result[] = $normalizedPizza;
             }
+        }
+
+        return new JsonResponse($result);
+    }
+
+    public function searchAvailablePizzas(
+        Request $request,
+        $pizzeriaId,
+        PizzaRepository $pizzaRepository,
+        PizzeriaRepository $pizzeriaRepository,
+        PizzeriaPizzaRepository $pizzeriaPizzaRepository,
+        IngredientRepository $ingredientRepository,
+        NormalizerInterface $normalizer,
+        PizzaIngredientRepository $pizzaIngredientRepository
+    ): JsonResponse
+    {
+        $name = $request->query->get('name');
+        if ($name === null) {
+            return new JsonResponse(
+                ['message' => 'Request not provide parameter: name!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $pizzeria = $pizzeriaRepository->find($pizzeriaId);
+        if ($pizzeria === null) {
+            return new JsonResponse(
+                ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $name = mb_strtoupper(mb_substr($name, 0, 1)) . mb_substr($name, 1);
+        $result = [];
+
+        $matchedPizzas = $pizzaRepository->partialNameMatch($name);
+        $pizzas = [];
+
+        foreach ($matchedPizzas as $pizza) {
+            $pizzeriaPizza = $pizzeriaPizzaRepository->findOneBy(
+                ['pizzeria' => $pizzeria, 'pizza' => $pizza]
+            );
+            if ($pizzeriaPizza->getIsAvailable()) {
+                $pizzas[] = $pizza;
+            }
+        }
+
+        foreach ($pizzas as $pizza) {
+            $normalizedPizza = $normalizer->normalize($pizza);
+
+            unset($normalizedPizza['__initializer__']);
+            unset($normalizedPizza['__cloner__']);
+            unset($normalizedPizza['__is_initialized__']);
+
+            $normalizedPizza['ingredients'] = [];
+
+            $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $pizza->getId()]);
+
+            foreach ($pizzaIngredients as $pizzaIngredient) {
+                $serializedIngredient = $normalizer->normalize(
+                    $pizzaIngredient,
+                    context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]
+                );
+
+                $ingredient = $ingredientRepository->find($serializedIngredient['ingredient']['id']);
+
+                $ingredientName = $normalizer->normalize(
+                    $ingredient,
+                    context: [AbstractNormalizer::ATTRIBUTES => ['id', 'name', 'price']]
+                );
+
+                $normalizedPizza['ingredients'][] = array_merge(
+                    ['status' => $serializedIngredient['status']],
+                    $ingredientName
+                );
+            }
+
+            $result[] = $normalizedPizza;
+        }
+
+        return new JsonResponse($result);
+    }
+
+    public function searchPizzerias(
+        Request $request,
+        NormalizerInterface $normalizer,
+        PizzeriaRepository $pizzeriaRepository,
+        OrderRepository $orderRepository
+    ): JsonResponse
+    {
+        $address = $request->query->get('address');
+        $address = mb_strtoupper(mb_substr($address, 0, 1)) . mb_substr($address, 1);
+
+        $pizzerias = $pizzeriaRepository->partialAddressMatch($address);
+
+        $result = [];
+
+        foreach ($pizzerias as $pizzeria)
+        {
+            $serializedPizzeria = $normalizer->normalize(
+                $pizzeria,
+                context: [AbstractNormalizer::ATTRIBUTES => ['id', 'address', 'operator' => ['id']]]
+            );
+
+            $serializedPizzeria['operator_id'] = $serializedPizzeria['operator']['id'];
+            unset($serializedPizzeria['operator']);
+
+            $orders = $orderRepository->getRelatedOrders($serializedPizzeria['id']);
+            $serializedPizzeria['workload'] = sizeof($orders);
+
+            $result[] = $serializedPizzeria;
         }
 
         return new JsonResponse($result);

@@ -24,6 +24,7 @@ export const DECREASE_SELECTED_PIZZA_QUANTITY = "DECREASE_SELECTED_PIZZA_QUANTIT
 export const DELETE_PIZZA_FROM_ORDER = "DELETE_PIZZA_FROM_ORDER"
 export const CHANGE_INGREDIENT_IN_SELECTED_PIZZA = "CHANGE_INGREDIENT_IN_SELECTED_PIZZA"
 export const CHANGE_INGREDIENT_IN_CART_PIZZA = "CHANGE_INGREDIENT_IN_CART_PIZZA"
+export const GET_FOUND_PIZZAS = "GET_FOUND_PIZZAS"
 
 
 export function startPizzaLoading()
@@ -243,5 +244,16 @@ export function deletePizzaFromOrder(pizza_id)
     return {
         type: DELETE_PIZZA_FROM_ORDER,
         payload: {pizza_id}
+    }
+}
+
+export function getFoundPizzas(pizzeria_id, name)
+{
+    return{
+        type: GET_FOUND_PIZZAS,
+        payload: {
+            pizzeria_id: pizzeria_id,
+            name: name
+        }
     }
 }
