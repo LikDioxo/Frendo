@@ -163,9 +163,8 @@ class PizzeriaController extends AbstractController
     }
 
     public function getAvailablePizzas(
-        Request $request,
         $id,
-        SerializerInterface $serializer,
+        NormalizerInterface $normalizer,
         IngredientRepository $ingredientRepository,
         PizzaRepository $pizzaRepository,
         PizzeriaRepository $pizzeriaRepository,
@@ -188,32 +187,33 @@ class PizzeriaController extends AbstractController
 
         foreach ($pizzeriaPizzas as $pizzeriaPizza)
         {
-            $pizzaId = $serializer->normalize(
+            $pizzaId = $normalizer->normalize(
                 $pizzeriaPizza,
                 context: [AbstractNormalizer::ATTRIBUTES => ['pizza'=> ['id']]]
             )['pizza']['id'];
 
             $pizza = $pizzaRepository->find($pizzaId);
 
-            $normalizedPizza = $serializer->normalize($pizza);
+            $normalizedPizza = $normalizer->normalize($pizza);
 
             unset($normalizedPizza['__initializer__']);
             unset($normalizedPizza['__cloner__']);
             unset($normalizedPizza['__is_initialized__']);
 
             $normalizedPizza['ingredients'] = [];
+            $normalizedPizza['price'] = floatval($normalizedPizza['price'] );
 
             $pizzaIngredients = $pizzaIngredientRepository->findBy(['pizza' => $pizza->getId()]);
 
             foreach ($pizzaIngredients as $pizzaIngredient) {
-                $serializedIngredient = $serializer->normalize(
+                $serializedIngredient = $normalizer->normalize(
                     $pizzaIngredient,
                     context: [AbstractNormalizer::ATTRIBUTES => ['ingredient' => ['id'], 'status']]
                 );
 
                 $ingredient = $ingredientRepository->find($serializedIngredient['ingredient']['id']);
 
-                $ingredientName = $serializer->normalize(
+                $ingredientName = $normalizer->normalize(
                     $ingredient,
                     context: [AbstractNormalizer::ATTRIBUTES => ['id', 'name', 'price']]
                 );

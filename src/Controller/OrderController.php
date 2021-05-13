@@ -34,8 +34,6 @@ class OrderController extends AbstractController
     public function create(
         Request $request,
         PizzeriaRepository $pizzeriaRepository,
-        ChoiceRepository $choiceRepository,
-        ChoiceEventRepository $choiceEventRepository,
         EntityManagerInterface $entityManager
     ): JsonResponse
     {
@@ -63,7 +61,7 @@ class OrderController extends AbstractController
             );
         }
 
-        if (!preg_match("/^\+\d{12}/", $customersPhoneNumber))
+        if (!preg_match("/^\d{12}/", $customersPhoneNumber))
         {
             return new JsonResponse(
                 ['message' => 'Invalid phone number!'],
@@ -80,7 +78,13 @@ class OrderController extends AbstractController
             );
         }
 
-        $newOrder = new Order($customersPhoneNumber, $deliveryAddress, $totalPrice, $pizzeria, OrderStatus::CREATED);
+        $newOrder = new Order(
+            $customersPhoneNumber,
+            $deliveryAddress,
+            $totalPrice,
+            $pizzeria,
+            OrderStatus::CREATED
+        );
 
         $entityManager->persist($newOrder);
         $entityManager->flush();
@@ -201,11 +205,11 @@ class OrderController extends AbstractController
 
     public function getQueuePosition(
         Request $request,
-        $pizzeriaId,
-        OrderRepository $orderRepository
+        OrderRepository $orderRepository,
+        NormalizerInterface $normalizer
     ): JsonResponse
     {
-        $phoneNumber = $request->get('phone_number');
+        $phoneNumber = $request->query->get('phone_number');
 
         if ($phoneNumber === null)
         {
@@ -215,26 +219,33 @@ class OrderController extends AbstractController
             );
         }
 
-        $targetOrder = $orderRepository->findOneBy(['customersPhoneNumber' => $phoneNumber]);
-        if ($targetOrder === null) {
-            return new JsonResponse(
-                ['message' => "Order with customer's phone number: $phoneNumber does not exists!"],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
-
-        $orders = $orderRepository->getRelatedOrders($pizzeriaId);
-        $position = 0;
+        $orders = $orderRepository->findBy(['customersPhoneNumber' => $phoneNumber]);
+        $result = [];
 
         foreach ($orders as $order) {
-            $position += 1;
+            $pizzeriaId = $order->getPizzeria()->getId();
+            $relatedOrders = $orderRepository->getRelatedOrders($pizzeriaId);
+            $position = 0;
 
-            if ($targetOrder->getCustomersPhoneNumber() === $phoneNumber) {
-                return new JsonResponse(['order_position' => $position]);
+            foreach ($relatedOrders as $relatedOrder) {
+                $position += 1;
+
+                if ($order->getCustomersPhoneNumber() === $phoneNumber) {
+
+                    $pizzeria = $normalizer->normalize(
+                        $order->getPizzeria(),
+                        context: [AbstractNormalizer::ATTRIBUTES => ['address']]
+                    );
+                    $result[] = [
+                        'pizzeria_address' => $pizzeria['address'],
+                        'query_position' => $position,
+                        'status' => $order->getStatus()
+                    ];
+                }
             }
         }
 
-        return new JsonResponse(['order_position' => $position]);
+        return new JsonResponse($result);
     }
 
     public function getStatuses(): JsonResponse

@@ -121,7 +121,7 @@ app_create_order:
     controller: App\Controller\OrderController::create
 
 app_get_queue_position:
-    path: /pizzerias/{pizzeriaId}/orders/queue-position
+    path: /orders/queue-position
     methods: GET
     controller: App\Controller\OrderController::getQueuePosition
 
