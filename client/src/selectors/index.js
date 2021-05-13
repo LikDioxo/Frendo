@@ -13,6 +13,11 @@ export function getPizzeriasModalView(state)
     return state.pizzerias.show_pizzerias_modal;
 }
 
+export function getOrderHelpModalView(state)
+{
+    return state.order.show_order_help_modal;
+}
+
 export function isFilterView(state)
 {
     return state.filter.isFilterView;

@@ -12,8 +12,11 @@ import {
     getChosenPizzeria,
     getIngredientsSelector,
     getPizzeriasModalView,
-    getPizzeriasSelector, getSelectedPizza,
-    isFilterView, isPizzaSelected
+    getPizzeriasSelector,
+    getSelectedPizza,
+    isFilterView,
+    isLoading,
+    isPizzaSelected
 } from "../selectors";
 import Header from "./Header";
 import ModalWindow from "../components/ModalWindow";
@@ -38,6 +41,7 @@ function ClientStartPage() {
     },[dispatch])
 
     const handlePizzeriasModal = () => {
+        dispatch(getPizzerias())
         dispatch(flipPizzeriasModalView());
     };
     const handlePizzeriaChange = () => {
@@ -62,10 +66,15 @@ function ClientStartPage() {
     const Ingredients = useSelector(getIngredientsSelector);
     const PizzaSelected = useSelector(isPizzaSelected);
     const Pizza = useSelector(getSelectedPizza);
-    if(Pizzerias === undefined || Ingredients === undefined){
-        return <Loading/>
-    }
+    // const loading = useSelector(isLoading);
 
+    // if(loading || Pizzerias === undefined || Ingredients === undefined){
+    //     return <Loading/>
+    // }
+
+    if(Pizzerias === undefined || Ingredients === undefined){
+            return <Loading/>
+    }
 
     return (
         <div className="content">

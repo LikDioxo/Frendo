@@ -22,9 +22,9 @@ import {
     UNSET_PIZZA_CHANGE,
     CHANGE_PIZZA_IN_ORDER,
     CHANGE_INGREDIENT_IN_CART_PIZZA,
-    CHANGE_INGREDIENT_IN_SELECTED_PIZZA
+    CHANGE_INGREDIENT_IN_SELECTED_PIZZA,
+    SHOW_ORDER_HELP_MODAL
 } from "../actions";
-
 
 
 function loadingReducer(state={}, action)
@@ -162,8 +162,14 @@ function orderReducer(state={ordered_pizzas: {}}, action)
         case DELETE_PIZZA_FROM_ORDER:
             tmp = {...state};
             delete tmp.ordered_pizzas[action.payload.pizza_id];
-
             return tmp;
+
+        case CHANGE_PIZZA:
+            tmp = {...state};
+            tmp.to_change = {...tmp.ordered_pizzas[action.payload.pizza_id]};
+            tmp.change = true;
+            return tmp;
+
         case CHANGE_PIZZA_IN_ORDER:
             tmp = {...state};
             tmp.to_change = {...tmp.ordered_pizzas[action.payload.pizza_id]};
@@ -173,26 +179,40 @@ function orderReducer(state={ordered_pizzas: {}}, action)
                 t1[ingr] = {...tmp.ordered_pizzas[action.payload.pizza_id].ingredients[ingr]}
             }
             tmp.to_change.ingredients = t1;
-
-
-
             tmp.change = true;
             return tmp;
+
         case UNSET_PIZZA_CHANGE:
             tmp = {...state};
             tmp.to_change = null;
             tmp.change = false;
             return tmp;
+
         case CHANGE_PIZZA:
             tmp = {...state};
             tmp.ordered_pizzas[tmp.to_change.order_id] = {...tmp.to_change};
             tmp.to_change = null
             tmp.change = false;
             return tmp;
+
         case CHANGE_INGREDIENT_IN_CART_PIZZA:
             tmp = {...state};
-            tmp.to_change.ingredients[action.payload.ingredient_id].flag = !tmp.to_change.ingredients[action.payload.ingredient_id].flag
+            let selected_ingredient = tmp.to_change.ingredients[action.payload.ingredient_id]
+
+            selected_ingredient.flag = !selected_ingredient.flag
+
+            if (selected_ingredient.status === 2) {
+                if (selected_ingredient.flag) tmp.to_change.price += selected_ingredient.price
+                else tmp.to_change.price -= selected_ingredient.price
+            }
+
             return tmp;
+
+        case SHOW_ORDER_HELP_MODAL:
+            tmp = {...state};
+            tmp.show_order_help_modal = !state.show_order_help_modal;
+            return tmp;
+
         default:
             return state;
     }
@@ -260,11 +280,21 @@ function pizzaReducer(state={}, action) {
             tmp.pizza_selected = false;
             tmp.selected_pizza = null;
             return tmp
+
         case CHANGE_INGREDIENT_IN_SELECTED_PIZZA:
             tmp = {...state};
+            tmp = {...state};
+            let selected_ingredient = tmp.selected_pizza.ingredients[action.payload.ingredient_id]
 
-            tmp.selected_pizza.ingredients[action.payload.ingredient_id].flag = !tmp.selected_pizza.ingredients[action.payload.ingredient_id].flag
+            selected_ingredient.flag = !selected_ingredient.flag
+
+            if (selected_ingredient.status === 2) {
+                if (selected_ingredient.flag) tmp.selected_pizza.price += selected_ingredient.price
+                else tmp.selected_pizza.price -= selected_ingredient.price
+            }
+
             return tmp;
+
         default:
             return state;
     }

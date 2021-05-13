@@ -1,9 +1,3 @@
-
-
-
-
-
-
 export function formatIngredients(ingredients)
 {
     let show_ingredients = ingredients.map((el) => {return el.name.toLowerCase()});
@@ -13,4 +7,3 @@ export function formatIngredients(ingredients)
     }
     return show_ingredients;
 }
-

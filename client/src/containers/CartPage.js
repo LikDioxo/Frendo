@@ -24,9 +24,10 @@ import {
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
 import ModalWindow from "../components/ModalWindow";
 import OrderSubmit from "../components/OrderSubmit";
-import "../assets/css/cart_page.css";
 import Loading from "../components/Loading";
 import PizzaModal from "./PizzaModal";
+import Nothing from "../components/Nothing";
+import "../assets/css/cart_page.css";
 
 
 function CartPage()
@@ -93,8 +94,13 @@ function CartPage()
                             order_count={Pizzeria.orders_count}
                             onChange={handlePizzeriaChange}
                         />
-                        <OrderList ordered_pizzas={show_order}/>
-                        {show_order.length !== 0 ? <OrderSubmit order_price={price}/>:null}
+                        {show_order.length !== 0 ?
+                            <>
+                                <OrderList ordered_pizzas={show_order}/>
+                                <OrderSubmit order_price={price}/>
+                            </>
+                        : <Nothing text="Корзина пуста."/>
+                        }
                     </>
                     : <Post onChoosePizzeria={handlePizzeriasModal} />
                 }

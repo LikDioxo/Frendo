@@ -3,15 +3,17 @@ import {
     fetchAllPizzeriasService,
     fetchAvailablePizzasService,
     fetchFilteredPizzasService,
-    fetchFoundPizzasService,
-    fetchIngredientsService
+    fetchFoundPizzasService, fetchFoundPizzeriasService,
+    fetchIngredientsService, fetchOrderInfoService
 } from "../services";
 import {
     GET_AVAILABLE_PIZZAS,
     GET_FILTERED_PIZZAS,
     GET_FOUND_PIZZAS,
+    GET_FOUND_PIZZERIAS,
     GET_INGREDIENTS,
-    GET_PIZZERIAS
+    GET_PIZZERIAS,
+    GET_ORDER_INFO
 } from "../actions";
 import {
     setPizzas,
@@ -78,6 +80,20 @@ function* fetchFoundPizzas(action)
     }catch (e) {}
 }
 
+function* fetchFoundPizzerias(action)
+{
+    try {
+        yield put(startPizzaLoading())
+        const {data} = yield call(
+            fetchFoundPizzeriasService,
+            action.payload.address
+        )
+
+        yield put(setPizzerias(data))
+        yield put(endPizzaLoading())
+    }catch (e) {}
+}
+
 function* fetchIngredients(action)
 {
     try {
@@ -86,6 +102,17 @@ function* fetchIngredients(action)
         )
 
         yield put(setIngredients(data))
+
+    }catch (e) {}
+}
+
+function* fetchOrderInfo(action)
+{
+    try {
+        const {data} = yield call(
+            fetchOrderInfoService,
+            action.payload.phone_number
+        )
 
     }catch (e) {}
 }
@@ -111,9 +138,19 @@ function* watchFetchFoundPizzas()
     yield takeEvery(GET_FOUND_PIZZAS, fetchFoundPizzas);
 }
 
+function* watchFetchFoundPizzerias()
+{
+    yield takeEvery(GET_FOUND_PIZZERIAS, fetchFoundPizzerias);
+}
+
 function* watchFetchIngredients()
 {
     yield takeEvery(GET_INGREDIENTS, fetchIngredients);
+}
+
+function* watchFetchOrderInfo()
+{
+    yield takeEvery(GET_ORDER_INFO, fetchOrderInfo);
 }
 
 export default function* rootSaga()
@@ -123,6 +160,8 @@ export default function* rootSaga()
         watchFetchAvailablePizzas(),
         watchFetchIngredients(),
         watchFetchFilteredPizzas(),
-        watchFetchFoundPizzas()
+        watchFetchFoundPizzas(),
+        watchFetchFoundPizzerias(),
+        watchFetchOrderInfo()
     ])
 }

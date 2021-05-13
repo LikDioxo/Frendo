@@ -2,21 +2,31 @@ import React from 'react';
 import HeaderImage from "../components/HeaderImage";
 import SearchBox from "../components/SearchBox";
 import Cart from "../components/Cart";
-import {flipFilterView} from "../actions";
+import {flipFilterView, flipOrderHelpModalView, getOrderInfo} from "../actions";
 import {useDispatch, useSelector} from "react-redux";
 import OrderHelpBox from "../components/OrderHelpBox";
-import {getOrder} from "../selectors";
+import {getOrder, getOrderHelpModalView} from "../selectors";
+import ModalWindow from "../components/ModalWindow";
+import OrderHelpModal from "../components/OrderHelpModal";
 import "../assets/css/header.css"
 
 
 function Header()
 {
     const dispatch = useDispatch()
+
     const changeFilterView = () => {
         dispatch(flipFilterView());
     }
+    const handleOrderHelpModal = () => {
+        dispatch(flipOrderHelpModalView())
+    }
+    const handleGetOrderInfo = (phone_number) => {
+        dispatch(getOrderInfo(phone_number))
+    }
 
     const order = useSelector(getOrder)
+    const OrderHelpModalView = useSelector(getOrderHelpModalView)
 
     const show_order = []
     for (const item in order.ordered_pizzas) {
@@ -39,8 +49,16 @@ function Header()
         <div className="header">
             <HeaderImage/>
             <SearchBox onFilterView={changeFilterView}/>
-            <OrderHelpBox onOrderHelp={() => alert("Здесь должно быть модальное окно!!!")}/>
+            <OrderHelpBox onOrderHelp={handleOrderHelpModal}/>
             <Cart orderCount={orderCount}/>
+
+            <ModalWindow
+                handleClose={handleOrderHelpModal}
+                show={OrderHelpModalView}
+                component={<OrderHelpModal
+                    onModalSubmit={handleGetOrderInfo}
+                />}
+            />
         </div>
     )
 }
