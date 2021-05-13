@@ -123,7 +123,9 @@ function orderReducer(state={ordered_pizzas: {}}, action)
 
             if(existed !== undefined)
             {
+                let single_price = existed.price/existed.quantity;
                 existed.quantity++;
+                existed.price = single_price*existed.quantity;
             }
             else
             {
