@@ -68,8 +68,9 @@ function CartPage()
 
     const show_order = [];
     let price = 0;
-    for (const item in order.ordered_pizzas) {
+    for (const item of Object.keys(order.ordered_pizzas)) {
         show_order.push({
+            order_id: item,
             id: order.ordered_pizzas[item].id,
             image_name: order.ordered_pizzas[item].image_name,
             name: order.ordered_pizzas[item].name,

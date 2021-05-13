@@ -15,12 +15,15 @@ export const START_PIZZA_LOADING = "START_PIZZA_LOADING"
 export const END_PIZZA_LOADING = "END_PIZZA_LOADING"
 export const SET_SELECTED_PIZZA = "SET_SELECTED_PIZZA"
 export const CHANGE_PIZZA = "CHANGE_PIZZA"
+export const CHANGE_PIZZA_IN_ORDER = "CHANGE_PIZZA_IN_ORDER"
 export const UNSET_SELECTED_PIZZA = "UNSET_SELECTED_PIZZA"
 export const UNSET_PIZZA_CHANGE = "UNSET_PIZZA_CHANGE"
 export const CLEAR_CART = "CLEAR_CART"
 export const INCREASE_SELECTED_PIZZA_QUANTITY = "INCREASE_SELECTED_PIZZA_QUANTITY"
 export const DECREASE_SELECTED_PIZZA_QUANTITY = "DECREASE_SELECTED_PIZZA_QUANTITY"
 export const DELETE_PIZZA_FROM_ORDER = "DELETE_PIZZA_FROM_ORDER"
+export const CHANGE_INGREDIENT_IN_SELECTED_PIZZA = "CHANGE_INGREDIENT_IN_SELECTED_PIZZA"
+export const CHANGE_INGREDIENT_IN_CART_PIZZA = "CHANGE_INGREDIENT_IN_CART_PIZZA"
 
 
 export function startPizzaLoading()
@@ -132,12 +135,38 @@ export function setSelectedPizza(pizza)
     }
 }
 
-export function changePizza(pizza_id)
+export function changePizzaInOrder(pizza_id)
+{
+    return {
+        type: CHANGE_PIZZA_IN_ORDER,
+        payload: { pizza_id }
+    }
+}
+
+export function changePizza()
 {
     return {
         type: CHANGE_PIZZA,
-        payload: { pizza_id }
+        payload: { }
     }
+}
+
+export function changeIngredientInSelectedPizza(ingredient_id)
+{
+    return {
+        type: CHANGE_INGREDIENT_IN_SELECTED_PIZZA,
+        payload: {ingredient_id}
+    }
+
+}
+
+export function changeIngredientInCartPizza(ingredient_id)
+{
+    return {
+        type: CHANGE_INGREDIENT_IN_CART_PIZZA,
+        payload: {ingredient_id}
+    }
+
 }
 
 export function unsetSelectedPizza()

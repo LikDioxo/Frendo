@@ -17,8 +17,14 @@ import {
     CLEAR_CART,
     INCREASE_SELECTED_PIZZA_QUANTITY,
     DECREASE_SELECTED_PIZZA_QUANTITY,
-    DELETE_PIZZA_FROM_ORDER, CHANGE_PIZZA, UNSET_PIZZA_CHANGE
+    DELETE_PIZZA_FROM_ORDER,
+    CHANGE_PIZZA,
+    UNSET_PIZZA_CHANGE,
+    CHANGE_PIZZA_IN_ORDER,
+    CHANGE_INGREDIENT_IN_CART_PIZZA,
+    CHANGE_INGREDIENT_IN_SELECTED_PIZZA
 } from "../actions";
+
 
 
 function loadingReducer(state={}, action)
@@ -86,8 +92,47 @@ function orderReducer(state={ordered_pizzas: {}}, action)
     {
         case ADD_PIZZA_TO_ORDER:
             tmp = {...state};
-            tmp.ordered_pizzas[action.payload.pizza.id] = {...action.payload.pizza};
-            tmp.ordered_pizzas[action.payload.pizza.id].quantity = 1;
+
+            let to_add = {...action.payload.pizza};
+            let t = {}
+
+            for (const ingr of Object.keys(action.payload.pizza.ingredients)) {
+                t[ingr] = {...action.payload.pizza.ingredients[ingr]}
+            }
+            to_add.ingredients = t;
+
+
+            let existed = Object.values(tmp.ordered_pizzas).find((el) => {
+                if(el.id !== to_add.id)
+                {
+                    return false
+                }
+                if(Object.keys(to_add.ingredients).length !== Object.keys(el.ingredients).length)
+                {
+                    return false;
+                }
+                for (const i of Object.values(to_add.ingredients)) {
+
+                    if(el.ingredients[i.id] === undefined || i.flag !== el.ingredients[i.id].flag)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            })
+
+            if(existed !== undefined)
+            {
+                existed.quantity++;
+            }
+            else
+            {
+                to_add.quantity = 1;
+                to_add.order_id = Object.keys(tmp.ordered_pizzas).length;
+                tmp.ordered_pizzas[Object.keys(tmp.ordered_pizzas).length] = to_add;
+
+            }
+
             return tmp;
 
         case CLEAR_CART:
@@ -117,15 +162,34 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             delete tmp.ordered_pizzas[action.payload.pizza_id];
 
             return tmp;
-        case CHANGE_PIZZA:
+        case CHANGE_PIZZA_IN_ORDER:
             tmp = {...state};
             tmp.to_change = {...tmp.ordered_pizzas[action.payload.pizza_id]};
+            let t1 = {}
+
+            for (const ingr of Object.keys(tmp.ordered_pizzas[action.payload.pizza_id].ingredients)) {
+                t1[ingr] = {...tmp.ordered_pizzas[action.payload.pizza_id].ingredients[ingr]}
+            }
+            tmp.to_change.ingredients = t1;
+
+
+
             tmp.change = true;
             return tmp;
         case UNSET_PIZZA_CHANGE:
             tmp = {...state};
             tmp.to_change = null;
             tmp.change = false;
+            return tmp;
+        case CHANGE_PIZZA:
+            tmp = {...state};
+            tmp.ordered_pizzas[tmp.to_change.order_id] = {...tmp.to_change};
+            tmp.to_change = null
+            tmp.change = false;
+            return tmp;
+        case CHANGE_INGREDIENT_IN_CART_PIZZA:
+            tmp = {...state};
+            tmp.to_change.ingredients[action.payload.ingredient_id].flag = !tmp.to_change.ingredients[action.payload.ingredient_id].flag
             return tmp;
         default:
             return state;
@@ -194,7 +258,11 @@ function pizzaReducer(state={}, action) {
             tmp.pizza_selected = false;
             tmp.selected_pizza = null;
             return tmp
+        case CHANGE_INGREDIENT_IN_SELECTED_PIZZA:
+            tmp = {...state};
 
+            tmp.selected_pizza.ingredients[action.payload.ingredient_id].flag = !tmp.selected_pizza.ingredients[action.payload.ingredient_id].flag
+            return tmp;
         default:
             return state;
     }

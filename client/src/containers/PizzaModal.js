@@ -1,18 +1,22 @@
-import {useDispatch, useSelector} from "react-redux";
-import {getPizzaChange, getSelectedPizza} from "../selectors";
+import {useDispatch} from "react-redux";
 import {formatIngredients} from "../utils";
 import "../assets/css/pizza_modal.css";
-import {addPizzaToOrder, changePizza} from "../actions";
+import {addPizzaToOrder, changeIngredientInCartPizza, changeIngredientInSelectedPizza, changePizza} from "../actions";
 
 
 function PizzaModal({pizza,change = false})
 {
     const dispatch = useDispatch();
     let handlePizza;
+    let handleCheckbox;
     if (change)
     {
         handlePizza = () => {
-            dispatch(changePizza(pizza));
+            dispatch(changePizza());
+        }
+        handleCheckbox = (id) =>
+        {
+            dispatch(changeIngredientInCartPizza(id))
         }
     }
     else
@@ -20,14 +24,17 @@ function PizzaModal({pizza,change = false})
         handlePizza = () => {
             dispatch(addPizzaToOrder(pizza));
         }
-
+        handleCheckbox = (id) =>
+        {
+            dispatch(changeIngredientInSelectedPizza(id))
+        }
     }
 
 
     let show_ingredients = []
 
 
-    for (const ingredient in pizza.ingredients) {
+    for (const ingredient of Object.keys(pizza.ingredients)) {
         show_ingredients.push({
             id: ingredient,
             name: pizza.ingredients[ingredient].name,
@@ -64,7 +71,7 @@ function PizzaModal({pizza,change = false})
                             {
                                 optional_ingredients.map((el)=>(
                                     <div className="ingredient optional-ingredient">
-                                        <input className="ingredient-select" type="checkbox" checked={el.flag}/>
+                                        <input className="ingredient-select" type="checkbox" checked={el.flag} onClick={() => handleCheckbox(el.id)}/>
                                         <div className="ingredient-name">{el.name}</div>
                                     </div>
                                 ))
@@ -77,7 +84,7 @@ function PizzaModal({pizza,change = false})
                             {
                                 additional_ingredients.map((el)=>(
                                     <div className="ingredient additional-ingredient">
-                                        <input className="ingredient-select" type="checkbox" checked={el.flag}/>
+                                        <input className="ingredient-select" type="checkbox" checked={el.flag} onClick={() => handleCheckbox(el.id)}/>
                                         <div className="ingredient-name">{el.name}</div>
                                         <div className="ingredient-price">{el.price} грн.</div>
                                     </div>
