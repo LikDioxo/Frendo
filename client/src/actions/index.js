@@ -21,6 +21,7 @@ export const CLEAR_CART = "CLEAR_CART"
 export const INCREASE_SELECTED_PIZZA_QUANTITY = "INCREASE_SELECTED_PIZZA_QUANTITY"
 export const DECREASE_SELECTED_PIZZA_QUANTITY = "DECREASE_SELECTED_PIZZA_QUANTITY"
 export const DELETE_PIZZA_FROM_ORDER = "DELETE_PIZZA_FROM_ORDER"
+export const GET_FOUND_PIZZAS = "GET_FOUND_PIZZAS"
 
 
 export function startPizzaLoading()
@@ -105,7 +106,7 @@ export function getAvailablePizzas(pizzeria_id)
     }
 }
 
-export function getFilteredPizzas(pizzeria_id,ingredients)
+export function getFilteredPizzas(pizzeria_id, ingredients)
 {
     return{
         type: GET_FILTERED_PIZZAS,
@@ -214,5 +215,16 @@ export function deletePizzaFromOrder(pizza_id)
     return {
         type: DELETE_PIZZA_FROM_ORDER,
         payload: {pizza_id}
+    }
+}
+
+export function getFoundPizzas(pizzeria_id, name)
+{
+    return{
+        type: GET_FOUND_PIZZAS,
+        payload: {
+            pizzeria_id: pizzeria_id,
+            name: name
+        }
     }
 }

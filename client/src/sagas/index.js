@@ -3,11 +3,13 @@ import {
     fetchAllPizzeriasService,
     fetchAvailablePizzasService,
     fetchFilteredPizzasService,
+    fetchFoundPizzasService,
     fetchIngredientsService
 } from "../services";
 import {
     GET_AVAILABLE_PIZZAS,
     GET_FILTERED_PIZZAS,
+    GET_FOUND_PIZZAS,
     GET_INGREDIENTS,
     GET_PIZZERIAS
 } from "../actions";
@@ -23,18 +25,13 @@ import {
 function* fetchAllPizzerias(action)
 {
     try {
-
         const {data} = yield call(
             fetchAllPizzeriasService
         )
 
-
         yield put(setPizzerias(data))
 
-    }catch (e) {
-
-    }
-
+    }catch (e) {}
 }
 
 function* fetchAvailablePizzas(action)
@@ -46,14 +43,11 @@ function* fetchAvailablePizzas(action)
             action.payload.pizzeria_id
         )
 
-
         yield put(setPizzas(data))
         yield put(endPizzaLoading())
-    }catch (e) {
-
-    }
-
+    }catch (e) {}
 }
+
 function* fetchFilteredPizzas(action)
 {
     try {
@@ -64,30 +58,36 @@ function* fetchFilteredPizzas(action)
             action.payload.ingredients
         )
 
+        yield put(setPizzas(data))
+        yield put(endPizzaLoading())
+    }catch (e) {}
+}
+
+function* fetchFoundPizzas(action)
+{
+    try {
+        yield put(startPizzaLoading())
+        const {data} = yield call(
+            fetchFoundPizzasService,
+            action.payload.pizzeria_id,
+            action.payload.name
+        )
 
         yield put(setPizzas(data))
         yield put(endPizzaLoading())
-    }catch (e) {
-
-    }
-
+    }catch (e) {}
 }
 
 function* fetchIngredients(action)
 {
     try {
-
         const {data} = yield call(
             fetchIngredientsService
         )
 
-
         yield put(setIngredients(data))
 
-    }catch (e) {
-
-    }
-
+    }catch (e) {}
 }
 
 
@@ -106,6 +106,11 @@ function* watchFetchFilteredPizzas()
     yield takeEvery(GET_FILTERED_PIZZAS, fetchFilteredPizzas);
 }
 
+function* watchFetchFoundPizzas()
+{
+    yield takeEvery(GET_FOUND_PIZZAS, fetchFoundPizzas);
+}
+
 function* watchFetchIngredients()
 {
     yield takeEvery(GET_INGREDIENTS, fetchIngredients);
@@ -117,8 +122,7 @@ export default function* rootSaga()
         watchFetchAllPizzerias(),
         watchFetchAvailablePizzas(),
         watchFetchIngredients(),
-        watchFetchFilteredPizzas()
+        watchFetchFilteredPizzas(),
+        watchFetchFoundPizzas()
     ])
-
 }
-

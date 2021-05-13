@@ -7,6 +7,7 @@ const GET_PIZZERIAS_URL = BASE_URL.concat('/pizzerias')
 const GET_AVAILABLE_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas')
 const GET_FILTERED_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas-with-ingredients')
 const GET_INGREDIENTS = BASE_URL.concat('/ingredients')
+const GET_FOUND_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas-by-name')
 
 
 String.prototype.format = function () {
@@ -15,9 +16,6 @@ String.prototype.format = function () {
         return typeof args[i] != 'undefined' ? args[i++] : '';
     });
 };
-
-
-
 
 export function fetchAllPizzeriasService()
 {
@@ -28,6 +26,7 @@ export function fetchAvailablePizzasService(pizzeria_id)
 {
     return axios.get(GET_AVAILABLE_PIZZAS.format(pizzeria_id));
 }
+
 export function fetchFilteredPizzasService(pizzeria_id, ingredients)
 {
     return axios.get(GET_FILTERED_PIZZAS.format(pizzeria_id), {
@@ -35,6 +34,14 @@ export function fetchFilteredPizzasService(pizzeria_id, ingredients)
             ingredients: ingredients
         }
     });
+}
+
+export function fetchFoundPizzasService(pizzeria_id, name) {
+    return axios.get(GET_FOUND_PIZZAS.format(pizzeria_id), {
+        params: {
+            name: name
+        }
+    })
 }
 
 export function fetchIngredientsService()
