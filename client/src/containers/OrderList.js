@@ -1,7 +1,12 @@
 import React from "react";
 import OrderItem from "../components/OrderItem";
 import {useDispatch} from "react-redux";
-import {decreaseSelectedPizzaQuantity, deletePizzaFromOrder, increaseSelectedPizzaQuantity} from "../actions";
+import {
+    changePizza,
+    decreaseSelectedPizzaQuantity,
+    deletePizzaFromOrder,
+    increaseSelectedPizzaQuantity
+} from "../actions";
 import "../assets/css/order_list.css";
 
 
@@ -20,6 +25,7 @@ function OrderList({ordered_pizzas})
                     onItemIncrease={() => {dispatch(increaseSelectedPizzaQuantity(pizza.id))}}
                     onItemDecrease={() => {dispatch(decreaseSelectedPizzaQuantity(pizza.id))}}
                     onItemDelete={() => {dispatch(deletePizzaFromOrder(pizza.id))}}
+                    onItemChange={() => {dispatch(changePizza(pizza.id))}}
             />))}
         </div>
     );

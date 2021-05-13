@@ -12,7 +12,7 @@ import {
     getChosenPizzeria,
     getIngredientsSelector,
     getPizzeriasModalView,
-    getPizzeriasSelector,
+    getPizzeriasSelector, getSelectedPizza,
     isFilterView, isPizzaSelected
 } from "../selectors";
 import Header from "./Header";
@@ -61,7 +61,7 @@ function ClientStartPage() {
     const isFilter = useSelector(isFilterView);
     const Ingredients = useSelector(getIngredientsSelector);
     const PizzaSelected = useSelector(isPizzaSelected);
-
+    const Pizza = useSelector(getSelectedPizza);
     if(Pizzerias === undefined || Ingredients === undefined){
         return <Loading/>
     }
@@ -96,7 +96,7 @@ function ClientStartPage() {
                 <ModalWindow
                     handleClose={handlePizzaModalClose}
                     show={PizzaSelected}
-                    component={<PizzaModal/>}
+                    component={<PizzaModal pizza={Pizza}/>}
                 />
             </div>
             <Footer />

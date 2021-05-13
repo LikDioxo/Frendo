@@ -17,7 +17,7 @@ import {
     CLEAR_CART,
     INCREASE_SELECTED_PIZZA_QUANTITY,
     DECREASE_SELECTED_PIZZA_QUANTITY,
-    DELETE_PIZZA_FROM_ORDER
+    DELETE_PIZZA_FROM_ORDER, CHANGE_PIZZA, UNSET_PIZZA_CHANGE
 } from "../actions";
 
 
@@ -117,7 +117,16 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             delete tmp.ordered_pizzas[action.payload.pizza_id];
 
             return tmp;
-
+        case CHANGE_PIZZA:
+            tmp = {...state};
+            tmp.to_change = {...tmp.ordered_pizzas[action.payload.pizza_id]};
+            tmp.change = true;
+            return tmp;
+        case UNSET_PIZZA_CHANGE:
+            tmp = {...state};
+            tmp.to_change = null;
+            tmp.change = false;
+            return tmp;
         default:
             return state;
     }

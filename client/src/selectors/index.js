@@ -32,10 +32,18 @@ export function getSelectedPizza(state)
 {
     return state.pizza.selected_pizza;
 }
+export function getPizzaChange(state)
+{
+    return state.order.to_change;
+}
 
 export function isPizzaSelected(state)
 {
     return state.pizza.pizza_selected;
+}
+export function isPizzaChange(state)
+{
+    return state.order.change;
 }
 
 export function getChosenPizzeria(state)

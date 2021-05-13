@@ -14,7 +14,9 @@ export const RESET_INGREDIENT_SELECTION = "RESET_INGREDIENT_SELECTION"
 export const START_PIZZA_LOADING = "START_PIZZA_LOADING"
 export const END_PIZZA_LOADING = "END_PIZZA_LOADING"
 export const SET_SELECTED_PIZZA = "SET_SELECTED_PIZZA"
+export const CHANGE_PIZZA = "CHANGE_PIZZA"
 export const UNSET_SELECTED_PIZZA = "UNSET_SELECTED_PIZZA"
+export const UNSET_PIZZA_CHANGE = "UNSET_PIZZA_CHANGE"
 export const CLEAR_CART = "CLEAR_CART"
 export const INCREASE_SELECTED_PIZZA_QUANTITY = "INCREASE_SELECTED_PIZZA_QUANTITY"
 export const DECREASE_SELECTED_PIZZA_QUANTITY = "DECREASE_SELECTED_PIZZA_QUANTITY"
@@ -130,12 +132,29 @@ export function setSelectedPizza(pizza)
     }
 }
 
+export function changePizza(pizza_id)
+{
+    return {
+        type: CHANGE_PIZZA,
+        payload: { pizza_id }
+    }
+}
+
 export function unsetSelectedPizza()
 {
     return {
         type: UNSET_SELECTED_PIZZA,
         payload: {}
     }
+}
+
+export function unsetPizzaChange()
+{
+    return {
+        type: UNSET_PIZZA_CHANGE,
+        payload: {}
+    }
+
 }
 
 export function getIngredients()

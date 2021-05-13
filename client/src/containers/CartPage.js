@@ -1,7 +1,14 @@
 import React, {useEffect} from "react";
 import OrderList from "./OrderList";
 import {useDispatch, useSelector} from "react-redux";
-import {getChosenPizzeria, getOrder, getPizzeriasModalView, getPizzeriasSelector} from "../selectors";
+import {
+    getChosenPizzeria,
+    getOrder,
+    getPizzaChange,
+    getPizzeriasModalView,
+    getPizzeriasSelector,
+    isPizzaChange
+} from "../selectors";
 import Header from "./Header";
 import Footer from "../components/Footer";
 import ChosenPizzeria from "../components/ChosenPizzeria";
@@ -12,13 +19,14 @@ import {
     getIngredients,
     getPizzerias,
     setChosenPizzeria,
-    unsetSelectedPizza
+    unsetPizzaChange,
 } from "../actions";
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
 import ModalWindow from "../components/ModalWindow";
 import OrderSubmit from "../components/OrderSubmit";
 import "../assets/css/cart_page.css";
 import Loading from "../components/Loading";
+import PizzaModal from "./PizzaModal";
 
 
 function CartPage()
@@ -34,7 +42,8 @@ function CartPage()
     const Pizzeria = useSelector(getChosenPizzeria);
     const Pizzerias = useSelector(getPizzeriasSelector);
     const Ingredients = useSelector(getIngredients);
-
+    const PizzaChange = useSelector(isPizzaChange);
+    const Pizza = useSelector(getPizzaChange);
 
     const handlePizzeriaChange = () => {
         dispatch(flipPizzeriasModalView());
@@ -48,6 +57,9 @@ function CartPage()
         dispatch(flipPizzeriasModalView());
         dispatch(clearCart());
     };
+    const handlePizzaModalClose = () => {
+        dispatch(unsetPizzaChange())
+    }
 
     if(Pizzerias === undefined || Ingredients === undefined){
         return <Loading/>
@@ -95,6 +107,11 @@ function CartPage()
                             addresses={Pizzerias}
                         />
                     }
+                />
+                <ModalWindow
+                    handleClose={handlePizzaModalClose}
+                    show={PizzaChange}
+                    component={<PizzaModal pizza={Pizza} change={true}/>}
                 />
             </div>
             <Footer/>
