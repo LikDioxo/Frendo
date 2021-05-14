@@ -1,5 +1,6 @@
 import { all, put, call, takeEvery } from 'redux-saga/effects';
 import {
+    authenticateUserService,
     fetchAllPizzeriasService,
     fetchAvailablePizzasService,
     fetchFilteredPizzasService,
@@ -17,6 +18,7 @@ import {
     GET_INGREDIENTS,
     GET_PIZZERIAS,
     GET_ORDER_INFO,
+    AUTHENTICATE_USER,
     MAKE_ORDER
 } from "../actions";
 import {
@@ -28,6 +30,30 @@ import {
 } from "../actions";
 import {formatChoices} from "../utils";
 
+
+function* authenticateUser(action) {
+    const response = yield call(
+        authenticateUserService,
+        action.payload.name,
+        action.payload.password,
+        action.payload.role,
+    );
+    if (response.status === 200) {
+        const { data } = response;
+        const { token } = data;
+        console.log(response)
+        localStorage.setItem('token', token);
+        if(action.payload.role === "operator")
+        {
+            window.location.href = '/operator';
+        }
+        else if(action.payload.role === "admin")
+        {
+            window.location.href = '/admin';
+        }
+
+    }
+}
 
 function* fetchAllPizzerias(action)
 {
@@ -174,6 +200,11 @@ function* watchFetchOrderInfo()
     yield takeEvery(GET_ORDER_INFO, fetchOrderInfo);
 }
 
+function* watchUserAuthenticate()
+{
+    yield takeEvery(AUTHENTICATE_USER, authenticateUser);
+}
+
 function* watchFetchMakeOrder()
 {
     yield takeEvery(MAKE_ORDER, fetchMakeOrder);
@@ -189,6 +220,7 @@ export default function* rootSaga()
         watchFetchFoundPizzas(),
         watchFetchFoundPizzerias(),
         watchFetchOrderInfo(),
-        watchFetchMakeOrder()
+        watchFetchMakeOrder(),
+        watchUserAuthenticate()
     ])
 }

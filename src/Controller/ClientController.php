@@ -26,6 +26,7 @@ class ClientController extends AbstractController
     {
         $username = $request->query->get('username');
         $password = $request->query->get('password');
+        $role = $request->query->get('role');
 
         if($username === null or strlen($username) == 0)
         {
@@ -49,6 +50,14 @@ class ClientController extends AbstractController
         {
             return new JsonResponse(
                 ['message' => "Client with username $username does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        if(!array_key_exists($role,$user->getRoles()))
+        {
+            return new JsonResponse(
+                ['message' => "Client with username and role $username and $role does not exists!"],
                 JsonResponse::HTTP_NOT_FOUND
             );
         }

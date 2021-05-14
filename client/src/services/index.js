@@ -10,6 +10,7 @@ const GET_INGREDIENTS = BASE_URL.concat('/ingredients')
 const GET_FOUND_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas-by-name')
 const GET_FOUND_PIZZERIAS = BASE_URL.concat('/pizzerias-by-address')
 const GET_ORDER_INFO = BASE_URL.concat('/orders/queue-position')
+const AUTHENTICATE_USER = BASE_URL.concat('/users/login')
 const MAKE_ORDER = BASE_URL.concat('/pizzerias/{}/orders')
 
 
@@ -19,6 +20,18 @@ String.prototype.format = function () {
         return typeof args[i] != 'undefined' ? args[i++] : '';
     });
 };
+
+export function authenticateUserService(username, password, role)
+{
+    return axios.get(AUTHENTICATE_USER,{
+            params: {
+                username: username,
+                password: password,
+                role: role
+            }
+        });
+}
+
 
 export function fetchAllPizzeriasService()
 {

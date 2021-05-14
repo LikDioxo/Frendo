@@ -24,9 +24,26 @@ import {
     CHANGE_INGREDIENT_IN_CART_PIZZA,
     CHANGE_INGREDIENT_IN_SELECTED_PIZZA,
     SHOW_ORDER_HELP_MODAL,
-    SHOW_ORDER_SUBMIT_MODAL
+    SHOW_ORDER_SUBMIT_MODAL,
 } from "../actions";
 import {formatCreationTime} from "../utils";
+
+
+// function userReducer(state=null, action)
+// {
+//     let tmp;
+//     switch (action.type)
+//     {
+//         case END_PIZZA_LOADING:
+//             tmp = {...state};
+//             tmp.isLoading = false;
+//             return tmp;
+//         default:
+//             return state;
+//     }
+// }
+
+
 
 
 function loadingReducer(state={}, action)
@@ -166,11 +183,11 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             delete tmp.ordered_pizzas[action.payload.pizza_id];
             return tmp;
 
-        case CHANGE_PIZZA:
-            tmp = {...state};
-            tmp.to_change = {...tmp.ordered_pizzas[action.payload.pizza_id]};
-            tmp.change = true;
-            return tmp;
+        // case CHANGE_PIZZA:
+        //     tmp = {...state};
+        //     tmp.to_change = {...tmp.ordered_pizzas[action.payload.pizza_id]};
+        //     tmp.change = true;
+        //     return tmp;
 
         case CHANGE_PIZZA_IN_ORDER:
             tmp = {...state};

@@ -12,6 +12,7 @@ import FAQPage from "./containers/FAQPage";
 import "./assets/css/main.css";
 import rootSaga from "./sagas";
 import CartPage from "./containers/CartPage";
+import AuthenticationPage from "./containers/AuthenticationPage";
 
 
 
@@ -34,6 +35,7 @@ function App() {
           <BrowserRouter>
               <Route exact path={'/'} component={ClientStartPage}/>
               <Route exact path={'/cart'} component={CartPage}/>
+              <Route exact path={'/authenticate'} component={AuthenticationPage}/>
               <Route exact path={'/FAQ'} component={FAQPage}/>
           </BrowserRouter>
       </Provider>

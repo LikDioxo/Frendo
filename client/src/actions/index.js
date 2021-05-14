@@ -28,8 +28,39 @@ export const GET_FOUND_PIZZAS = "GET_FOUND_PIZZAS"
 export const GET_FOUND_PIZZERIAS = "GET_FOUND_PIZZERIAS"
 export const SHOW_ORDER_HELP_MODAL = "SHOW_ORDER_HELP_MODAL"
 export const GET_ORDER_INFO = "GET_ORDER_INFO"
+export const AUTHENTICATE_USER = "AUTHENTICATE_USER"
+export const SET_CURRENT_USER = "SET_CURRENT_USER"
+export const GET_CURRENT_USER = "GET_CURRENT_USER"
 export const SHOW_ORDER_SUBMIT_MODAL = "SHOW_ORDER_SUBMIT_MODAL"
 export const MAKE_ORDER = "MAKE_ORDER"
+
+
+export function authenticateUser(name, password, role)
+{
+    return {
+        type: AUTHENTICATE_USER,
+        payload: {
+            name: name,
+            password: password,
+            role: role
+        }
+    }
+}
+
+export function setCurrentUser(user)
+{
+    return {
+        type: SET_CURRENT_USER,
+        payload: { user }
+    }
+}
+
+export function getCurrentUser() {
+    return {
+        type: GET_CURRENT_USER,
+        payload: {}
+    }
+}
 
 
 export function startPizzaLoading()
@@ -286,7 +317,7 @@ export function getOrderInfo(customers_phone_number)
     return {
         type: GET_ORDER_INFO,
         payload: {
-            phone_number: phone_number
+            phone_number: customers_phone_number
         }
     }
 }

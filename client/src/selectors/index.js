@@ -1,3 +1,9 @@
+
+export function currentUserSelector(state)
+{
+    return state.user;
+}
+
 export function isLoading(state)
 {
     return state.loading.isLoading;
