@@ -10,6 +10,7 @@ const GET_INGREDIENTS = BASE_URL.concat('/ingredients')
 const GET_FOUND_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas-by-name')
 const GET_FOUND_PIZZERIAS = BASE_URL.concat('/pizzerias-by-address')
 const GET_ORDER_INFO = BASE_URL.concat('/orders/queue-position')
+const MAKE_ORDER = BASE_URL.concat('/pizzerias/{}/orders')
 
 
 String.prototype.format = function () {
@@ -68,4 +69,21 @@ export function fetchOrderInfoService(phone_number)
             phone_number: phone_number
         }
     });
+}
+
+export function fetchMakeOrderService(
+    pizzeria_id,
+    customers_phone_number,
+    delivery_address,
+    total_price,
+    choices
+)
+{
+    console.log(customers_phone_number);
+    return axios.post(MAKE_ORDER.format(pizzeria_id), {
+        customers_phone_number: customers_phone_number,
+        delivery_address: delivery_address,
+        total_price: total_price,
+        choices: choices
+    })
 }

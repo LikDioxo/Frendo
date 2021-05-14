@@ -13,7 +13,12 @@ function OrderHelpModal({onModalSubmit})
                 Узнать номер в очереди
             </div>
             <div className="order-help-modal-phone-number-title">Номер телефона: </div>
-            <input className="default-input-bar order-help-modal-phone-number" type="tel" pattern="[0-9]{12}" ref={number}/>
+            <input
+                className="default-input-bar order-help-modal-phone-number"
+                type="tel"
+                pattern="[0-9]{12}"
+                ref={number}
+            />
             <button className="order-help-modal-submit default-button" onClick={onSubmitCallback}>Отправить</button>
         </div>
     )

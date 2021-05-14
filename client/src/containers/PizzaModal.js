@@ -1,10 +1,16 @@
+import React from "react";
 import {useDispatch} from "react-redux";
 import {formatIngredients} from "../utils";
+import {
+    addPizzaToOrder,
+    changeIngredientInCartPizza,
+    changeIngredientInSelectedPizza,
+    changePizza
+} from "../actions";
 import "../assets/css/pizza_modal.css";
-import {addPizzaToOrder, changeIngredientInCartPizza, changeIngredientInSelectedPizza, changePizza} from "../actions";
 
 
-function PizzaModal({pizza,change = false})
+function PizzaModal({pizza, change = false})
 {
     const dispatch = useDispatch();
     let handlePizza;

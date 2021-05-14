@@ -7,3 +7,30 @@ export function formatIngredients(ingredients)
     }
     return show_ingredients;
 }
+
+export function formatCreationTime(date_time)
+{
+    date_time.setMilliseconds(0);
+    let string_representation = date_time.toJSON();
+
+    string_representation = string_representation.replace('T', ' ');
+    string_representation = string_representation.replace('.000Z', '');
+
+    return string_representation;
+}
+
+export function formatChoices(order)
+{
+    let choices = [];
+
+
+    for (let pizza of Object.values(order.ordered_pizzas)) {
+        choices.push({
+            pizza_id: pizza.id,
+            quantity: pizza.quantity,
+            events: pizza.events
+        })
+    }
+
+    return choices;
+}

@@ -3,8 +3,11 @@ import {
     fetchAllPizzeriasService,
     fetchAvailablePizzasService,
     fetchFilteredPizzasService,
-    fetchFoundPizzasService, fetchFoundPizzeriasService,
-    fetchIngredientsService, fetchOrderInfoService
+    fetchFoundPizzasService,
+    fetchFoundPizzeriasService,
+    fetchIngredientsService,
+    fetchMakeOrderService,
+    fetchOrderInfoService
 } from "../services";
 import {
     GET_AVAILABLE_PIZZAS,
@@ -13,7 +16,8 @@ import {
     GET_FOUND_PIZZERIAS,
     GET_INGREDIENTS,
     GET_PIZZERIAS,
-    GET_ORDER_INFO
+    GET_ORDER_INFO,
+    MAKE_ORDER
 } from "../actions";
 import {
     setPizzas,
@@ -22,6 +26,7 @@ import {
     endPizzaLoading,
     startPizzaLoading
 } from "../actions";
+import {formatChoices} from "../utils";
 
 
 function* fetchAllPizzerias(action)
@@ -117,6 +122,22 @@ function* fetchOrderInfo(action)
     }catch (e) {}
 }
 
+function* fetchMakeOrder(action)
+{
+    try {
+        const {data} = yield call(
+            fetchMakeOrderService,
+            action.payload.pizzeria_id,
+            action.payload.customers_phone_number,
+            action.payload.delivery_address,
+            action.payload.total_price,
+            formatChoices(action.payload.order)
+        )
+
+        console.log(data);
+    }catch (e) {}
+}
+
 
 function* watchFetchAllPizzerias()
 {
@@ -153,6 +174,11 @@ function* watchFetchOrderInfo()
     yield takeEvery(GET_ORDER_INFO, fetchOrderInfo);
 }
 
+function* watchFetchMakeOrder()
+{
+    yield takeEvery(MAKE_ORDER, fetchMakeOrder);
+}
+
 export default function* rootSaga()
 {
     yield all([
@@ -162,6 +188,7 @@ export default function* rootSaga()
         watchFetchFilteredPizzas(),
         watchFetchFoundPizzas(),
         watchFetchFoundPizzerias(),
-        watchFetchOrderInfo()
+        watchFetchOrderInfo(),
+        watchFetchMakeOrder()
     ])
 }

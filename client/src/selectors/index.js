@@ -18,6 +18,11 @@ export function getOrderHelpModalView(state)
     return state.order.show_order_help_modal;
 }
 
+export function getOrderSubmitModalView(state)
+{
+    return state.order.show_order_submit_modal;
+}
+
 export function isFilterView(state)
 {
     return state.filter.isFilterView;

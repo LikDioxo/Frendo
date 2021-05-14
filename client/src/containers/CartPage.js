@@ -3,7 +3,7 @@ import OrderList from "./OrderList";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getChosenPizzeria,
-    getOrder,
+    getOrder, getOrderSubmitModalView,
     getPizzaChange,
     getPizzeriasModalView,
     getPizzeriasSelector,
@@ -14,10 +14,10 @@ import Footer from "../components/Footer";
 import ChosenPizzeria from "../components/ChosenPizzeria";
 import Post from "../components/Post";
 import {
-    clearCart,
+    clearCart, flipOrderSubmitModalView,
     flipPizzeriasModalView,
     getIngredients,
-    getPizzerias,
+    getPizzerias, makeOrder,
     setChosenPizzeria,
     unsetPizzaChange,
 } from "../actions";
@@ -28,6 +28,7 @@ import Loading from "../components/Loading";
 import PizzaModal from "./PizzaModal";
 import Nothing from "../components/Nothing";
 import "../assets/css/cart_page.css";
+import OrderSubmitModal from "../components/OrderSubmitModal";
 
 
 function CartPage()
@@ -45,6 +46,7 @@ function CartPage()
     const Ingredients = useSelector(getIngredients);
     const PizzaChange = useSelector(isPizzaChange);
     const Pizza = useSelector(getPizzaChange);
+    const OrderModalView = useSelector(getOrderSubmitModalView)
 
     const handlePizzeriaChange = () => {
         dispatch(flipPizzeriasModalView());
@@ -60,7 +62,10 @@ function CartPage()
     };
     const handlePizzaModalClose = () => {
         dispatch(unsetPizzaChange())
-    }
+    };
+    const handleOrderSubmitModalClose = () => {
+        dispatch(flipOrderSubmitModalView())
+    };
 
     if(Pizzerias === undefined || Ingredients === undefined){
         return <Loading/>
@@ -97,7 +102,7 @@ function CartPage()
                         {show_order.length !== 0 ?
                             <>
                                 <OrderList ordered_pizzas={show_order}/>
-                                <OrderSubmit order_price={price}/>
+                                <OrderSubmit order_price={price} onSubmit={handleOrderSubmitModalClose}/>
                             </>
                         : <Nothing text="Корзина пуста."/>
                         }
@@ -120,6 +125,14 @@ function CartPage()
                     show={PizzaChange}
                     component={<PizzaModal pizza={Pizza} change={true}/>}
                 />
+                <ModalWindow
+                    handleClose={handleOrderSubmitModalClose}
+                    show={OrderModalView}
+                    component={
+                        <OrderSubmitModal total_price={price}/>
+                    }
+                />
+
             </div>
             <Footer/>
         </div>

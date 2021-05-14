@@ -23,8 +23,10 @@ import {
     CHANGE_PIZZA_IN_ORDER,
     CHANGE_INGREDIENT_IN_CART_PIZZA,
     CHANGE_INGREDIENT_IN_SELECTED_PIZZA,
-    SHOW_ORDER_HELP_MODAL
+    SHOW_ORDER_HELP_MODAL,
+    SHOW_ORDER_SUBMIT_MODAL
 } from "../actions";
+import {formatCreationTime} from "../utils";
 
 
 function loadingReducer(state={}, action)
@@ -180,6 +182,7 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             }
             tmp.to_change.ingredients = t1;
             tmp.change = true;
+            tmp.to_change.events = [];
             return tmp;
 
         case UNSET_PIZZA_CHANGE:
@@ -206,11 +209,24 @@ function orderReducer(state={ordered_pizzas: {}}, action)
                 else tmp.to_change.price -= selected_ingredient.price
             }
 
+            let current_time = new Date();
+
+            tmp.to_change.events.push({
+                ingredient_id: selected_ingredient.id,
+                is_enabled: selected_ingredient.flag,
+                creation_time: formatCreationTime(current_time)
+            });
+
             return tmp;
 
         case SHOW_ORDER_HELP_MODAL:
             tmp = {...state};
             tmp.show_order_help_modal = !state.show_order_help_modal;
+            return tmp;
+
+        case SHOW_ORDER_SUBMIT_MODAL:
+            tmp = {...state};
+            tmp.show_order_submit_modal = !state.show_order_submit_modal;
             return tmp;
 
         default:
@@ -261,6 +277,7 @@ function pizzaReducer(state={}, action) {
             tmp.selected_pizza = {...action.payload.pizza};
 
             tmp.selected_pizza.ingredients = {};
+            tmp.selected_pizza.events = [];
             let ingredients = [...action.payload.pizza.ingredients]
 
             for (let ingredient of ingredients) {
@@ -292,6 +309,14 @@ function pizzaReducer(state={}, action) {
                 if (selected_ingredient.flag) tmp.selected_pizza.price += selected_ingredient.price
                 else tmp.selected_pizza.price -= selected_ingredient.price
             }
+
+            let current_time = new Date();
+
+            tmp.selected_pizza.events.push({
+                ingredient_id: selected_ingredient.id,
+                is_enabled: selected_ingredient.flag,
+                creation_time: formatCreationTime(current_time)
+            });
 
             return tmp;
 

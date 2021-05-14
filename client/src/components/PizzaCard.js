@@ -1,12 +1,11 @@
 import React from "react";
-import "../assets/css/pizza_card.css"
 import {formatIngredients} from "../utils"
+import "../assets/css/pizza_card.css"
+
 
 function PizzaCard({image_name, name, ingredients, price, onPizzaSelect}) {
 
-
     let show_ingredients = formatIngredients(ingredients.filter((el)=>{return (el.status === 0 || el.status === 1)}))
-    console.log(show_ingredients)
 
     return (
         <div className="pizza-card shadowed" onClick={onPizzaSelect}>
@@ -22,7 +21,6 @@ function PizzaCard({image_name, name, ingredients, price, onPizzaSelect}) {
                 <button className="pizza-choose-button default-button" onClick={onPizzaSelect}>Выбрать</button>
             </div>
         </div>
-
     );
 }
 
