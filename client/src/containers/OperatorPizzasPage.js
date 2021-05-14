@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from "react-router";
 
 
 
@@ -12,4 +13,4 @@ function OperatorPizzasPage()
     )
 }
 
-export default OperatorPizzasPage
+export default withRouter(OperatorPizzasPage)

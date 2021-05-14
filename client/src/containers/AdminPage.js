@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from "react-router";
 
 
 
@@ -12,4 +13,4 @@ function AdminPage()
     )
 }
 
-export default AdminPage
+export default withRouter(AdminPage)

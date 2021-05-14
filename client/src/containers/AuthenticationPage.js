@@ -3,16 +3,16 @@ import ModalWindow from "../components/ModalWindow";
 import AuthenticationModal from "../components/AuthenticationModal";
 import {useDispatch} from "react-redux";
 import {authenticateUser} from "../actions";
-import {withRouter} from "react-router";
+import {useHistory, withRouter} from "react-router";
 
 
 
 function AuthenticationPage()
 {
+    let history = useHistory();
     const dispatch = useDispatch()
-
     const handleEnter = (username, password, role) => {
-        dispatch(authenticateUser(username, password, role))
+        dispatch(authenticateUser(username, password, role, history))
     };
 
     return (

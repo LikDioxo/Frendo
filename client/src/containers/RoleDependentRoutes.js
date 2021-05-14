@@ -1,5 +1,5 @@
 import React from "react";
-import {Route} from "react-router";
+import {Route, withRouter} from "react-router";
 import OperatorStartPage from "./OperatorStartPage";
 import OperatorPizzasPage from "./OperatorPizzasPage";
 import OperatorOrderPage from "./OperatorOrderPage";
@@ -10,6 +10,7 @@ import {currentUserSelector} from "../selectors";
 
 function RoleDependentRoutes()
 {
+
     const user = useSelector(currentUserSelector);
 
     if(user == null)
@@ -19,17 +20,17 @@ function RoleDependentRoutes()
 
 
     let routesInfo = [];
-    if(user.role === "operator") {
-        routesInfo = routesInfo.concat([
+    if(user.user_role === "ROLE_OPERATOR") {
+        routesInfo = [
             {path: "/operator", component: OperatorStartPage},
             {path: "/operator/pizzas", component: OperatorPizzasPage},
             {path: "/operator/order", component: OperatorOrderPage},
-        ]);
-    } else if(user.role === "admin")
+        ]
+    } else if(user.user_role === "ROLE_ADMIN")
     {
-        routesInfo = routesInfo.concat([
+        routesInfo = [
             {path: "/admin", component: AdminPage}
-        ]);
+        ];
 
     }
 
@@ -49,4 +50,4 @@ function RoleDependentRoutes()
 
 }
 
-export default RoleDependentRoutes
+export default withRouter(RoleDependentRoutes)

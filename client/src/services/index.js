@@ -21,6 +21,11 @@ String.prototype.format = function () {
     });
 };
 
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+
 export function authenticateUserService(username, password, role)
 {
     return axios.get(AUTHENTICATE_USER,{
@@ -29,8 +34,10 @@ export function authenticateUserService(username, password, role)
                 password: password,
                 role: role
             }
-        });
+    });
 }
+
+
 
 
 export function fetchAllPizzeriasService()
