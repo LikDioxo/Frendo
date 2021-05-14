@@ -358,7 +358,7 @@ class OrderController extends AbstractController
             );
         }
 
-        if (!preg_match("/^\+\d{12}/", $customersPhoneNumber))
+        if (!preg_match("/^\d{12}/", $customersPhoneNumber))
         {
             return new JsonResponse(
                 ['message' => 'Invalid phone number!'],
