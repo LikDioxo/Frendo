@@ -1,4 +1,5 @@
 import React, {useRef} from "react";
+import {withRouter} from "react-router";
 import logo from "../assets/images/logo.png";
 import "../assets/css/authentication_modal.css";
 
@@ -8,18 +9,19 @@ function AuthenticationModal({onEnter})
 
     let username = useRef("");
     let password = useRef("");
-    let role = useRef();
+    let admin = useRef(false);
+    let operator = useRef(false)
+    // console.log(role);
 
-    console.log(role);
-
-    const handleEnter = () => {
+    const handleEnter = (e) => {
         if ([username.current.value, password.current.value].some(el => el.length === 0)) {
             return alert('fill all the fields!')
         }
-        if (role.current.checked === undefined) {
+        if (!admin.current.checked && !operator.current.checked) {
             return alert('choose the role!')
         }
-        // onEnter(username.current.value, password.current.value, role.current.checked ? "ROLE_OPERATOR":"ROLE_ADMIN")
+        alert(operator.current.checked);
+        onEnter(username.current.value, password.current.value, operator.current.checked && !admin.current.checked ? "ROLE_OPERATOR":"ROLE_ADMIN")
     };
 
     return (
@@ -34,12 +36,13 @@ function AuthenticationModal({onEnter})
             <input className="authentication-password default-input-bar" ref={password} type="password" placeholder="пароль" />
             <div className="authentication-role-title">Роль: </div>
             <div className="authentication-role-wrapper rounded-container double-shadowed">
+
                 <div className="role-item">
-                    <input ref={role} type="radio" id="ROLE_ADMIN" name="roles" value="Админ" checked/>
+                    <input ref={admin} type="radio" id="ROLE_ADMIN" name="roles" value="Админ" />
                     <label htmlFor="ROLE_ADMIN">Админ</label>
                 </div>
                 <div className="role-item">
-                    <input ref={role} type="radio" id="ROLE_OPERATOR" name="roles" value="Оператор"/>
+                    <input ref={operator} type="radio" id="ROLE_OPERATOR" name="roles" value="Оператор"/>
                     <label htmlFor="ROLE_OPERATOR">Оператор</label>
                 </div>
             </div>
@@ -48,4 +51,4 @@ function AuthenticationModal({onEnter})
     )
 }
 
-export default AuthenticationModal
+export default withRouter(AuthenticationModal)

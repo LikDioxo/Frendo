@@ -3,6 +3,7 @@ import ModalWindow from "../components/ModalWindow";
 import AuthenticationModal from "../components/AuthenticationModal";
 import {useDispatch} from "react-redux";
 import {authenticateUser} from "../actions";
+import {withRouter} from "react-router";
 
 
 
@@ -30,4 +31,4 @@ function AuthenticationPage()
     )
 }
 
-export default AuthenticationPage
+export default withRouter(AuthenticationPage)
