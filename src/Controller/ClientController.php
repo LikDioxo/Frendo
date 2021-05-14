@@ -54,7 +54,7 @@ class ClientController extends AbstractController
             );
         }
 
-        if(!array_key_exists($role,$user->getRoles()))
+        if(!in_array($role, $user->getRoles()))
         {
             return new JsonResponse(
                 ['message' => "Client with username and role $username and $role does not exists!"],
