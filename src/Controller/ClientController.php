@@ -83,7 +83,7 @@ class ClientController extends AbstractController
                 'message' => 'Auth successful!',
                 'token' => $token,
                 'user_id' => $user->getId(),
-                'user_roles' => $role
+                'user_role' => $role
             ]
         );
     }
