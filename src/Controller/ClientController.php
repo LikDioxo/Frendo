@@ -79,8 +79,12 @@ class ClientController extends AbstractController
         $token = Token::customPayload($tokenPayload, "I4*#LoVe5#@PHP");
 
         return new JsonResponse(
-            ['message' => 'Auth successful!', 'token' => $token],
-            JsonResponse::HTTP_OK
+            [
+                'message' => 'Auth successful!',
+                'token' => $token,
+                'user_id' => $user->getId(),
+                'user_roles' => $role
+            ]
         );
     }
 
