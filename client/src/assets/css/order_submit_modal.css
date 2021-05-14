@@ -1,0 +1,54 @@
+.order-submit-modal {
+    background-color: white;
+    display: grid;
+    grid-template-areas:
+    "heading heading"
+    "number-title number-input"
+    "address-title address-input"
+    "total-price submit-button"
+    ;
+
+    row-gap: 10px;
+    column-gap: 4px;
+    justify-items: center;
+    align-items: center;
+}
+
+.order-submit-modal-title {
+    font-size: 20px;
+    font-weight: bold;
+    grid-area: heading;
+}
+
+.order-submit-modal-phone-number-title {
+    grid-area: number-title;
+    font-size: 16px;
+}
+
+.order-submit-modal-phone-number {
+    grid-area: number-input;
+    height: 30px;
+}
+
+.order-submit-modal-address-title {
+    grid-area: address-title;
+    font-size: 16px;
+}
+
+.order-submit-modal-address {
+    grid-area: address-input;
+    height: 30px;
+}
+
+.order-submit-modal-total-price {
+    grid-area: total-price;
+    font-size: 18px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.order-submit-modal-submit {
+    grid-area: submit-button;
+    justify-self: flex-end;
+    padding: 10px;
+}

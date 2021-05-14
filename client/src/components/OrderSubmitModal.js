@@ -2,7 +2,7 @@ import React, {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {makeOrder} from "../actions";
 import {getChosenPizzeria, getOrder} from "../selectors";
-// import "../assets/css/order_submit_modal.css"
+import "../assets/css/order_submit_modal.css"
 
 
 function OrderSubmitModal({total_price})
@@ -26,21 +26,24 @@ function OrderSubmitModal({total_price})
     }
 
     return (
-        <div className="order-submit-modal">
-            <div>Оформить заказ</div>
-            <div>Номер телефона: </div>
+        <div className="order-submit-modal rounded-container">
+            <div className="order-submit-modal-title">Оформить заказ</div>
+            <div className="order-submit-modal-phone-number-title">Номер телефона: </div>
             <input
-                className="default-input-bar"
+                className="order-submit-modal-phone-number default-input-bar"
                 ref={phone_number}
                 type="tel"
                 pattern="[0-9]{12}"
             />
-            <div>Адресс доставки: </div>
+            <div className="order-submit-modal-address-title">Адресс доставки: </div>
             <input
-                className="default-input-bar"
+                className="order-submit-modal-address default-input-bar"
                 ref={address}
             />
-            <button className="default-button" onClick={handleOrderSubmit}>Оформить</button>
+            <div className="order-submit-modal-total-price">
+                Общая стоимость: {total_price} грн.
+            </div>
+            <button className="order-submit-modal-submit default-button" onClick={handleOrderSubmit}>Оформить</button>
         </div>
     )
 }
