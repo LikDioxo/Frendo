@@ -32,27 +32,30 @@ import {formatChoices} from "../utils";
 
 
 function* authenticateUser(action) {
-    const response = yield call(
-        authenticateUserService,
-        action.payload.name,
-        action.payload.password,
-        action.payload.role,
-    );
-    if (response.status === 200) {
-        const { data } = response;
-        const { token } = data;
-        console.log(response)
-        localStorage.setItem('token', token);
-        if(action.payload.role === "operator")
-        {
-            window.location.href = '/operator';
-        }
-        else if(action.payload.role === "admin")
-        {
-            window.location.href = '/admin';
-        }
+    try {
+        const response = yield call(
+            authenticateUserService,
+            action.payload.name,
+            action.payload.password,
+            action.payload.role,
+        );
 
-    }
+        if (response.status === 200) {
+            const { data } = response;
+            const { token } = data;
+            localStorage.setItem('token', token);
+
+            if(action.payload.role === "operator")
+            {
+                window.location.href = '/operator';
+            }
+            else if(action.payload.role === "admin")
+            {
+                window.location.href = '/admin';
+            }
+
+        }
+    } catch (e) {}
 }
 
 function* fetchAllPizzerias(action)

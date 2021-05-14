@@ -10,16 +10,17 @@ function AuthenticationPage()
 {
     const dispatch = useDispatch()
 
-
     const handleEnter = (username, password, role) => {
         dispatch(authenticateUser(username, password, role))
     };
+
     return (
         <div className="content">
             <div className="page">
                 <ModalWindow
                     show={true}
                     handleClose={null}
+                    loading_modal={true}
                     component={<AuthenticationModal
                         onEnter={handleEnter}
                     />}
