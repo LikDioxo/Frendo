@@ -21,7 +21,7 @@ class OrderRepository extends ServiceEntityRepository
         parent::__construct($registry, Order::class);
     }
 
-    public function getRelatedOrders($pizzeria_id)
+    public function getActiveOrders($pizzeria_id)
     {
         return $this->createQueryBuilder('o')
             ->addCriteria(

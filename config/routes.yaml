@@ -69,7 +69,7 @@ app_update_order_status:
     controller: App\Controller\OrderController::updateStatus
 
 app_change_pizzeria_pizza_status:
-    path: /operator/pizzeria-pizza/{id}
+    path: /operator/pizzeria-pizza/{$pizzeriaPizzaId}
     methods: PUT
     controller: App\Controller\PizzeriaController::changePizzeriaPizzaStatus
 
@@ -141,7 +141,7 @@ app_filter_availiable_pizzas:
     controller: App\Controller\PizzeriaController::filterAvailablePizzas
 
 app_get_pizzeria_orders:
-    path: /operator/pizzerias/{pizzeriaId}/orders
+    path: /operator/{operator_id}/pizzeria/orders
     methods: GET
     controller: App\Controller\OrderController::getPizzeriaOrders
 
@@ -149,3 +149,8 @@ app_make_order:
     path: /pizzerias/{pizzeriaId}/orders
     methods: POST
     controller: App\Controller\OrderController::makeOrder
+
+app_get_pizzeria_by_operator:
+    path: /operator/{operator_id}/pizzeria
+    methods: GET
+    controller: App\Controller\PizzeriaController::getPizzeriaByOperator
