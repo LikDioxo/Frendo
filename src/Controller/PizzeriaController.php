@@ -132,7 +132,7 @@ class PizzeriaController extends AbstractController
             $serializedPizzeria['operator_id'] = $serializedPizzeria['operator']['id'];
             unset($serializedPizzeria['operator']);
 
-            $orders = $orderRepository->getRelatedOrders($serializedPizzeria['id']);
+            $orders = $orderRepository->getActiveOrders($serializedPizzeria['id']);
             $serializedPizzeria['workload'] = sizeof($orders);
 
             $result[] = $serializedPizzeria;
@@ -143,7 +143,7 @@ class PizzeriaController extends AbstractController
 
     public function getWorkload(
         Request $request,
-        int $id,
+        $id,
         PizzeriaRepository $pizzeriaRepository,
         OrderRepository $orderRepository
     ): JsonResponse
@@ -157,7 +157,7 @@ class PizzeriaController extends AbstractController
             );
         }
 
-        $orders = $orderRepository->getRelatedOrders($id);
+        $orders = $orderRepository->getActiveOrders($id);
 
         return new JsonResponse(['workload' => sizeof($orders)]);
     }
@@ -230,8 +230,44 @@ class PizzeriaController extends AbstractController
         return new JsonResponse($result);
     }
 
+    public function getPizzeriaByOperator(
+        $operator_id,
+        ClientRepository $clientRepository,
+        PizzeriaRepository $pizzeriaRepository,
+        OrderRepository $orderRepository,
+        NormalizerInterface $normalizer
+    ): JsonResponse
+    {
+        $user = $clientRepository->find($operator_id);
+        if ($user === null) {
+            return new JsonResponse(
+                ['message' => "User with id: $operator_id does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        if (!in_array("ROLE_OPERATOR", $user->getRoles())) {
+            return new JsonResponse(
+                ['message' => "User with id: $operator_id is not operator!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $pizzeria = $pizzeriaRepository->findOneBy(['operator' => $user]);
+        $normalizedPizzeria = $normalizer->normalize(
+            $pizzeria,
+            context: [AbstractNormalizer::ATTRIBUTES => ['id', 'address']]
+        );
+
+        $related_orders = $orderRepository->getActiveOrders($normalizedPizzeria['id']);
+        $normalizedPizzeria['workload'] = sizeof($related_orders);
+
+        return new JsonResponse($normalizedPizzeria);
+    }
+
     public function changePizzeriaPizzaStatus(
         Request $request,
+        $pizzeriaPizzaId,
         PizzeriaPizzaRepository $pizzeriaPizzaRepository,
         EntityManagerInterface $entityManager
     ): Response
@@ -247,12 +283,11 @@ class PizzeriaController extends AbstractController
         }
 
         try {
-            $pizzeriaPizzaId = $data['pizzeria_pizza_id'];
             $isAvailable = $data['is_available'];
         }
         catch (ErrorException) {
             return new JsonResponse(
-                ['message' => 'Request body not provide some of this parameters: pizzeria_pizza_id, is_available!'],
+                ['message' => 'Request body not provide some of this parameters: is_available!'],
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -457,7 +492,7 @@ class PizzeriaController extends AbstractController
             $serializedPizzeria['operator_id'] = $serializedPizzeria['operator']['id'];
             unset($serializedPizzeria['operator']);
 
-            $orders = $orderRepository->getRelatedOrders($serializedPizzeria['id']);
+            $orders = $orderRepository->getActiveOrders($serializedPizzeria['id']);
             $serializedPizzeria['workload'] = sizeof($orders);
 
             $result[] = $serializedPizzeria;

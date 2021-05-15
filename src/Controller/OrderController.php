@@ -224,7 +224,7 @@ class OrderController extends AbstractController
 
         foreach ($orders as $order) {
             $pizzeriaId = $order->getPizzeria()->getId();
-            $relatedOrders = $orderRepository->getRelatedOrders($pizzeriaId);
+            $relatedOrders = $orderRepository->getActiveOrders($pizzeriaId);
             $position = 0;
 
             foreach ($relatedOrders as $relatedOrder) {
