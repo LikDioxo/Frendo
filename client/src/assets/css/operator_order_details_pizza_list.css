@@ -1,0 +1,10 @@
+.operator-order-details-pizza-list {
+    width: 80%;
+    display: grid;
+    grid-template-columns: 40% 40%;
+    grid-template-rows: auto;
+    row-gap: 4%;
+    column-gap: 20%;
+    margin-top: 20px;
+    align-items: center;
+}
