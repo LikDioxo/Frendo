@@ -18,11 +18,11 @@ function OperatorHeader({
             </div>
             <div className="operator-header-sections-wrapper">
                 <button
-                    className="operator-header-orders default-button"
+                    className="operator-header-orders default-button operator-button"
                     onClick={onOrdersClick}
                 >Заказы</button>
                 <button
-                    className="operator-header-pizzas default-button"
+                    className="operator-header-pizzas default-button operator-button"
                     onClick={onPizzasClick}
                 >Пиццы</button>
             </div>
@@ -41,7 +41,7 @@ function OperatorHeader({
                 </div>
             </div>
             <button
-                className="operator-header-logout default-button"
+                className="operator-header-logout default-button operator-button"
                 onClick={onLogout}
             >
                 Выйти
