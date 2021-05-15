@@ -1,0 +1,50 @@
+.operator-order-details-pizza-item {
+    display: grid;
+    grid-template-areas:
+            "name name"
+            "ingredient-title quantity"
+            "ingredients price"
+    ;
+    row-gap: 5px;
+    column-gap: 15px;
+    align-items: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.details-ingredient-title {
+    grid-area: ingredient-title;
+}
+
+.details-pizza-name {
+    font-size: 20px;
+    grid-area: name;
+    justify-self: center;
+}
+
+.details-ingredient-wrapper {
+    grid-area: ingredients;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 5px;
+    row-gap: 4px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.details-pizza-quantity {
+    grid-area: quantity;
+}
+
+.details-pizza-price {
+    grid-area: price;
+    align-self: flex-start;
+}
+
+.details-ingredient-flag{
+    width: 30px;
+}
+
+.details-ingredient-flag img {
+    width: 100%;
+}
