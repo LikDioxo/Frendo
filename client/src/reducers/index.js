@@ -1,5 +1,4 @@
 import {combineReducers} from "redux";
-
 import {
     VIEW_FILTER_BOX,
     ADD_PIZZA_TO_ORDER,
@@ -24,24 +23,23 @@ import {
     CHANGE_INGREDIENT_IN_CART_PIZZA,
     CHANGE_INGREDIENT_IN_SELECTED_PIZZA,
     SHOW_ORDER_HELP_MODAL,
-    SHOW_ORDER_SUBMIT_MODAL,
+    SHOW_ORDER_SUBMIT_MODAL, SET_CURRENT_USER,
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
 
-// function userReducer(state=null, action)
-// {
-//     let tmp;
-//     switch (action.type)
-//     {
-//         case END_PIZZA_LOADING:
-//             tmp = {...state};
-//             tmp.isLoading = false;
-//             return tmp;
-//         default:
-//             return state;
-//     }
-// }
+function userReducer(state=null, action)
+{
+    let tmp;
+    switch (action.type)
+    {
+        case SET_CURRENT_USER:
+            tmp = action.payload.user;
+            return tmp;
+        default:
+            return state;
+    }
+}
 
 
 
@@ -348,7 +346,8 @@ const mainReducer = combineReducers({
         order: orderReducer,
         pizzerias: pizzeriasReducer,
         pizza: pizzaReducer,
-        loading: loadingReducer
+        loading: loadingReducer,
+        user: userReducer
     }
 )
 

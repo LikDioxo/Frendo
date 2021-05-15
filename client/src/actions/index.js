@@ -30,19 +30,19 @@ export const SHOW_ORDER_HELP_MODAL = "SHOW_ORDER_HELP_MODAL"
 export const GET_ORDER_INFO = "GET_ORDER_INFO"
 export const AUTHENTICATE_USER = "AUTHENTICATE_USER"
 export const SET_CURRENT_USER = "SET_CURRENT_USER"
-export const GET_CURRENT_USER = "GET_CURRENT_USER"
 export const SHOW_ORDER_SUBMIT_MODAL = "SHOW_ORDER_SUBMIT_MODAL"
 export const MAKE_ORDER = "MAKE_ORDER"
 
 
-export function authenticateUser(name, password, role)
+export function authenticateUser(name, password, role, history)
 {
     return {
         type: AUTHENTICATE_USER,
         payload: {
             name: name,
             password: password,
-            role: role
+            role: role,
+            history: history
         }
     }
 }
@@ -55,12 +55,6 @@ export function setCurrentUser(user)
     }
 }
 
-export function getCurrentUser() {
-    return {
-        type: GET_CURRENT_USER,
-        payload: {}
-    }
-}
 
 
 export function startPizzaLoading()

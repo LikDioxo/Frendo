@@ -15,7 +15,6 @@ import {
     getPizzeriasSelector,
     getSelectedPizza,
     isFilterView,
-    isLoading,
     isPizzaSelected
 } from "../selectors";
 import Header from "./Header";
@@ -29,6 +28,7 @@ import PizzasContainer from "./PizzasContainer";
 import Loading from "../components/Loading";
 import FilterBox from "./FilterBox";
 import PizzaModal from "./PizzaModal";
+import {withRouter} from "react-router";
 
 
 function ClientStartPage() {
@@ -114,4 +114,4 @@ function ClientStartPage() {
 }
 
 
-export default ClientStartPage;
+export default withRouter(ClientStartPage);

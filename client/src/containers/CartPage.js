@@ -17,8 +17,7 @@ import {
     clearCart, flipOrderSubmitModalView,
     flipPizzeriasModalView,
     getIngredients,
-    getPizzerias, makeOrder,
-    setChosenPizzeria,
+    getPizzerias, setChosenPizzeria,
     unsetPizzaChange,
 } from "../actions";
 import PizzeriaChoiceModal from "../components/PizzeriaChoiceModal";
@@ -29,6 +28,7 @@ import PizzaModal from "./PizzaModal";
 import Nothing from "../components/Nothing";
 import "../assets/css/cart_page.css";
 import OrderSubmitModal from "../components/OrderSubmitModal";
+import {withRouter} from "react-router";
 
 
 function CartPage()
@@ -140,4 +140,4 @@ function CartPage()
 }
 
 
-export default CartPage;
+export default withRouter(CartPage);

@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Route } from "react-router";
+
+
 import createSagaMiddleware from 'redux-saga';
 
 import { applyMiddleware, createStore, compose } from "redux";
@@ -13,6 +15,7 @@ import "./assets/css/main.css";
 import rootSaga from "./sagas";
 import CartPage from "./containers/CartPage";
 import AuthenticationPage from "./containers/AuthenticationPage";
+import RoleDependentRoutes from "./containers/RoleDependentRoutes";
 
 
 
@@ -23,7 +26,6 @@ const store = createStore(
     mainReducer,
     composeEnhancers(applyMiddleware(sagaMiddleware))
 );
-
 sagaMiddleware.run(rootSaga);
 
 
@@ -37,6 +39,7 @@ function App() {
               <Route exact path={'/cart'} component={CartPage}/>
               <Route exact path={'/authenticate'} component={AuthenticationPage}/>
               <Route exact path={'/FAQ'} component={FAQPage}/>
+              <RoleDependentRoutes/>
           </BrowserRouter>
       </Provider>
   );

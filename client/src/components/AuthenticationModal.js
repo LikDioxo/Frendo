@@ -6,14 +6,13 @@ import "../assets/css/authentication_modal.css";
 
 function AuthenticationModal({onEnter})
 {
-
     let username = useRef("");
     let password = useRef("");
     let admin = useRef(false);
     let operator = useRef(false)
     // console.log(role);
 
-    const handleEnter = (e) => {
+    const handleEnter = () => {
         if ([username.current.value, password.current.value].some(el => el.length === 0)) {
             return alert('fill all the fields!')
         }
@@ -21,7 +20,9 @@ function AuthenticationModal({onEnter})
             return alert('choose the role!')
         }
         alert(operator.current.checked);
-        onEnter(username.current.value, password.current.value, operator.current.checked && !admin.current.checked ? "ROLE_OPERATOR":"ROLE_ADMIN")
+        onEnter(username.current.value,
+            password.current.value,
+            operator.current.checked && !admin.current.checked ? "ROLE_OPERATOR":"ROLE_ADMIN")
     };
 
     return (

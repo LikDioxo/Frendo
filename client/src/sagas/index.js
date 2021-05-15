@@ -26,7 +26,8 @@ import {
     setPizzerias,
     setIngredients,
     endPizzaLoading,
-    startPizzaLoading
+    startPizzaLoading,
+    setCurrentUser
 } from "../actions";
 import {formatChoices} from "../utils";
 
@@ -42,21 +43,25 @@ function* authenticateUser(action) {
 
         if (response.status === 200) {
             const { data } = response;
-            const { token } = data;
-            localStorage.setItem('token', token);
+            const { token, user_id, user_role } = data;
 
-            if(action.payload.role === "operator")
+            localStorage.setItem('token', token);
+            yield put(setCurrentUser({user_id,user_role}));
+            console.log((action.payload.history));
+            if(user_role === "ROLE_OPERATOR")
             {
-                window.location.href = '/operator';
+                action.payload.history.push('/operator');
             }
-            else if(action.payload.role === "admin")
+            else if(user_role === "ROLE_ADMIN")
             {
-                window.location.href = '/admin';
+                action.payload.history.push('/admin');
             }
 
         }
     } catch (e) {}
 }
+
+
 
 function* fetchAllPizzerias(action)
 {
