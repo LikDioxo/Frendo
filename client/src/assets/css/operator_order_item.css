@@ -1,0 +1,46 @@
+.operator-order-item {
+    width: 100%;
+    display: grid;
+    font-weight: bold;
+    align-items: center;
+    justify-items: center;
+    grid-template-areas: "id phone-number address quantity controls";
+}
+
+.operator-order-item-id-wrapper {
+    grid-area: id;
+}
+
+.operator-order-item-phone-number-wrapper {
+    grid-area: phone-number;
+}
+
+.operator-order-item-delivery-address-wrapper {
+    grid-area: address;
+}
+
+.operator-order-item-pizza-quantity-wrapper {
+    grid-area: quantity;
+}
+
+.operator-order-item-controls-wrapper {
+    width: 100%;
+    grid-area: controls;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 5px;
+}
+
+.operator-order-item-status {
+    background-color: #E57E5D !important;
+}
+
+.operator-order-item-details {
+}
+
+.operator-order-item-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
