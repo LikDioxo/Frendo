@@ -2,6 +2,7 @@ import React from "react";
 import {Route} from "react-router";
 import OperatorPizzasPage from "./OperatorPizzasPage";
 import OperatorOrderPage from "./OperatorOrderPage";
+import OperatorStartPage from "./OperatorStartPage";
 import AdminPage from "./AdminPage";
 import {useSelector} from "react-redux";
 import {currentUserSelector} from "../selectors";
@@ -15,10 +16,10 @@ function RoleDependentRoutes()
         return <div/>;
     }
 
-
     let routesInfo = [];
     if(user.user_role === "ROLE_OPERATOR") {
         routesInfo = [
+            {path: '/operator', component: OperatorStartPage},
             {path: '/operator/pizzas', component: OperatorPizzasPage},
             {path: '/operator/order', component: OperatorOrderPage},
         ]
@@ -27,7 +28,6 @@ function RoleDependentRoutes()
         routesInfo = [
             {path: '/admin', component: AdminPage}
         ];
-
     }
 
     return(

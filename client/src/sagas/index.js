@@ -50,7 +50,7 @@ function* authenticateUser(action) {
 
             if(user_role === "ROLE_OPERATOR")
             {
-                action.payload.history.push('/operator/order');
+                action.payload.history.push('/operator');
             }
             else if(user_role === "ROLE_ADMIN")
             {

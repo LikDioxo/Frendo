@@ -1,8 +1,6 @@
 import React from "react";
 
 
-
-
 function AdminPage()
 {
     return (
@@ -13,5 +11,6 @@ function AdminPage()
         </div>
     )
 }
+
 
 export default AdminPage
