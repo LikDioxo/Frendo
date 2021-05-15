@@ -1,0 +1,44 @@
+.operator-order-details {
+    width: 80%;
+    display: grid;
+    grid-template-areas:
+        "title title title"
+        "id delivery status"
+        "number price print"
+    ;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    row-gap: 5px;
+}
+
+.operator-order-details-title {
+    justify-self: center;
+    grid-area: title;
+    font-size: 20px;
+}
+
+.operator-order-details-id {
+    grid-area: id;
+}
+
+.operator-order-details-delivery-address {
+    grid-area: delivery;
+}
+
+.operator-order-details-phone-number {
+    grid-area: number;
+}
+
+.operator-order-details-total-price {
+    grid-area: price;
+}
+
+.operator-order-details-status {
+    grid-area: status;
+}
+
+.operator-order-details-print {
+    grid-area: print;
+}
+
