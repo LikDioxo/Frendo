@@ -9,7 +9,6 @@ function AuthenticationModal({onEnter})
     let password = useRef("");
     let admin = useRef(false);
     let operator = useRef(false)
-    // console.log(role);
 
     const handleEnter = () => {
         if ([username.current.value, password.current.value].some(el => el.length === 0)) {

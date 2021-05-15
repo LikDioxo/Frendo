@@ -6,7 +6,6 @@ import {authenticateUser} from "../actions";
 import {useHistory} from "react-router";
 
 
-
 function AuthenticationPage()
 {
     let history = useHistory();
@@ -30,5 +29,6 @@ function AuthenticationPage()
         </div>
     )
 }
+
 
 export default AuthenticationPage
