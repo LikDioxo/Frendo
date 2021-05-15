@@ -1,5 +1,4 @@
 import React from "react";
-import {withRouter} from "react-router";
 
 
 
@@ -8,9 +7,10 @@ function OperatorPizzasPage()
     return (
         <div className="content">
             <div className="page">
+                OperatorPizzasPage
             </div>
         </div>
     )
 }
 
-export default withRouter(OperatorPizzasPage)
+export default OperatorPizzasPage

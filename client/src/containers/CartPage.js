@@ -28,7 +28,7 @@ import PizzaModal from "./PizzaModal";
 import Nothing from "../components/Nothing";
 import "../assets/css/cart_page.css";
 import OrderSubmitModal from "../components/OrderSubmitModal";
-import {withRouter} from "react-router";
+
 
 
 function CartPage()
@@ -140,4 +140,4 @@ function CartPage()
 }
 
 
-export default withRouter(CartPage);
+export default CartPage;

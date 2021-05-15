@@ -1,5 +1,4 @@
 import React, {useRef} from "react";
-import {withRouter} from "react-router";
 import logo from "../assets/images/logo.png";
 import "../assets/css/authentication_modal.css";
 
@@ -19,7 +18,6 @@ function AuthenticationModal({onEnter})
         if (!admin.current.checked && !operator.current.checked) {
             return alert('choose the role!')
         }
-        alert(operator.current.checked);
         onEnter(username.current.value,
             password.current.value,
             operator.current.checked && !admin.current.checked ? "ROLE_OPERATOR":"ROLE_ADMIN")
@@ -52,4 +50,4 @@ function AuthenticationModal({onEnter})
     )
 }
 
-export default withRouter(AuthenticationModal)
+export default AuthenticationModal

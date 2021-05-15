@@ -47,10 +47,10 @@ function* authenticateUser(action) {
 
             localStorage.setItem('token', token);
             yield put(setCurrentUser({user_id,user_role}));
-            console.log((action.payload.history));
+
             if(user_role === "ROLE_OPERATOR")
             {
-                action.payload.history.push('/operator');
+                action.payload.history.push('/operator/order');
             }
             else if(user_role === "ROLE_ADMIN")
             {

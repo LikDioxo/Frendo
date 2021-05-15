@@ -20,6 +20,7 @@ import RoleDependentRoutes from "./containers/RoleDependentRoutes";
 
 
 
+
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -39,6 +40,7 @@ function App() {
               <Route exact path={'/cart'} component={CartPage}/>
               <Route exact path={'/authenticate'} component={AuthenticationPage}/>
               <Route exact path={'/FAQ'} component={FAQPage}/>
+              {/*<Route exact path={'/operator/order'} component={OperatorOrderPage}/>*/}
               <RoleDependentRoutes/>
           </BrowserRouter>
       </Provider>

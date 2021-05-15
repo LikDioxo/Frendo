@@ -1,5 +1,5 @@
 import React from "react";
-import {withRouter} from "react-router";
+
 
 
 
@@ -7,10 +7,12 @@ function OperatorOrderPage()
 {
     return (
         <div className="content">
+
             <div className="page">
+                OperatorOrderPage
             </div>
         </div>
     )
 }
 
-export default withRouter(OperatorOrderPage)
+export default OperatorOrderPage

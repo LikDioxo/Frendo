@@ -28,7 +28,7 @@ import PizzasContainer from "./PizzasContainer";
 import Loading from "../components/Loading";
 import FilterBox from "./FilterBox";
 import PizzaModal from "./PizzaModal";
-import {withRouter} from "react-router";
+
 
 
 function ClientStartPage() {
@@ -114,4 +114,4 @@ function ClientStartPage() {
 }
 
 
-export default withRouter(ClientStartPage);
+export default ClientStartPage;
