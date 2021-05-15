@@ -47,7 +47,7 @@ function OperatorOrderItem({
             </div>
             <div className="operator-order-item-controls-wrapper">
                 <select
-                    className="operator-order-item-status default-button operator-button"
+                    className="operator-order-item-status default-denying-button operator-button"
                     onClick={onStatusPressed}
                 >
                     <option selected hidden>Статус</option>

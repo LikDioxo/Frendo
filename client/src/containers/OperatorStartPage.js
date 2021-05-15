@@ -9,8 +9,7 @@ function OperatorStartPage()
         <div className="content">
             <OperatorHeader />
             <div className="page">
-                {/*<OperatorOrderList />*/}
-
+                <OperatorOrderList />
             </div>
         </div>
     )
