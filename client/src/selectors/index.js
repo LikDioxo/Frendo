@@ -76,3 +76,8 @@ export function getIngredientsSelector(state)
 {
     return state.filter.ingredients;
 }
+
+export function getOperatorPizzeriaSelector(state)
+{
+    return state.user.pizzeria;
+}

@@ -32,3 +32,16 @@
 .operator-header-logo-wrapper img {
     width: 100%;
 }
+
+.operator-header-pizzeria-info-item {
+    display: flex;
+    gap: 5px;
+}
+
+.operator-header-pizzeria-address {
+    color: #FD5C5C;
+}
+
+.operator-header-pizzeria-workload {
+    color: #D09600;
+}

@@ -23,7 +23,9 @@ import {
     CHANGE_INGREDIENT_IN_CART_PIZZA,
     CHANGE_INGREDIENT_IN_SELECTED_PIZZA,
     SHOW_ORDER_HELP_MODAL,
-    SHOW_ORDER_SUBMIT_MODAL, SET_CURRENT_USER,
+    SHOW_ORDER_SUBMIT_MODAL,
+    SET_CURRENT_USER,
+    SET_OPERATOR_PIZZERIA, LOGOUT_USER,
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -36,13 +38,25 @@ function userReducer(state=null, action)
         case SET_CURRENT_USER:
             tmp = action.payload.user;
             return tmp;
+
+        case SET_OPERATOR_PIZZERIA:
+            tmp = {...state};
+
+            tmp.pizzeria = {
+                id: action.payload.pizzeria_id,
+                address: action.payload.pizzeria_address,
+                workload: action.payload.pizzeria_workload
+            };
+
+            return tmp;
+
+        case LOGOUT_USER:
+            return {};
+
         default:
             return state;
     }
 }
-
-
-
 
 function loadingReducer(state={}, action)
 {
@@ -180,12 +194,6 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             tmp = {...state};
             delete tmp.ordered_pizzas[action.payload.pizza_id];
             return tmp;
-
-        // case CHANGE_PIZZA:
-        //     tmp = {...state};
-        //     tmp.to_change = {...tmp.ordered_pizzas[action.payload.pizza_id]};
-        //     tmp.change = true;
-        //     return tmp;
 
         case CHANGE_PIZZA_IN_ORDER:
             tmp = {...state};

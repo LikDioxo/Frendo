@@ -1,9 +1,11 @@
 import React from 'react';
 import SearchBar from "./SearchBar";
 import Nothing from "./Nothing";
-import {useDispatch} from "react-redux";
+import Loading from "./Loading";
+import {useDispatch, useSelector} from "react-redux";
 import {getFoundPizzerias} from "../actions";
-import "../assets/css/pizzeria_choice_modal.css"
+import {isLoading} from "../selectors";
+import "../assets/css/pizzeria_choice_modal.css";
 
 
 function PizzeriaChoiceModal({onPizzeriaChosen, addresses})
@@ -13,6 +15,12 @@ function PizzeriaChoiceModal({onPizzeriaChosen, addresses})
     const searchPizzerias = (search) => {
         dispatch(getFoundPizzerias(search))
     };
+
+    let loading = useSelector(isLoading);
+
+    if (loading) {
+        return <Loading/>
+    }
 
     let pizzerias_boxes = addresses.map((data) =>
         <div className="pizzeria-info double-shadowed" key={data.id}  onClick={() => onPizzeriaChosen(data)}>

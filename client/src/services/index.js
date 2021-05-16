@@ -10,19 +10,22 @@ const GET_FOUND_PIZZERIAS = BASE_URL.concat('/pizzerias-by-address')
 const GET_ORDER_INFO = BASE_URL.concat('/orders/queue-position')
 const AUTHENTICATE_USER = BASE_URL.concat('/users/login')
 const MAKE_ORDER = BASE_URL.concat('/pizzerias/{}/orders')
+const GET_PIZZERIA_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria')
+const GET_PIZZERIA_PIZZAS_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria/pizzas')
 
 
-String.prototype.format = function () {
+String.prototype.format = function ()
+{
     let i = 0, args = arguments;
     return this.replace(/{}/g, function () {
         return typeof args[i] != 'undefined' ? args[i++] : '';
     });
 };
 
-function getToken() {
+function getToken()
+{
     return localStorage.getItem('token');
 }
-
 
 export function authenticateUserService(username, password, role)
 {
@@ -34,9 +37,6 @@ export function authenticateUserService(username, password, role)
             }
     });
 }
-
-
-
 
 export function fetchAllPizzeriasService()
 {
@@ -97,11 +97,34 @@ export function fetchMakeOrderService(
     choices
 )
 {
-    console.log(customers_phone_number);
     return axios.post(MAKE_ORDER.format(pizzeria_id), {
         customers_phone_number: customers_phone_number,
         delivery_address: delivery_address,
         total_price: total_price,
         choices: choices
+    })
+}
+
+export function fetchGetPizzeriaByOperatorService(
+    operator_id,
+    operator_token
+)
+{
+    return axios({
+        method: 'get',
+        url: GET_PIZZERIA_BY_OPERATOR.format(operator_id),
+        headers: {'Authorization': operator_token}
+    })
+}
+
+export function fetchGetPizzeriaPizzasByOperatorService(
+    operator_id,
+    operator_token
+)
+{
+    return axios({
+        method: 'get',
+        url: GET_PIZZERIA_PIZZAS_BY_OPERATOR.format(operator_id),
+        headers: {'Authorization': operator_token}
     })
 }

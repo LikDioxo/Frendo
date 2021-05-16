@@ -30,7 +30,6 @@ import FilterBox from "./FilterBox";
 import PizzaModal from "./PizzaModal";
 
 
-
 function ClientStartPage() {
     const dispatch = useDispatch();
 
@@ -66,11 +65,6 @@ function ClientStartPage() {
     const Ingredients = useSelector(getIngredientsSelector);
     const PizzaSelected = useSelector(isPizzaSelected);
     const Pizza = useSelector(getSelectedPizza);
-    // const loading = useSelector(isLoading);
-
-    // if(loading || Pizzerias === undefined || Ingredients === undefined){
-    //     return <Loading/>
-    // }
 
     if(Pizzerias === undefined || Ingredients === undefined){
             return <Loading/>

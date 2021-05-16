@@ -44,8 +44,6 @@
     transition: 0.5s;
 }
 
-
-
 .close:hover
 {
     background-color: #f1a54d;
@@ -56,7 +54,6 @@
  {
      width: 25px;
  }
-
 
  .loading-modal
  {

@@ -32,6 +32,10 @@ export const AUTHENTICATE_USER = "AUTHENTICATE_USER"
 export const SET_CURRENT_USER = "SET_CURRENT_USER"
 export const SHOW_ORDER_SUBMIT_MODAL = "SHOW_ORDER_SUBMIT_MODAL"
 export const MAKE_ORDER = "MAKE_ORDER"
+export const GET_PIZZERIA_BY_OPERATOR = "GET_PIZZERIA_BY_OPERATOR"
+export const SET_OPERATOR_PIZZERIA = "SET_OPERATOR_PIZZERIA"
+export const LOGOUT_USER = "LOGOUT_USER"
+export const GET_PIZZERIA_PIZZAS_BY_OPERATOR = "GET_PIZZERIA_PIZZAS_BY_OPERATOR"
 
 
 export function authenticateUser(name, password, role, history)
@@ -340,6 +344,54 @@ export function makeOrder(
             delivery_address: delivery_address,
             total_price: total_price,
             order: order
+        }
+    }
+}
+
+export function getPizzeriaByOperator(
+    operator_id
+)
+{
+    return {
+        type: GET_PIZZERIA_BY_OPERATOR,
+        payload: {
+            operator_id: operator_id
+        }
+    }
+}
+
+export function setOperatorPizzeria(
+    pizzeria_id,
+    pizzeria_address,
+    pizzeria_workload
+)
+{
+    return {
+        type: SET_OPERATOR_PIZZERIA,
+        payload: {
+            pizzeria_id: pizzeria_id,
+            pizzeria_address: pizzeria_address,
+            pizzeria_workload: pizzeria_workload
+        }
+    }
+}
+
+export function logoutUser()
+{
+    return {
+        type: LOGOUT_USER,
+        payload: {}
+    }
+}
+
+export function getPizzeriaPizzasByOperator(
+    operator_id
+)
+{
+    return {
+        type: GET_PIZZERIA_PIZZAS_BY_OPERATOR,
+        payload: {
+            operator_id: operator_id
         }
     }
 }

@@ -6,6 +6,8 @@ import {
     fetchFilteredPizzasService,
     fetchFoundPizzasService,
     fetchFoundPizzeriasService,
+    fetchGetPizzeriaByOperatorService,
+    fetchGetPizzeriaPizzasByOperatorService,
     fetchIngredientsService,
     fetchMakeOrderService,
     fetchOrderInfoService
@@ -19,7 +21,9 @@ import {
     GET_PIZZERIAS,
     GET_ORDER_INFO,
     AUTHENTICATE_USER,
-    MAKE_ORDER
+    MAKE_ORDER,
+    GET_PIZZERIA_BY_OPERATOR,
+    GET_PIZZERIA_PIZZAS_BY_OPERATOR
 } from "../actions";
 import {
     setPizzas,
@@ -27,7 +31,8 @@ import {
     setIngredients,
     endPizzaLoading,
     startPizzaLoading,
-    setCurrentUser
+    setCurrentUser,
+    setOperatorPizzeria
 } from "../actions";
 import {formatChoices} from "../utils";
 
@@ -47,22 +52,21 @@ function* authenticateUser(action) {
             const { token, user_id, user_role } = data;
 
             localStorage.setItem('token', token);
-            yield put(setCurrentUser({user_id,user_role}));
+            yield put(setCurrentUser({user_id, user_role}));
 
-            if(user_role === "ROLE_OPERATOR")
-            {
+            if (user_role === "ROLE_OPERATOR") {
                 action.payload.history.push('/operator');
             }
-            else if(user_role === "ROLE_ADMIN")
-            {
+            else if (user_role === "ROLE_ADMIN") {
                 action.payload.history.push('/admin');
             }
         }
         yield put(endPizzaLoading())
-    } catch (e) {}
+
+    } catch (e) {
+        yield put(endPizzaLoading())
+    }
 }
-
-
 
 function* fetchAllPizzerias(action)
 {
@@ -87,6 +91,7 @@ function* fetchAvailablePizzas(action)
 
         yield put(setPizzas(data))
         yield put(endPizzaLoading())
+
     }catch (e) {}
 }
 
@@ -102,6 +107,7 @@ function* fetchFilteredPizzas(action)
 
         yield put(setPizzas(data))
         yield put(endPizzaLoading())
+
     }catch (e) {}
 }
 
@@ -117,6 +123,7 @@ function* fetchFoundPizzas(action)
 
         yield put(setPizzas(data))
         yield put(endPizzaLoading())
+
     }catch (e) {}
 }
 
@@ -131,7 +138,10 @@ function* fetchFoundPizzerias(action)
 
         yield put(setPizzerias(data))
         yield put(endPizzaLoading())
-    }catch (e) {}
+
+    }catch (e) {
+        yield put(endPizzaLoading())
+    }
 }
 
 function* fetchIngredients(action)
@@ -169,7 +179,45 @@ function* fetchMakeOrder(action)
             formatChoices(action.payload.order)
         )
 
-        console.log(data);
+    }catch (e) {}
+}
+
+function* fetchGetPizzeriaByOperator(action)
+{
+    try {
+        let token = localStorage.getItem('token')
+
+        const response = yield call(
+            fetchGetPizzeriaByOperatorService,
+            action.payload.operator_id,
+            token
+        )
+        if (response.status === 200) {
+            const { data } = response;
+            const { id, address, workload } = data;
+
+            yield put(setOperatorPizzeria(id, address, workload));
+        }
+
+    }catch (e) {}
+}
+
+function* fetchGetPizzeriaPizzasByOperator(action)
+{
+    try {
+        let token = localStorage.getItem('token')
+
+        const response = yield call(
+            fetchGetPizzeriaPizzasByOperatorService,
+            action.payload.operator_id,
+            token
+        )
+        if (response.status === 200) {
+            const { data } = response;
+
+            yield put(setPizzas(data));
+        }
+
     }catch (e) {}
 }
 
@@ -219,6 +267,16 @@ function* watchFetchMakeOrder()
     yield takeEvery(MAKE_ORDER, fetchMakeOrder);
 }
 
+function* watchFetchGetPizzeriaByOperator()
+{
+    yield takeEvery(GET_PIZZERIA_BY_OPERATOR, fetchGetPizzeriaByOperator);
+}
+
+function* watchFetchGetPizzeriaPizzasByOperator()
+{
+    yield takeEvery(GET_PIZZERIA_PIZZAS_BY_OPERATOR, fetchGetPizzeriaPizzasByOperator);
+}
+
 export default function* rootSaga()
 {
     yield all([
@@ -230,6 +288,8 @@ export default function* rootSaga()
         watchFetchFoundPizzerias(),
         watchFetchOrderInfo(),
         watchFetchMakeOrder(),
-        watchUserAuthenticate()
+        watchUserAuthenticate(),
+        watchFetchGetPizzeriaByOperator(),
+        watchFetchGetPizzeriaPizzasByOperator()
     ])
 }

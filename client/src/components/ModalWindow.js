@@ -1,6 +1,6 @@
 import React from 'react';
+import close_icon from "../assets/images/close_icon.png";
 import "../assets/css/modal.css";
-import close_icon from "../assets/images/close_icon.png"
 
 
 function ModalWindow({show, component, handleClose, loading_modal=false})
