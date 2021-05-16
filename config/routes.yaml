@@ -141,7 +141,7 @@ app_filter_availiable_pizzas:
     controller: App\Controller\PizzeriaController::filterAvailablePizzas
 
 app_get_pizzeria_orders:
-    path: /operator/{operator_id}/pizzeria/orders
+    path: /operator/{operatorId}/pizzeria/orders
     methods: GET
     controller: App\Controller\OrderController::getPizzeriaOrders
 
@@ -151,6 +151,11 @@ app_make_order:
     controller: App\Controller\OrderController::makeOrder
 
 app_get_pizzeria_by_operator:
-    path: /operator/{operator_id}/pizzeria
+    path: /operator/{operatorId}/pizzeria
     methods: GET
     controller: App\Controller\PizzeriaController::getPizzeriaByOperator
+
+app_get_pizzas_of_pizzeria_operator:
+    path: /operator/{operatorId}/pizzeria/pizzas
+    methods: GET
+    controller: App\Controller\PizzeriaController::getPizzeriaPizzasByOperator

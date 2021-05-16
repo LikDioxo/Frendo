@@ -231,24 +231,24 @@ class PizzeriaController extends AbstractController
     }
 
     public function getPizzeriaByOperator(
-        $operator_id,
+        $operatorId,
         ClientRepository $clientRepository,
         PizzeriaRepository $pizzeriaRepository,
         OrderRepository $orderRepository,
         NormalizerInterface $normalizer
     ): JsonResponse
     {
-        $user = $clientRepository->find($operator_id);
+        $user = $clientRepository->find($operatorId);
         if ($user === null) {
             return new JsonResponse(
-                ['message' => "User with id: $operator_id does not exists!"],
+                ['message' => "User with id: $operatorId does not exists!"],
                 JsonResponse::HTTP_NOT_FOUND
             );
         }
 
         if (!in_array("ROLE_OPERATOR", $user->getRoles())) {
             return new JsonResponse(
-                ['message' => "User with id: $operator_id is not operator!"],
+                ['message' => "User with id: $operatorId is not operator!"],
                 JsonResponse::HTTP_NOT_FOUND
             );
         }
@@ -500,4 +500,47 @@ class PizzeriaController extends AbstractController
 
         return new JsonResponse($result);
     }
+
+    public function getPizzeriaPizzasByOperator(
+        $operatorId,
+        ClientRepository $clientRepository,
+        PizzeriaRepository $pizzeriaRepository,
+        PizzeriaPizzaRepository $pizzeriaPizzaRepository,
+    ): JsonResponse
+    {
+        $operator = $clientRepository->find($operatorId);
+        if ($operator === null) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId does not exists!"]
+            );
+        }
+
+        if (!in_array("ROLE_OPERATOR", $operator->getRoles())) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId is not operator!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $pizzeria = $pizzeriaRepository->findOneBy(['operator' => $operator]);
+
+        if ($pizzeria === null) {
+            return new JsonResponse(
+                ['message' => "Pizzeria with operator (id): $operatorId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $pizzeriaPizzas = $pizzeriaPizzaRepository->findBy(['pizzeria' => $pizzeria]);
+        $result = [];
+
+        foreach ($pizzeriaPizzas as $pizzeriaPizza) {
+            $normalizedPizzeriaPizza['pizza'] = $pizzeriaPizza->getPizza()->getName();
+            $normalizedPizzeriaPizza['is_available'] = $pizzeriaPizza->getIsAvailable();
+            $result[] = $normalizedPizzeriaPizza;
+        }
+
+        return new JsonResponse($result);
+    }
+
 }

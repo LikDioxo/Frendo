@@ -8,6 +8,7 @@ use App\Entity\ChoiceEvent;
 use App\Entity\Order;
 use App\Repository\ChoiceEventRepository;
 use App\Repository\ChoiceRepository;
+use App\Repository\ClientRepository;
 use App\Repository\IngredientRepository;
 use App\Repository\OrderRepository;
 use App\Repository\PizzaIngredientRepository;
@@ -254,19 +255,35 @@ class OrderController extends AbstractController
     }
 
     public function getPizzeriaOrders(
-        $pizzeriaId,
+        $operatorId,
         ChoiceEventFilter $eventFilter,
         NormalizerInterface $normalizer,
         PizzeriaRepository $pizzeriaRepository,
         OrderRepository $orderRepository,
         ChoiceRepository $choiceRepository,
-        ChoiceEventRepository $choiceEventRepository
+        ChoiceEventRepository $choiceEventRepository,
+        ClientRepository $clientRepository
     ): JsonResponse
     {
-        $pizzeria = $pizzeriaRepository->find($pizzeriaId);
+        $operator = $clientRepository->find($operatorId);
+        if ($operator === null) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId does not exists!"]
+            );
+        }
+
+        if (!in_array("ROLE_OPERATOR", $operator->getRoles())) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId is not operator!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $pizzeria = $pizzeriaRepository->findOneBy(['operator' => $operator]);
+
         if ($pizzeria === null) {
             return new JsonResponse(
-                ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
+                ['message' => "Pizzeria with operator (id): $operatorId does not exists!"],
                 JsonResponse::HTTP_NOT_FOUND
             );
         }
