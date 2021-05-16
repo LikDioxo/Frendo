@@ -34,6 +34,7 @@ import {formatChoices} from "../utils";
 
 function* authenticateUser(action) {
     try {
+        yield put(startPizzaLoading())
         const response = yield call(
             authenticateUserService,
             action.payload.name,
@@ -56,8 +57,8 @@ function* authenticateUser(action) {
             {
                 action.payload.history.push('/admin');
             }
-
         }
+        yield put(endPizzaLoading())
     } catch (e) {}
 }
 

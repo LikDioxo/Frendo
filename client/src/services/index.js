@@ -1,8 +1,6 @@
 import axios from "axios";
 
 const BASE_URL = "http://127.0.0.1:8000"
-// const API_URL = BASE_URL.concat('api/');
-//http://127.0.0.1:8000/pizzerias/{}/pizzas-with-ingredients?ingredients=[1]
 const GET_PIZZERIAS_URL = BASE_URL.concat('/pizzerias')
 const GET_AVAILABLE_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas')
 const GET_FILTERED_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas-with-ingredients')

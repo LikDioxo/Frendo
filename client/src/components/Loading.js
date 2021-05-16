@@ -1,7 +1,8 @@
 import React from 'react';
-import loading_gif from "../assets/images/loading-test.gif"
-import "../assets/css/main.css"
+import loading_gif from "../assets/images/loading-test.gif";
 import ModalWindow from "./ModalWindow";
+import "../assets/css/main.css";
+
 
 function Loading()
 {
