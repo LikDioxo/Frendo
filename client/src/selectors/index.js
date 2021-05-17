@@ -86,3 +86,8 @@ export function getOrdersForPizzeriaSelector(state)
 {
     return state.pizzerias.orders;
 }
+
+export function getToasts(state)
+{
+    return state.toasts;
+}

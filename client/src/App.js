@@ -16,6 +16,7 @@ import rootSaga from "./sagas";
 import CartPage from "./containers/CartPage";
 import AuthenticationPage from "./containers/AuthenticationPage";
 import RoleDependentRoutes from "./containers/RoleDependentRoutes";
+import Toast from "./containers/Toast";
 
 
 
@@ -32,6 +33,7 @@ sagaMiddleware.run(rootSaga);
 
 
 
+
 function App() {
 
   return (
@@ -42,7 +44,7 @@ function App() {
               <Route exact path={'/authenticate'} component={AuthenticationPage}/>
               <Route exact path={'/FAQ'} component={FAQPage}/>
               <RoleDependentRoutes/>
-
+              <Toast/>
           </BrowserRouter>
       </Provider>
   );

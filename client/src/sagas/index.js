@@ -25,7 +25,7 @@ import {
     AUTHENTICATE_USER,
     MAKE_ORDER,
     GET_PIZZERIA_BY_OPERATOR,
-    GET_PIZZERIA_PIZZAS_BY_OPERATOR, setOrdersForPizzeria, GET_ORDERS_FOR_PIZZERIA
+    GET_PIZZERIA_PIZZAS_BY_OPERATOR, setOrdersForPizzeria, GET_ORDERS_FOR_PIZZERIA, addToast, clearCart
 } from "../actions";
 import {
     setPizzas,
@@ -62,10 +62,12 @@ function* authenticateUser(action) {
             else if (user_role === "ROLE_ADMIN") {
                 action.payload.history.push('/admin');
             }
+            yield put(addToast("success","Аутентификация"))
         }
         yield put(endPizzaLoading())
 
     } catch (e) {
+        yield put(addToast("error","Ошибка!"))
         yield put(endPizzaLoading())
     }
 }
@@ -171,8 +173,9 @@ function* fetchOrderInfo(action)
 
 function* fetchMakeOrder(action)
 {
+    let response = null
     try {
-        const {data} = yield call(
+        response = yield call(
             fetchMakeOrderService,
             action.payload.pizzeria_id,
             action.payload.customers_phone_number,
@@ -180,8 +183,15 @@ function* fetchMakeOrder(action)
             action.payload.total_price,
             formatChoices(action.payload.order)
         )
+        if(response.status === 201)
+        {
+            yield put(addToast("success", "Заказ принят:)"));
+            yield put(clearCart());
+        }
+    }catch (e) {
 
-    }catch (e) {}
+        yield put(addToast("error", "Ошибка. Неверно введен номер телефона:("));
+    }
 }
 
 function* fetchGetPizzeriaByOperator(action)
