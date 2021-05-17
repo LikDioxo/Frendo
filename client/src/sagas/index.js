@@ -10,7 +10,9 @@ import {
     fetchGetPizzeriaPizzasByOperatorService,
     fetchIngredientsService,
     fetchMakeOrderService,
-    fetchOrderInfoService
+    fetchOrderInfoService,
+    fetchOrdersForPizzeriaService,
+    getToken
 } from "../services";
 import {
     GET_AVAILABLE_PIZZAS,
@@ -23,7 +25,7 @@ import {
     AUTHENTICATE_USER,
     MAKE_ORDER,
     GET_PIZZERIA_BY_OPERATOR,
-    GET_PIZZERIA_PIZZAS_BY_OPERATOR
+    GET_PIZZERIA_PIZZAS_BY_OPERATOR, setOrdersForPizzeria, GET_ORDERS_FOR_PIZZERIA
 } from "../actions";
 import {
     setPizzas,
@@ -202,12 +204,28 @@ function* fetchGetPizzeriaByOperator(action)
     }catch (e) {}
 }
 
+function* fetchOrdersForPizzeria(action)
+{
+    try {
+        let token = localStorage.getItem('token')
+
+        const {data} = yield call(
+            fetchOrdersForPizzeriaService,
+            action.payload.operator_id,
+            token
+        );
+
+        yield put(setOrdersForPizzeria(data));
+    }catch (e) {}
+
+}
+
+
 function* fetchGetPizzeriaPizzasByOperator(action)
 {
     try {
         yield put(startPizzaLoading());
-        let token = localStorage.getItem('token')
-
+        let token = localStorage.getItem('token');
         const response = yield call(
             fetchGetPizzeriaPizzasByOperatorService,
             action.payload.operator_id,
@@ -283,6 +301,10 @@ function* watchFetchGetPizzeriaByOperator()
     yield takeEvery(GET_PIZZERIA_BY_OPERATOR, fetchGetPizzeriaByOperator);
 }
 
+function* watchFetchOrdersForPizzeria()
+{
+    yield takeEvery(GET_ORDERS_FOR_PIZZERIA, fetchOrdersForPizzeria);
+}
 function* watchFetchGetPizzeriaPizzasByOperator()
 {
     yield takeEvery(GET_PIZZERIA_PIZZAS_BY_OPERATOR, fetchGetPizzeriaPizzasByOperator);
@@ -301,6 +323,7 @@ export default function* rootSaga()
         watchFetchMakeOrder(),
         watchUserAuthenticate(),
         watchFetchGetPizzeriaByOperator(),
-        watchFetchGetPizzeriaPizzasByOperator()
+        watchFetchGetPizzeriaPizzasByOperator(),
+        watchFetchOrdersForPizzeria()
     ])
 }
