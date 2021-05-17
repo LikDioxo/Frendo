@@ -301,12 +301,17 @@ class OrderController extends AbstractController
             $choices = $choiceRepository->findBy(['order' => $order]);
             foreach ($choices as $choice) {
 
-                $normalizedChoice = $normalizer->normalize(
-                    $choice,
-                    context: ['attributes' => ['pizza' => ['name']]]
-                );
+//                $normalizedChoice = $normalizer->normalize(
+//                    $choice,
+//                    context: ['attributes' => ['quantity', 'pizza' => ['name']]]
+//                );
 
-                $choiceEvents = $choiceEventRepository->findBy(['choice' => $choice]);
+                $normalizedChoice = [
+                    'name' => $choice->getPizza()->getName(),
+                    'quantity' => $choice->getQuantity(),
+                ];
+
+                $choiceEvents = $choiceEventRepository->findBy(['choice' => $choice], ['createDate' => 'DESC']);
                 $filteredEvents = $eventFilter->filter($choiceEvents);
 
                 foreach ($filteredEvents as $event) {
@@ -315,14 +320,14 @@ class OrderController extends AbstractController
                     );
 
 
-                    $normalizedChoice['pizza']['events'][] = [
+                    $normalizedChoice['events'][] = [
                         'ingredient' =>$normalizedEvent['ingredient']['name'],
                         'is_enabled' => $normalizedEvent['is_enabled']
                     ];
 
                 }
 
-                $normalizedOrder['choices'][] = $normalizedChoice['pizza'];
+                $normalizedOrder['choices'][] = $normalizedChoice;
             }
 
             $result[] = $normalizedOrder;
