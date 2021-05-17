@@ -52,9 +52,20 @@ export const SHOW_PIZZERIAS_MODAL = "SHOW_PIZZERIAS_MODAL"
 export const SET_CHOSEN_PIZZERIA = "SET_CHOSEN_PIZZERIA"
 export const SET_PIZZERIAS = "SET_PIZZERIAS"
 export const GET_PIZZERIAS = "GET_PIZZERIA"
+export const SET_DETAIL_ORDER= "SET_DETAIL_ORDER"
 
 //Toast actions
 export const ADD_TOAST = "ADD_TOAST"
+
+
+export function setDetailOrder(order, history)
+{
+    return {
+        type: SET_DETAIL_ORDER,
+        payload: {order, history}
+    }
+}
+
 
 
 export function getOrdersForPizzeria(operator_id)

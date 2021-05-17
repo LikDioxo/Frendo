@@ -31,7 +31,7 @@ import {
     RESET_PIZZA_SELECTION,
     SET_ORDERS_FOR_PIZZERIA,
     ADD_TOAST,
-    REMOVE_FIRST_TOAST,
+    SET_DETAIL_ORDER,
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -293,7 +293,13 @@ function pizzeriasReducer(state = {}, action)
                 tmp.orders[order.id] = {...order}
             }
             return tmp;
-
+        case SET_DETAIL_ORDER:
+            tmp = {...state};
+            let order = action.payload.order;
+            tmp.detail_order = {...order,
+                choices: [...order.choices]}
+            action.payload.history.push("/operator/order")
+            return tmp;
         default:
             return state;
     }

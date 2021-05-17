@@ -11,6 +11,11 @@ function OperatorOrderDetailPizzaItem({
     ingredients
 })
 {
+
+    if(ingredients === undefined)
+    {
+        ingredients = []
+    }
     return (
         <div className="operator-order-details-pizza-item rounded-container double-shadowed">
             <div className="details-pizza-name">
@@ -20,14 +25,16 @@ function OperatorOrderDetailPizzaItem({
                 Ингредиенты:
             </div>
             <div className="details-ingredient-wrapper">
-                {ingredients.map((name, flag) => {
-                    <div className="details-ingredient-name">
-                        {name}
-                    </div>
-                    <div className="details-ingredient-flag">
-                        <img src={flag ? plus : minus} alt="Флаг"/>
-                    </div>
-                })}
+                {ingredients.map(({ingredient, is_enabled}) => (
+                    <>
+                        <div className="details-ingredient-name">
+                            {ingredient}
+                        </div>
+                        <div className="details-ingredient-flag">
+                            <img src={is_enabled ? plus : minus} alt="Флаг"/>
+                        </div>
+                    </>
+                    ))}
             </div>
             <div className="details-pizza-quantity">
                 Количество: {quantity}
