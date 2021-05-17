@@ -81,3 +81,8 @@ export function getOperatorPizzeriaSelector(state)
 {
     return state.user.pizzeria;
 }
+
+export function getOrdersForPizzeriaSelector(state)
+{
+    return state.pizzerias.orders;
+}

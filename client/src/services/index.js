@@ -12,7 +12,9 @@ const AUTHENTICATE_USER = BASE_URL.concat('/users/login')
 const MAKE_ORDER = BASE_URL.concat('/pizzerias/{}/orders')
 const GET_PIZZERIA_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria')
 const GET_PIZZERIA_PIZZAS_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria/pizzas')
+const GET_ORDERS_FOR_PIZZERIA = BASE_URL.concat('/operator/{}/pizzeria/orders')
 
+//http://127.0.0.1:8000/operator/1/pizzeria/orders
 
 String.prototype.format = function ()
 {
@@ -22,7 +24,7 @@ String.prototype.format = function ()
     });
 };
 
-function getToken()
+export function getToken()
 {
     return localStorage.getItem('token');
 }
@@ -41,6 +43,24 @@ export function authenticateUserService(username, password, role)
 export function fetchAllPizzeriasService()
 {
     return axios.get(GET_PIZZERIAS_URL);
+}
+
+export function fetchOrdersForPizzeriaService(operator_id, token)
+{
+
+    return axios({
+        method: "GET",
+        url:GET_ORDERS_FOR_PIZZERIA.format(operator_id),
+        headers: {'Authorization': token}
+    })
+
+    // return axios.get(GET_ORDERS_FOR_PIZZERIA.format(operator_id), {
+    //         headers: {
+    //                 "Authorization ": getToken()
+    //             }
+    //     }
+    // )
+
 }
 
 export function fetchAvailablePizzasService(pizzeria_id)

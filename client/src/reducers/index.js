@@ -25,7 +25,7 @@ import {
     SHOW_ORDER_HELP_MODAL,
     SHOW_ORDER_SUBMIT_MODAL,
     SET_CURRENT_USER,
-    SET_OPERATOR_PIZZERIA, LOGOUT_USER, FLIP_PIZZA_SELECTION, RESET_PIZZA_SELECTION,
+    SET_OPERATOR_PIZZERIA, LOGOUT_USER, FLIP_PIZZA_SELECTION, RESET_PIZZA_SELECTION, SET_ORDERS_FOR_PIZZERIA,
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -280,6 +280,14 @@ function pizzeriasReducer(state = {}, action)
             tmp.pizzerias_list = action.payload.pizzerias;
             return tmp;
 
+        case SET_ORDERS_FOR_PIZZERIA:
+            tmp =  {...state};
+            tmp.orders = {};
+            for (const order of action.payload.orders) {
+                tmp.orders[order.id] = {...order}
+            }
+
+            return tmp;
         default:
             return state;
     }
