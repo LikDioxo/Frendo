@@ -228,8 +228,8 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             selected_ingredient.flag = !selected_ingredient.flag
 
             if (selected_ingredient.status === 2) {
-                if (selected_ingredient.flag) tmp.to_change.price += selected_ingredient.price
-                else tmp.to_change.price -= selected_ingredient.price
+                if (selected_ingredient.flag) tmp.to_change.price += selected_ingredient.price * tmp.to_change.quantity
+                else tmp.to_change.price -= selected_ingredient.price * tmp.to_change.quantity
             }
 
             let current_time = new Date();
