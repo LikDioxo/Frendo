@@ -69,7 +69,12 @@ export function getChosenPizzeria(state)
         pizzeria_address: state.pizzerias.pizzeria_address,
         orders_count: state.pizzerias.orders_count,
         chosen: state.pizzerias.chosen
-    }
+    };
+}
+
+export function getDetailOrder(state)
+{
+    return state.pizzerias.detail_order;
 }
 
 export function getIngredientsSelector(state)
@@ -85,4 +90,9 @@ export function getOperatorPizzeriaSelector(state)
 export function getOrdersForPizzeriaSelector(state)
 {
     return state.pizzerias.orders;
+}
+
+export function getToasts(state)
+{
+    return state.toasts;
 }

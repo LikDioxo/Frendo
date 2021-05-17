@@ -29,7 +29,9 @@ import {
     LOGOUT_USER,
     FLIP_PIZZA_SELECTION,
     RESET_PIZZA_SELECTION,
-    SET_ORDERS_FOR_PIZZERIA
+    SET_ORDERS_FOR_PIZZERIA,
+    ADD_TOAST,
+    SET_DETAIL_ORDER,
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -291,7 +293,13 @@ function pizzeriasReducer(state = {}, action)
                 tmp.orders[order.id] = {...order}
             }
             return tmp;
-
+        case SET_DETAIL_ORDER:
+            tmp = {...state};
+            let order = action.payload.order;
+            tmp.detail_order = {...order,
+                choices: [...order.choices]}
+            action.payload.history.push("/operator/order")
+            return tmp;
         default:
             return state;
     }
@@ -387,6 +395,16 @@ function pizzaReducer(state={}, action) {
     }
 }
 
+function toastsReducer(state=null, action) {
+    switch (action.type)  {
+        case ADD_TOAST:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
+
 
 const mainReducer = combineReducers({
         filter: filterReducer,
@@ -394,7 +412,8 @@ const mainReducer = combineReducers({
         pizzerias: pizzeriasReducer,
         pizza: pizzaReducer,
         loading: loadingReducer,
-        user: userReducer
+        user: userReducer,
+        toasts: toastsReducer
     }
 )
 

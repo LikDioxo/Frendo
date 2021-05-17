@@ -31,12 +31,14 @@ function OrderSubmitModal({total_price})
             <div className="order-submit-modal-phone-number-title">Номер телефона: </div>
             <input
                 className="order-submit-modal-phone-number default-input-bar"
+                placeholder={"380XXXXXXXXX"}
                 ref={phone_number}
                 type="tel"
                 pattern="[0-9]{12}"
             />
             <div className="order-submit-modal-address-title">Адресс доставки: </div>
             <input
+                placeholder={"Ул. Победы 43/34"}
                 className="order-submit-modal-address default-input-bar"
                 ref={address}
             />

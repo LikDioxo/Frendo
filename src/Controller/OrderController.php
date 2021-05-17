@@ -309,6 +309,7 @@ class OrderController extends AbstractController
                 $normalizedChoice = [
                     'name' => $choice->getPizza()->getName(),
                     'quantity' => $choice->getQuantity(),
+                    'price' => $choice->getPizza()->getPrice()
                 ];
 
                 $choiceEvents = $choiceEventRepository->findBy(['choice' => $choice], ['createDate' => 'DESC']);
