@@ -14,7 +14,6 @@ const GET_PIZZERIA_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria')
 const GET_PIZZERIA_PIZZAS_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria/pizzas')
 const GET_ORDERS_FOR_PIZZERIA = BASE_URL.concat('/operator/{}/pizzeria/orders')
 
-//http://127.0.0.1:8000/operator/1/pizzeria/orders
 
 String.prototype.format = function ()
 {
@@ -47,20 +46,11 @@ export function fetchAllPizzeriasService()
 
 export function fetchOrdersForPizzeriaService(operator_id, token)
 {
-
     return axios({
         method: "GET",
         url:GET_ORDERS_FOR_PIZZERIA.format(operator_id),
         headers: {'Authorization': token}
     })
-
-    // return axios.get(GET_ORDERS_FOR_PIZZERIA.format(operator_id), {
-    //         headers: {
-    //                 "Authorization ": getToken()
-    //             }
-    //     }
-    // )
-
 }
 
 export function fetchAvailablePizzasService(pizzeria_id)

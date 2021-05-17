@@ -1,3 +1,6 @@
 .operator-order-list {
     width: 100%;
+    display: grid;
+    grid-template-columns: auto;
+    row-gap: 10px;
 }
