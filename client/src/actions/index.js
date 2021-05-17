@@ -36,6 +36,9 @@ export const GET_PIZZERIA_BY_OPERATOR = "GET_PIZZERIA_BY_OPERATOR"
 export const SET_OPERATOR_PIZZERIA = "SET_OPERATOR_PIZZERIA"
 export const LOGOUT_USER = "LOGOUT_USER"
 export const GET_PIZZERIA_PIZZAS_BY_OPERATOR = "GET_PIZZERIA_PIZZAS_BY_OPERATOR"
+export const FLIP_PIZZA_SELECTION = "FLIP_PIZZA_SELECTION"
+export const RESET_PIZZA_SELECTION = "RESET_PIZZA_SELECTION"
+export const UPDATE_PIZZERIA_AVAILABLE_PIZZAS = "UPDATE_PIZZERIA_AVAILABLE_PIZZAS"
 
 
 export function authenticateUser(name, password, role, history)
@@ -55,7 +58,7 @@ export function setCurrentUser(user)
 {
     return {
         type: SET_CURRENT_USER,
-        payload: { user }
+        payload: {user}
     }
 }
 
@@ -113,7 +116,7 @@ export function flipIngredientSelection(ingredient_id)
 {
     return {
         type: FLIP_INGREDIENT_SELECTION,
-        payload:{ingredient_id}
+        payload: {ingredient_id}
     }
 }
 
@@ -129,7 +132,7 @@ export function setPizzerias(pizzerias)
 {
     return {
         type: SET_PIZZERIAS,
-        payload: { pizzerias }
+        payload: {pizzerias}
     }
 }
 
@@ -158,7 +161,7 @@ export function setPizzas(pizzas)
 {
     return {
         type: SET_PIZZAS,
-        payload: { pizzas }
+        payload: {pizzas}
     }
 }
 
@@ -166,7 +169,7 @@ export function setSelectedPizza(pizza)
 {
     return {
         type: SET_SELECTED_PIZZA,
-        payload: { pizza }
+        payload: {pizza}
     }
 }
 
@@ -174,7 +177,7 @@ export function changePizzaInOrder(pizza_id)
 {
     return {
         type: CHANGE_PIZZA_IN_ORDER,
-        payload: { pizza_id }
+        payload: {pizza_id}
     }
 }
 
@@ -182,7 +185,7 @@ export function changePizza()
 {
     return {
         type: CHANGE_PIZZA,
-        payload: { }
+        payload: {}
     }
 }
 
@@ -223,7 +226,7 @@ export function unsetPizzaChange()
 
 export function getIngredients()
 {
-    return{
+    return {
         type: GET_INGREDIENTS,
         payload: {}
     }
@@ -231,7 +234,7 @@ export function getIngredients()
 
 export function setIngredients(ingredients)
 {
-    return{
+    return {
         type: SET_INGREDIENTS,
         payload: {ingredients}
     }
@@ -384,14 +387,41 @@ export function logoutUser()
     }
 }
 
-export function getPizzeriaPizzasByOperator(
-    operator_id
-)
+export function getPizzeriaPizzasByOperator(operator_id)
 {
     return {
         type: GET_PIZZERIA_PIZZAS_BY_OPERATOR,
         payload: {
             operator_id: operator_id
+        }
+    }
+}
+
+export function flipPizzaSelection(pizza_id)
+{
+    return {
+        type: FLIP_PIZZA_SELECTION,
+        payload: {
+            pizza_id: pizza_id
+        }
+    }
+}
+
+export function resetPizzaSelection()
+{
+    return {
+        type: RESET_PIZZA_SELECTION,
+        payload: {}
+    }
+}
+
+export function updatePizzeriaAvailablePizzas(operator_id, pizzas)
+{
+    return {
+        type: UPDATE_PIZZERIA_AVAILABLE_PIZZAS,
+        payload: {
+            operator_id: operator_id,
+            pizzas: pizzas
         }
     }
 }

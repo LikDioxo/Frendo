@@ -25,7 +25,7 @@ import {
     SHOW_ORDER_HELP_MODAL,
     SHOW_ORDER_SUBMIT_MODAL,
     SET_CURRENT_USER,
-    SET_OPERATOR_PIZZERIA, LOGOUT_USER,
+    SET_OPERATOR_PIZZERIA, LOGOUT_USER, FLIP_PIZZA_SELECTION, RESET_PIZZA_SELECTION,
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -341,6 +341,33 @@ function pizzaReducer(state={}, action) {
                 creation_time: formatCreationTime(current_time)
             });
 
+            return tmp;
+
+        case FLIP_PIZZA_SELECTION:
+            let pizzas = Object.values(state.pizzas);
+
+            pizzas = pizzas.map(pizza => {
+                if (pizza.id !== +action.payload.pizza_id) return pizza;
+                return {...pizza, is_available: !pizza.is_available};
+            });
+
+            let _pizzas = {}
+
+            for (let pizza of pizzas) {
+                _pizzas[pizza.id] = pizza
+            }
+
+            tmp = {
+                ...state,
+                pizzas: _pizzas
+            }
+            return tmp;
+
+        case RESET_PIZZA_SELECTION:
+            tmp = {...state};
+            for (let pizza in tmp.pizzas) {
+                tmp.pizzas[pizza].is_available = false;
+            }
             return tmp;
 
         default:

@@ -267,11 +267,37 @@ class PizzeriaController extends AbstractController
 
     public function changePizzeriaPizzaStatus(
         Request $request,
+        $operatorId,
         $pizzeriaPizzaId,
         PizzeriaPizzaRepository $pizzeriaPizzaRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ClientRepository $clientRepository,
+        PizzeriaRepository $pizzeriaRepository
     ): Response
     {
+        $operator = $clientRepository->find($operatorId);
+        if ($operator === null) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId does not exists!"]
+            );
+        }
+
+        if (!in_array("ROLE_OPERATOR", $operator->getRoles())) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId is not operator!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $pizzeria = $pizzeriaRepository->findOneBy(['operator' => $operator]);
+
+        if ($pizzeria === null) {
+            return new JsonResponse(
+                ['message' => "Pizzeria with operator (id): $operatorId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
         try {
             $data = $request->toArray();
         }
@@ -292,12 +318,19 @@ class PizzeriaController extends AbstractController
             );
         }
 
-        $pizzeriaPizza = $pizzeriaPizzaRepository->findOneBy(['id' => $pizzeriaPizzaId]);
+        $pizzeriaPizza = $pizzeriaPizzaRepository->find($pizzeriaPizzaId);
         if ($pizzeriaPizza === null)
         {
             return new JsonResponse(
                 ['message' => "PizzeriaPizza with id: $pizzeriaPizza does not exists!"],
                 JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($pizzeriaPizza->getPizzeria() !== $pizzeria) {
+            return new JsonResponse(
+                ['message' => "Pizza with id: $pizzeriaPizzaId does not relate to pizzeria with operator (id): $operatorId"],
+                JsonResponse::HTTP_FORBIDDEN
             );
         }
 
@@ -535,7 +568,8 @@ class PizzeriaController extends AbstractController
         $result = [];
 
         foreach ($pizzeriaPizzas as $pizzeriaPizza) {
-            $normalizedPizzeriaPizza['pizza'] = $pizzeriaPizza->getPizza()->getName();
+            $normalizedPizzeriaPizza['id'] = $pizzeriaPizza->getId();
+            $normalizedPizzeriaPizza['pizza_name'] = $pizzeriaPizza->getPizza()->getName();
             $normalizedPizzeriaPizza['is_available'] = $pizzeriaPizza->getIsAvailable();
             $result[] = $normalizedPizzeriaPizza;
         }

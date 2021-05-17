@@ -6,7 +6,7 @@
     row-gap: 2%;
     column-gap: 2%;
     padding: 20px 0;
-    width: 90%;
+    width: 100%;
 }
 
 .pizzas-wrapper > .nothing-found {

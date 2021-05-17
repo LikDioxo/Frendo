@@ -205,6 +205,7 @@ function* fetchGetPizzeriaByOperator(action)
 function* fetchGetPizzeriaPizzasByOperator(action)
 {
     try {
+        yield put(startPizzaLoading());
         let token = localStorage.getItem('token')
 
         const response = yield call(
@@ -215,8 +216,18 @@ function* fetchGetPizzeriaPizzasByOperator(action)
         if (response.status === 200) {
             const { data } = response;
 
-            yield put(setPizzas(data));
+            let pizzas = {};
+            for (let pizza of data) {
+                pizzas[pizza.id] = {
+                    id: pizza.id,
+                    pizza_name: pizza.pizza_name,
+                    is_available:  pizza.is_available
+                }
+            }
+
+            yield put(setPizzas(pizzas));
         }
+        yield put(endPizzaLoading());
 
     }catch (e) {}
 }

@@ -44,7 +44,7 @@ function FilterBox({pizzeria_id, ingredients}) {
     }
 
     return (
-        <div className="filter-box double-shadowed">
+        <div className="filter-box double-shadowed rounded-container">
             <h3>Фильтр ингредиентов</h3>
             <div className="ingredients-wrapper">
                 {show_ingredients.map(({id,name, flag})=>(
@@ -55,7 +55,7 @@ function FilterBox({pizzeria_id, ingredients}) {
                 ))}
             </div>
             <div className="buttons-wrapper">
-                <button  className="filter-box-clear default-button" onClick={handleReset}>Сбросить</button>
+                <button  className="filter-box-clear default-denying-button" onClick={handleReset}>Сбросить</button>
                 <button className="filter-box-apply default-button" onClick={handleFilter}>Применить</button>
             </div>
         </div>
