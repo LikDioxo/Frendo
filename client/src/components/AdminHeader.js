@@ -17,20 +17,19 @@ function AdminHeader()
         dispatch(logoutUser())
         history.push('/authenticate')
     }
+
     let user = useSelector(currentUserSelector);
 
-
-
     return (
-        <div className="operator-header">
-            <div className="operator-header-logo-wrapper">
+        <div className="operator-header admin-header">
+            <div className="operator-header-logo-wrapper admin-header-logo-wrapper">
                 <img src={logo} alt="Логотип"/>
             </div>
-           <div>
-               Добро пожаловать: Admin{user.id}
+           <div className="admin-header-welcome">
+               Добро пожаловать: {user.username} !
            </div>
             <button
-                className="operator-header-logout default-button operator-button"
+                className="operator-header-logout default-button operator-button admin-header-logout "
                 onClick={onLogout}
             >
                 Выйти

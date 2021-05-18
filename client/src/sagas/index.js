@@ -63,7 +63,12 @@ function* authenticateUser(action) {
             const { token, user_id, user_role } = data;
 
             localStorage.setItem('token', token);
-            yield put(setCurrentUser({user_id, user_role}));
+            let user = {
+                user_id: user_id,
+                user_role: action.payload.role,
+                username: action.payload.name
+            }
+            yield put(setCurrentUser(user));
 
             if (user_role === "ROLE_OPERATOR") {
                 action.payload.history.push('/operator');
