@@ -13,6 +13,7 @@ const MAKE_ORDER = BASE_URL.concat('/pizzerias/{}/orders')
 const GET_PIZZERIA_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria')
 const GET_PIZZERIA_PIZZAS_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria/pizzas')
 const GET_ORDERS_FOR_PIZZERIA = BASE_URL.concat('/operator/{}/pizzeria/orders')
+const UPDATE_PIZZERIA_AVAILABLE_PIZZA = BASE_URL.concat('/operator/{}/pizzeria/pizzas/{}')
 
 
 String.prototype.format = function ()
@@ -136,5 +137,22 @@ export function fetchGetPizzeriaPizzasByOperatorService(
         method: 'get',
         url: GET_PIZZERIA_PIZZAS_BY_OPERATOR.format(operator_id),
         headers: {'Authorization': operator_token}
+    })
+}
+
+export function fetchUpdatePizzeriaAvailablePizzaService(
+    operator_id,
+    operator_token,
+    pizzeria_pizza_id,
+    is_available
+)
+{
+    return axios({
+        method: 'put',
+        url: UPDATE_PIZZERIA_AVAILABLE_PIZZA.format(operator_id, pizzeria_pizza_id),
+        headers: {'Authorization': operator_token},
+        data: {
+            is_available: is_available
+        }
     })
 }

@@ -2,20 +2,20 @@ import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     flipPizzaSelection,
-    getPizzeriaPizzasByOperator,
-    updatePizzeriaAvailablePizzas,
-    resetPizzaSelection
+    resetPizzaSelection,
+    setAvailablePizzas,
+    flipUpdateAvailablePizzasModalView,
+    startPizzaLoading,
+    endPizzaLoading
 } from "../actions";
 import "../assets/css/operator_pizzas.css";
-import {getAvailablePizzasSelector} from "../selectors";
+import {isLoading} from "../selectors";
 import Loading from "./Loading";
 
 
 function OperatorPizzas({
-    operator_id,
     pizzas
-})
-{
+}) {
     const dispatch = useDispatch()
 
     const show_pizzas = []
@@ -26,26 +26,25 @@ function OperatorPizzas({
             name: pizzas[pizza].pizza_name,
             flag: pizzas[pizza].is_available
         })
-        if (pizzas[pizza].is_available) {
-            fetch_pizzas.push(pizza)
-        }
+        fetch_pizzas.push({
+            id: pizza,
+            is_available: pizzas[pizza].is_available
+        })
     }
-    const handleReset = () =>
-    {
+
+    const handleReset = () => {
         dispatch(resetPizzaSelection());
-        // dispatch(getPizzeriaPizzasByOperator(operator_id));
     }
 
     const handleAccept = () => {
-        if(fetch_pizzas.length !== 0)
-        {
-            dispatch(updatePizzeriaAvailablePizzas(operator_id, fetch_pizzas))
-        }
-        else
-        {
+        if (fetch_pizzas.length !== 0) {
+            dispatch(setAvailablePizzas(fetch_pizzas));
+            dispatch(flipUpdateAvailablePizzasModalView());
+        } else {
             handleReset();
         }
     }
+
 
     return (
         <div className="operator-pizzas double-shadowed rounded-container">
@@ -57,14 +56,16 @@ function OperatorPizzas({
                     return (<div className="operator-pizzas-pizza-wrapper">
                         <label htmlFor={id}>{name}</label>
                         <input type="checkbox" id={id} onClick={() => {
+                            dispatch(startPizzaLoading());
                             dispatch(flipPizzaSelection(id));
+                            dispatch(endPizzaLoading());
                         }} checked={flag}/>
                     </div>)
                 })}
             </div>
             <div className="operator-pizzas-buttons-wrapper">
-                <button  className="operator-pizzas-clear default-denying-button" onClick={handleReset}>Сбросить</button>
-                <button className="operator-pizzas-accept default-button" onClick={handleAccept}>Применить</button>
+                <button className="operator-pizzas-clear default-denying-button operator-button" onClick={handleReset}>Сбросить</button>
+                <button className="operator-pizzas-accept default-button operator-button" onClick={handleAccept}>Применить</button>
             </div>
         </div>
     )

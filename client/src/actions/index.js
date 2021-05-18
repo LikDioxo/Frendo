@@ -53,9 +53,12 @@ export const SET_CHOSEN_PIZZERIA = "SET_CHOSEN_PIZZERIA"
 export const SET_PIZZERIAS = "SET_PIZZERIAS"
 export const GET_PIZZERIAS = "GET_PIZZERIA"
 export const SET_DETAIL_ORDER= "SET_DETAIL_ORDER"
+export const SET_FETCH_AVAILABLE_PIZZAS = "SET_FETCH_AVAILABLE_PIZZAS"
 
 //Toast actions
 export const ADD_TOAST = "ADD_TOAST"
+
+export const SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL = "SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL"
 
 
 export function setDetailOrder(order, history)
@@ -65,7 +68,6 @@ export function setDetailOrder(order, history)
         payload: {order, history}
     }
 }
-
 
 
 export function getOrdersForPizzeria(operator_id)
@@ -83,8 +85,6 @@ export function addToast(toastType, message) {
     }
 }
 
-
-
 export function setOrdersForPizzeria(orders)
 {
     return {
@@ -92,8 +92,6 @@ export function setOrdersForPizzeria(orders)
         payload: {orders}
     }
 }
-
-
 
 export function authenticateUser(name, password, role, history)
 {
@@ -115,8 +113,6 @@ export function setCurrentUser(user)
         payload: {user}
     }
 }
-
-
 
 export function startPizzaLoading()
 {
@@ -476,6 +472,24 @@ export function updatePizzeriaAvailablePizzas(operator_id, pizzas)
         payload: {
             operator_id: operator_id,
             pizzas: pizzas
+        }
+    }
+}
+
+export function flipUpdateAvailablePizzasModalView()
+{
+    return {
+        type: SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL,
+        payload: {}
+    }
+}
+
+export function setAvailablePizzas(pizzas)
+{
+    return {
+        type: SET_FETCH_AVAILABLE_PIZZAS,
+        payload: {
+            available_pizzas: pizzas
         }
     }
 }

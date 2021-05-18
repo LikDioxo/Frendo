@@ -96,3 +96,13 @@ export function getToasts(state)
 {
     return state.toasts;
 }
+
+export function getAvailablePizzasOperatorModalView(state)
+{
+    return state.pizzerias.show_update_available_pizzas_modal;
+}
+
+export function getFetchAvailablePizzasSelector(state)
+{
+    return state.pizzerias.available_pizzas;
+}

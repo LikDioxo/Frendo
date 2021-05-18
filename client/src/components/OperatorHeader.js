@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getOperatorPizzeriaSelector} from "../selectors";
+import {getOperatorPizzeriaSelector, getOrdersForPizzeriaSelector} from "../selectors";
 import {logoutUser} from "../actions";
 import {useHistory, useLocation} from "react-router";
 import logo from '../assets/images/logo.png';
@@ -28,6 +28,8 @@ function OperatorHeader()
     }
 
     let pizzeria = useSelector(getOperatorPizzeriaSelector);
+    let orders = useSelector(getOrdersForPizzeriaSelector);
+    let pizzeria_workload = Object.values(orders).length;
 
     if (pizzeria === undefined) {
         return <Loading />
@@ -66,7 +68,7 @@ function OperatorHeader()
                         Заказов в очереди:
                     </div>
                     <div className="operator-header-pizzeria-workload">
-                        {pizzeria.workload}
+                        {pizzeria_workload}
                     </div>
                 </div>
             </div>

@@ -32,6 +32,8 @@ import {
     SET_ORDERS_FOR_PIZZERIA,
     ADD_TOAST,
     SET_DETAIL_ORDER,
+    SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL,
+    SET_FETCH_AVAILABLE_PIZZAS
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -293,6 +295,12 @@ function pizzeriasReducer(state = {}, action)
                 tmp.orders[order.id] = {...order}
             }
             return tmp;
+
+        case SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL:
+            tmp =  {...state};
+            tmp.show_update_available_pizzas_modal = !state.show_update_available_pizzas_modal;
+            return tmp;
+
         case SET_DETAIL_ORDER:
             tmp = {...state};
             let order = action.payload.order;
@@ -300,6 +308,12 @@ function pizzeriasReducer(state = {}, action)
                 choices: [...order.choices]}
             action.payload.history.push("/operator/order")
             return tmp;
+
+        case SET_FETCH_AVAILABLE_PIZZAS:
+            tmp = {...state};
+            tmp.available_pizzas = action.payload.available_pizzas;
+            return tmp;
+
         default:
             return state;
     }
@@ -384,10 +398,24 @@ function pizzaReducer(state={}, action) {
             return tmp;
 
         case RESET_PIZZA_SELECTION:
-            tmp = {...state};
-            for (let pizza in tmp.pizzas) {
-                tmp.pizzas[pizza].is_available = false;
+
+            let pizzas2 = Object.values(state.pizzas);
+
+            pizzas2 = pizzas2.map(pizza => {
+                return {...pizza, is_available: false};
+            });
+
+            let _pizzas2 = {}
+
+            for (let pizza of pizzas2) {
+                _pizzas2[pizza.id] = pizza
             }
+
+            tmp = {
+                ...state,
+                pizzas: _pizzas2
+            }
+
             return tmp;
 
         default:
@@ -399,11 +427,11 @@ function toastsReducer(state=null, action) {
     switch (action.type)  {
         case ADD_TOAST:
             return action.payload;
+
         default:
             return state;
     }
 }
-
 
 
 const mainReducer = combineReducers({

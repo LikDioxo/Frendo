@@ -12,10 +12,8 @@ function OperatorOrderList({orders})
     let history = useHistory();
     let quantities = {};
     for (let order of orders) {
-        // console.log(order);
         quantities[order.id] = 0;
         for (let choice of order.choices) {
-            // console.log(choice);
             quantities[order.id] += choice.quantity;
         }
     }

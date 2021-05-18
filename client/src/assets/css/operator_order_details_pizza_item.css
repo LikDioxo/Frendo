@@ -7,7 +7,7 @@
     ;
     row-gap: 5px;
     column-gap: 15px;
-    align-items: center;
+    grid-auto-rows: min-content;
     font-weight: bold;
     font-style: italic;
 }

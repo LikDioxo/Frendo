@@ -1,5 +1,6 @@
 import React from "react";
 import question from "../assets/images/are-you-sure.png";
+import "../assets/css/are_you_sure_modal.css";
 
 
 function AreYouSureModal({
@@ -8,7 +9,7 @@ function AreYouSureModal({
 })
 {
     return (
-        <div className="are-you-sure-modal">
+        <div className="are-you-sure-modal rounded-container">
             <div className="are-you-sure-modal-image-wrapper">
                 <img src={question} alt="Вы уверены?"/>
             </div>
@@ -18,7 +19,7 @@ function AreYouSureModal({
                     onClick={onDeny}
                 >Нет</button>
                 <button
-                    className="default-denying-button operator-button are-you-sure-modal-yes"
+                    className="default-button operator-button are-you-sure-modal-yes"
                     onClick={onConfirm}
                 >Да</button>
             </div>

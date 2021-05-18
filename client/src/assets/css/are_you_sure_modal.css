@@ -1,0 +1,28 @@
+.are-you-sure-modal {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: max-content;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.are-you-sure-modal-buttons-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.are-you-sure-modal-image-wrapper {
+    width: 20vw;
+}
+
+.are-you-sure-modal-image-wrapper img {
+    width: 100%;
+}
+
+.are-you-sure-modal-buttons-wrapper button {
+    padding: 8px 20px;
+}

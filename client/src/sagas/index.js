@@ -12,6 +12,7 @@ import {
     fetchMakeOrderService,
     fetchOrderInfoService,
     fetchOrdersForPizzeriaService,
+    fetchUpdatePizzeriaAvailablePizzaService,
     getToken
 } from "../services";
 import {
@@ -25,7 +26,9 @@ import {
     AUTHENTICATE_USER,
     MAKE_ORDER,
     GET_PIZZERIA_BY_OPERATOR,
-    GET_PIZZERIA_PIZZAS_BY_OPERATOR, setOrdersForPizzeria, GET_ORDERS_FOR_PIZZERIA, addToast, clearCart
+    GET_PIZZERIA_PIZZAS_BY_OPERATOR,
+    GET_ORDERS_FOR_PIZZERIA,
+    UPDATE_PIZZERIA_AVAILABLE_PIZZAS
 } from "../actions";
 import {
     setPizzas,
@@ -34,7 +37,10 @@ import {
     endPizzaLoading,
     startPizzaLoading,
     setCurrentUser,
-    setOperatorPizzeria
+    setOperatorPizzeria,
+    setOrdersForPizzeria,
+    addToast,
+    clearCart
 } from "../actions";
 import {formatChoices} from "../utils";
 
@@ -230,6 +236,22 @@ function* fetchOrdersForPizzeria(action)
 
 }
 
+function* fetchUpdatePizzeriaAvailablePizzas(action)
+{
+    try {
+        let token = localStorage.getItem('token')
+
+        for (let pizza of action.payload.pizzas) {
+            const response = yield call(
+                fetchUpdatePizzeriaAvailablePizzaService,
+                action.payload.operator_id,
+                token,
+                pizza.id,
+                pizza.is_available
+            )
+        }
+    }catch (e) {}
+}
 
 function* fetchGetPizzeriaPizzasByOperator(action)
 {
@@ -315,10 +337,17 @@ function* watchFetchOrdersForPizzeria()
 {
     yield takeEvery(GET_ORDERS_FOR_PIZZERIA, fetchOrdersForPizzeria);
 }
+
 function* watchFetchGetPizzeriaPizzasByOperator()
 {
     yield takeEvery(GET_PIZZERIA_PIZZAS_BY_OPERATOR, fetchGetPizzeriaPizzasByOperator);
 }
+
+function* watchFetchUpdatePizzeriaAvailablePizzas()
+{
+    yield takeEvery(UPDATE_PIZZERIA_AVAILABLE_PIZZAS, fetchUpdatePizzeriaAvailablePizzas);
+}
+
 
 export default function* rootSaga()
 {
@@ -334,6 +363,7 @@ export default function* rootSaga()
         watchUserAuthenticate(),
         watchFetchGetPizzeriaByOperator(),
         watchFetchGetPizzeriaPizzasByOperator(),
-        watchFetchOrdersForPizzeria()
+        watchFetchOrdersForPizzeria(),
+        watchFetchUpdatePizzeriaAvailablePizzas()
     ])
 }
