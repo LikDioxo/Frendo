@@ -98,10 +98,37 @@ class OrderController extends AbstractController
 
     public function updateStatus(
         Request $request,
+        $operatorId,
+        $orderId,
         OrderRepository $orderRepository,
+        ClientRepository $clientRepository,
+        PizzeriaRepository $pizzeriaRepository,
         EntityManagerInterface $entityManager
     ): Response
     {
+        $operator = $clientRepository->find($operatorId);
+        if ($operator === null) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId does not exists!"]
+            );
+        }
+
+        if (!in_array("ROLE_OPERATOR", $operator->getRoles())) {
+            return new JsonResponse(
+                ['message' => "User with id: $operatorId is not operator!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $pizzeria = $pizzeriaRepository->findOneBy(['operator' => $operator]);
+
+        if ($pizzeria === null) {
+            return new JsonResponse(
+                ['message' => "Pizzeria with operator (id): $operatorId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
         try {
             $data = $request->toArray();
         }
@@ -113,7 +140,6 @@ class OrderController extends AbstractController
         }
 
         try {
-            $orderId = $data['order_id'];
             $status = $data['status'];
         }
         catch (ErrorException) {
@@ -123,16 +149,18 @@ class OrderController extends AbstractController
             );
         }
 
-        $order = $orderRepository->findOneBy(['id' => $orderId]);
+        $order = $orderRepository->findOneBy(['pizzeria' => $pizzeria, 'id' => $orderId]);
         if ($order === null)
         {
             return new JsonResponse(
-                ['message' => "Order with id: $orderId does not exists!"],
+                [
+                    'message' => "Order with id: $orderId does not relate to pizzeria with id: {$pizzeria->getId()} 
+                    or does not exists!"],
                 JsonResponse::HTTP_NOT_FOUND
             );
         }
 
-        if (OrderStatus::isStatus($status))
+        if (!OrderStatus::isStatus($status))
         {
             return new JsonResponse(
                 ['message' => "Invalid status: $status!"],
@@ -288,7 +316,7 @@ class OrderController extends AbstractController
             );
         }
 
-        $orders = $orderRepository->findBy(['pizzeria' => $pizzeria]);
+        $orders = $orderRepository->getActiveOrders($pizzeria->getId());
 
         $result = [];
         foreach ($orders as $order) {
@@ -300,11 +328,6 @@ class OrderController extends AbstractController
 
             $choices = $choiceRepository->findBy(['order' => $order]);
             foreach ($choices as $choice) {
-
-//                $normalizedChoice = $normalizer->normalize(
-//                    $choice,
-//                    context: ['attributes' => ['quantity', 'pizza' => ['name']]]
-//                );
 
                 $normalizedChoice = [
                     'name' => $choice->getPizza()->getName(),

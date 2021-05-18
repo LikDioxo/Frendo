@@ -64,8 +64,8 @@ app_create_pizzeria:
 
 # Operator
 app_update_order_status:
-    path: /operator/update/order-status
-    methods: POST
+    path: /operator/{operatorId}/pizzeria/orders/{orderId}/status
+    methods: PUT
     controller: App\Controller\OrderController::updateStatus
 
 app_change_pizzeria_pizza_status:
