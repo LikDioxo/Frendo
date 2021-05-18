@@ -12,7 +12,7 @@ import {
     fetchMakeOrderService,
     fetchOrderInfoService,
     fetchOrdersForPizzeriaService,
-    fetchUpdatePizzeriaAvailablePizzaService,
+    fetchUpdatePizzeriaAvailablePizzaService, fetchUpdatePizzeriaOrderStatusService,
     getToken
 } from "../services";
 import {
@@ -28,7 +28,10 @@ import {
     GET_PIZZERIA_BY_OPERATOR,
     GET_PIZZERIA_PIZZAS_BY_OPERATOR,
     GET_ORDERS_FOR_PIZZERIA,
-    UPDATE_PIZZERIA_AVAILABLE_PIZZAS
+    UPDATE_PIZZERIA_AVAILABLE_PIZZAS,
+    UPDATE_PIZZERIA_ORDER_STATUS,
+    flipOrderSubmitModalView,
+    flipUpdateAvailablePizzasModalView
 } from "../actions";
 import {
     setPizzas,
@@ -68,12 +71,12 @@ function* authenticateUser(action) {
             else if (user_role === "ROLE_ADMIN") {
                 action.payload.history.push('/admin');
             }
-            yield put(addToast("success","Аутентификация"))
+            yield put(addToast("success","Аутентификация прошла успешно :)"))
         }
         yield put(endPizzaLoading())
 
     } catch (e) {
-        yield put(addToast("error","Ошибка!"))
+        yield put(addToast("error","Ошибка: некоректные данные :("))
         yield put(endPizzaLoading())
     }
 }
@@ -191,12 +194,12 @@ function* fetchMakeOrder(action)
         )
         if(response.status === 201)
         {
-            yield put(addToast("success", "Заказ принят:)"));
+            yield put(addToast("success", "Заказ принят :)"));
             yield put(clearCart());
+            yield put(flipOrderSubmitModalView());
         }
     }catch (e) {
-
-        yield put(addToast("error", "Ошибка. Неверно введен номер телефона:("));
+        yield put(addToast("error", "Ошибка. Неверно введен номер телефона :("));
     }
 }
 
@@ -250,7 +253,14 @@ function* fetchUpdatePizzeriaAvailablePizzas(action)
                 pizza.is_available
             )
         }
-    }catch (e) {}
+
+        yield put(addToast("success", "Данные успешно обновлены :)"));
+        yield put(flipUpdateAvailablePizzasModalView())
+
+    }catch (e) {
+        yield put(addToast('error', "Ошибка: некоректные данные :("));
+        yield put(flipUpdateAvailablePizzasModalView());
+    }
 }
 
 function* fetchGetPizzeriaPizzasByOperator(action)
@@ -280,6 +290,31 @@ function* fetchGetPizzeriaPizzasByOperator(action)
         yield put(endPizzaLoading());
 
     }catch (e) {}
+}
+
+function* fetchUpdatePizzeriaOrderStatus(action)
+{
+    try {
+        let token = localStorage.getItem('token');
+
+        const response = yield call(
+            fetchUpdatePizzeriaOrderStatusService,
+            action.payload.operator_id,
+            token,
+            action.payload.order_id,
+            action.payload.status
+        )
+
+        if (response.status === 200) {
+            yield put(addToast("success", "Данные успешно обновлены :)"));
+            yield put(flipUpdateAvailablePizzasModalView());
+        }
+
+
+    }catch (e) {
+        yield put(addToast("error", "Ошибка: некоректные данные :("));
+        yield put(flipUpdateAvailablePizzasModalView());
+    }
 }
 
 
@@ -348,6 +383,11 @@ function* watchFetchUpdatePizzeriaAvailablePizzas()
     yield takeEvery(UPDATE_PIZZERIA_AVAILABLE_PIZZAS, fetchUpdatePizzeriaAvailablePizzas);
 }
 
+function* watchUpdatePizzeriaOrderStatus()
+{
+    yield takeEvery(UPDATE_PIZZERIA_ORDER_STATUS, fetchUpdatePizzeriaOrderStatus)
+}
+
 
 export default function* rootSaga()
 {
@@ -364,6 +404,7 @@ export default function* rootSaga()
         watchFetchGetPizzeriaByOperator(),
         watchFetchGetPizzeriaPizzasByOperator(),
         watchFetchOrdersForPizzeria(),
-        watchFetchUpdatePizzeriaAvailablePizzas()
+        watchFetchUpdatePizzeriaAvailablePizzas(),
+        watchUpdatePizzeriaOrderStatus()
     ])
 }

@@ -33,7 +33,7 @@ import {
     ADD_TOAST,
     SET_DETAIL_ORDER,
     SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL,
-    SET_FETCH_AVAILABLE_PIZZAS
+    SET_FETCH_AVAILABLE_PIZZAS, SET_UPDATED_ORDER, UNSET_UPDATED_ORDER
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -260,6 +260,21 @@ function orderReducer(state={ordered_pizzas: {}}, action)
             tmp.show_order_submit_modal = !state.show_order_submit_modal;
             return tmp;
 
+        case SET_UPDATED_ORDER:
+            tmp = {...state};
+            tmp.updated_order = {
+                order_id: action.payload.order_id,
+                status: action.payload.status
+            }
+
+            return tmp;
+
+        case UNSET_UPDATED_ORDER:
+            tmp = {...state};
+            tmp.updated_order = {}
+
+            return tmp;
+
         default:
             return state;
     }
@@ -402,7 +417,7 @@ function pizzaReducer(state={}, action) {
             let pizzas2 = Object.values(state.pizzas);
 
             pizzas2 = pizzas2.map(pizza => {
-                return {...pizza, is_available: false};
+                return {...pizza, is_available: true};
             });
 
             let _pizzas2 = {}

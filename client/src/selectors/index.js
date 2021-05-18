@@ -1,4 +1,3 @@
-
 export function currentUserSelector(state)
 {
     return state.user;
@@ -105,4 +104,9 @@ export function getAvailablePizzasOperatorModalView(state)
 export function getFetchAvailablePizzasSelector(state)
 {
     return state.pizzerias.available_pizzas;
+}
+
+export function getUpdatedOrderSelector(state)
+{
+    return state.order.updated_order;
 }

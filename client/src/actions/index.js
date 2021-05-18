@@ -21,6 +21,8 @@ export const DECREASE_SELECTED_PIZZA_QUANTITY = "DECREASE_SELECTED_PIZZA_QUANTIT
 export const DELETE_PIZZA_FROM_ORDER = "DELETE_PIZZA_FROM_ORDER"
 export const CLEAR_CART = "CLEAR_CART"
 export const CHANGE_INGREDIENT_IN_CART_PIZZA = "CHANGE_INGREDIENT_IN_CART_PIZZA"
+export const SET_UPDATED_ORDER = "SET_UPDATED_ORDER"
+export const UNSET_UPDATED_ORDER = "UNSET_UPDATED_ORDER"
 
 //User actions
 export const SET_OPERATOR_PIZZERIA = "SET_OPERATOR_PIZZERIA"
@@ -54,6 +56,7 @@ export const SET_PIZZERIAS = "SET_PIZZERIAS"
 export const GET_PIZZERIAS = "GET_PIZZERIA"
 export const SET_DETAIL_ORDER= "SET_DETAIL_ORDER"
 export const SET_FETCH_AVAILABLE_PIZZAS = "SET_FETCH_AVAILABLE_PIZZAS"
+export const UPDATE_PIZZERIA_ORDER_STATUS = "UPDATE_PIZZERIA_ORDER_STATUS"
 
 //Toast actions
 export const ADD_TOAST = "ADD_TOAST"
@@ -491,5 +494,43 @@ export function setAvailablePizzas(pizzas)
         payload: {
             available_pizzas: pizzas
         }
+    }
+}
+
+export function updatePizzeriaOrderStatus(
+    operator_id,
+    order_id,
+    status
+)
+{
+    return {
+        type: UPDATE_PIZZERIA_ORDER_STATUS,
+        payload: {
+            operator_id: operator_id,
+            order_id: order_id,
+            status: status
+        }
+    }
+}
+
+export function setUpdatedOrder(
+    order_id,
+    status
+)
+{
+    return {
+        type: SET_UPDATED_ORDER,
+        payload: {
+            order_id: order_id,
+            status: status
+        }
+    }
+}
+
+export function unsetUpdatedOrder()
+{
+    return {
+        type: UNSET_UPDATED_ORDER,
+        payload: {}
     }
 }

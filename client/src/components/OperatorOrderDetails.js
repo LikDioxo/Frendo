@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import "../assets/css/operator_order_details.css";
 
 
@@ -7,10 +7,15 @@ function OperatorOrderDetails({
     delivery_address,
     phone_number,
     total_price,
+    order_status,
     onStatusPressed,
     onPrintPressed
 })
 {
+    let status = useRef();
+
+    let onStatusPressedCallback = () => onStatusPressed(status.current.options[status.current.selectedIndex].value);
+
     return (
         <div className="operator-order-details double-shadowed rounded-container">
             <div className="operator-order-details-title">
@@ -30,12 +35,13 @@ function OperatorOrderDetails({
             </div>
             <select
                 className="operator-order-details-status default-denying-button operator-button"
-                onClick={onStatusPressed}
+                onChange={onStatusPressedCallback}
+                ref={status}
             >
-                <option selected hidden>Статус</option>
-                <option>Готовится</option>
-                <option>Уже готово</option>
-                <option>В службе доставки</option>
+                <option selected={order_status === 0} hidden={order_status > 0}>Статус</option>
+                <option value={1} selected={order_status === 1} >Готовится</option>
+                <option value={2} selected={order_status === 2} >Уже готово</option>
+                <option value={3} selected={order_status === 3} >В службе доставки</option>
             </select>
             <button
                 className="operator-order-details-print default-button operator-button"
