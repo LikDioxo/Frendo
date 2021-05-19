@@ -9,7 +9,7 @@ function EntityNavigator()
 
 
     return(
-        <div className="double-shadowed entity-navigator">
+        <div className="entity-navigator">
             <div className="entity-navigator-title">
                 Таблицы
             </div>

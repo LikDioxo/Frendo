@@ -9,6 +9,7 @@ import PizzasForm from "../components/PizzasForm";
 import PizzeriasForm from "../components/PizzeriasForm";
 import UsersForm from "../components/UsersForm";
 
+
 function EntityExplorer()
 {
 
@@ -39,30 +40,26 @@ function EntityExplorer()
     if(entity_type === undefined)
     {
         return (
-            <div>
-                Выберите таблицу которую нужно изменить или добавить новую запись!
+            <div className="entity-explorer">
+                <div className="start-text">
+                    Выберите таблицу которую нужно изменить или добавить новую запись!
+                </div>
             </div>
         )
     }
 
-
     let current_type = types[entity_type]
 
-
-
     return(
-        <div className="entity-navigator-wrapper">
-            <div className="shadowed">
-                <div>{current_type.name}</div>
-                <button>Добавить запись</button>
+        <div className="entity-explorer">
+            <div className="entity-explorer-header">
+                <div className="entity-explorer-table-title">{current_type.name}</div>
+                <button className="entity-explorer-add-record default-button operator-button">Добавить запись</button>
             </div>
             <SearchBar/>
             <Table header={current_type.header} entities={[]}/>
         </div>
     )
-
-
-
 }
 
 

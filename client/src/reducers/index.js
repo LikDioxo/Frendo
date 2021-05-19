@@ -33,7 +33,10 @@ import {
     ADD_TOAST,
     SET_DETAIL_ORDER,
     SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL,
-    SET_FETCH_AVAILABLE_PIZZAS, SET_UPDATED_ORDER, UNSET_UPDATED_ORDER, SET_ENTITY_TYPE
+    SET_FETCH_AVAILABLE_PIZZAS,
+    SET_UPDATED_ORDER,
+    UNSET_UPDATED_ORDER,
+    SET_ENTITY_TYPE
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -132,14 +135,7 @@ function orderReducer(state={ordered_pizzas: {}}, action)
         case ADD_PIZZA_TO_ORDER:
             tmp = {...state};
 
-            let to_add = {...action.payload.pizza};
-            let t = {}
-
-            for (const ingr of Object.keys(action.payload.pizza.ingredients)) {
-                t[ingr] = {...action.payload.pizza.ingredients[ingr]}
-            }
-            to_add.ingredients = t;
-
+            let to_add = JSON.parse(JSON.stringify(action.payload.pizza));
 
             let existed = Object.values(tmp.ordered_pizzas).find((el) => {
                 if(el.id !== to_add.id)

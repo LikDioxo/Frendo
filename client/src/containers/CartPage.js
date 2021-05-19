@@ -6,7 +6,7 @@ import {
     getOrder, getOrderSubmitModalView,
     getPizzaChange,
     getPizzeriasModalView,
-    getPizzeriasSelector,
+    getPizzeriasSelector, isLoading,
     isPizzaChange
 } from "../selectors";
 import Header from "./Header";
@@ -46,7 +46,8 @@ function CartPage()
     const Ingredients = useSelector(getIngredients);
     const PizzaChange = useSelector(isPizzaChange);
     const Pizza = useSelector(getPizzaChange);
-    const OrderModalView = useSelector(getOrderSubmitModalView)
+    const OrderModalView = useSelector(getOrderSubmitModalView);
+    const loading = useSelector(isLoading);
 
     const handlePizzeriaChange = () => {
         dispatch(flipPizzeriasModalView());
@@ -71,7 +72,6 @@ function CartPage()
         return <Loading/>
     }
 
-
     const show_order = [];
     let price = 0;
     for (const item of Object.keys(order.ordered_pizzas)) {
@@ -86,7 +86,6 @@ function CartPage()
         )
         price += parseInt(order.ordered_pizzas[item].price);
     }
-
 
     return(
         <div className="content">
@@ -132,6 +131,7 @@ function CartPage()
                         <OrderSubmitModal total_price={price}/>
                     }
                 />
+                {loading ? <Loading/> : null}
 
             </div>
             <Footer/>

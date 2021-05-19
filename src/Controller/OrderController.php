@@ -248,6 +248,17 @@ class OrderController extends AbstractController
             );
         }
 
+        var_dump($phoneNumber);
+        if (!preg_match("/^\d{12}$/", strval($phoneNumber)))
+        {
+            echo "a";
+
+            return new JsonResponse(
+                ['message' => 'Invalid phone number!'],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
         $orders = $orderRepository->findBy(['customersPhoneNumber' => $phoneNumber]);
         $result = [];
 
@@ -404,8 +415,11 @@ class OrderController extends AbstractController
             );
         }
 
-        if (!preg_match("/^\d{12}/", $customersPhoneNumber))
+        var_dump($customersPhoneNumber);
+
+        if (!preg_match("/^\d{12}$/", $customersPhoneNumber))
         {
+            echo "a";
             return new JsonResponse(
                 ['message' => 'Invalid phone number!'],
                 JsonResponse::HTTP_BAD_REQUEST
