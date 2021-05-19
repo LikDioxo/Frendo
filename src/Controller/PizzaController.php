@@ -121,7 +121,6 @@ class PizzaController extends AbstractController
     public function delete(
         $pizzaId,
         PizzaRepository $pizzaRepository,
-        OrderRepository $orderRepository,
         ChoiceRepository $choiceRepository,
         EntityManagerInterface $entityManager
     ): JsonResponse
@@ -142,6 +141,104 @@ class PizzaController extends AbstractController
 
         $entityManager->remove($pizza);
         $entityManager->flush();
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    public function update(
+        Request $request,
+        $pizzaId,
+        PizzaRepository $pizzaRepository,
+        PizzaIngredientRepository $pizzaIngredientRepository,
+        IngredientRepository $ingredientRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $pizza = $pizzaRepository->find($pizzaId);
+
+        if ($pizza === null) {
+            return new JsonResponse(
+                ['message' => "Pizza with id: $pizzaId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            $data = $request->toArray();
+        } catch (JsonException $exception) {
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $newName = array_key_exists('name', $data) ? $data['name'] : null;
+        $newWeight = array_key_exists('weight', $data) ? $data['weight'] : null;
+        $newSize = array_key_exists('size', $data) ? $data['size'] : null;
+        $newPrice = array_key_exists('price', $data) ? $data['price'] : null;
+        $newIngredients = array_key_exists('ingredients', $data) ? $data['ingredients'] : null;
+
+        if ($newName !== null) {
+            $pizza->setName($newName);
+        }
+        if ($newWeight !== null) {
+            $pizza->setWeight($newWeight);
+        }
+        if ($newSize !== null) {
+            $pizza->setSize($newSize);
+        }
+        if ($newPrice !== null) {
+            $pizza->setPrice($newPrice);
+        }
+
+        if ($newIngredients !== null) {
+            foreach ($newIngredients as $ingredient) {
+                try {
+                    $ingredientId = $ingredient['id'];
+                    $ingredientStatus = $ingredient['status'];
+                } catch (ErrorException) {
+                    return new JsonResponse(
+                        ['message' => 'Request body not provide some of this parameters: 
+                        ingredient: id, ingredient: status!'],
+                        JsonResponse::HTTP_BAD_REQUEST
+                    );
+                }
+
+                $ingredient = $ingredientRepository->findOneBy(['id' => $ingredientId]);
+                if ($ingredient === null) {
+                    return new JsonResponse(
+                        ['message' => "Ingredient with id: $ingredientId does not exists!"],
+                        JsonResponse::HTTP_BAD_REQUEST
+                    );
+                }
+
+                if (!(IngredientStatus::isStatus($ingredientStatus))) {
+                    return new JsonResponse(
+                        ['message' => "Invalid status: $ingredientStatus!"],
+                        JsonResponse::HTTP_BAD_REQUEST
+                    );
+                }
+
+                $pizzaIngredient = $pizzaIngredientRepository->findOneBy(['ingredient' => $ingredient, 'pizza' => $pizza]);
+
+                if ($pizzaIngredient === null) {
+                    $pizzaIngredient = new PizzaIngredient(
+                        $pizza,
+                        $ingredient,
+                        $ingredientStatus
+                    );
+
+                    $entityManager->persist($pizzaIngredient);
+                    continue;
+                }
+
+                $pizzaIngredient->setStatus($ingredientStatus);
+                $entityManager->persist($pizzaIngredient);
+            }
+        }
+
+        $entityManager->persist($pizza);
+        $entityManager->flush();
+
         return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
     }
 

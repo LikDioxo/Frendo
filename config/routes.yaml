@@ -70,17 +70,35 @@ app_delete_client:
     methods: DELETE
     controller: App\Controller\ClientController::delete
 
-
 app_delete_pizza:
     path: /admin/pizzas/{pizzaId}
     methods: DELETE
     controller: App\Controller\PizzaController::delete
 
-
 app_delete_ingredient:
     path: /admin/ingredients/{ingredientId}
     methods: DELETE
     controller: App\Controller\IngredientController::delete
+
+app_update_pizzeria:
+    path: /admin/pizzerias/{pizzeriaId}
+    methods: PUT
+    controller: App\Controller\PizzeriaController::update
+
+app_update_client:
+    path: /admin/users/{userId}
+    methods: PUT
+    controller: App\Controller\ClientController::update
+
+app_update_pizza:
+    path: /admin/pizzas/{pizzaId}
+    methods: PUT
+    controller: App\Controller\PizzaController::update
+
+app_update_ingredient:
+    path: /admin/ingredients/{ingredientId}
+    methods: PUT
+    controller: App\Controller\IngredientController::update
 
 # Operator
 app_update_order_status:

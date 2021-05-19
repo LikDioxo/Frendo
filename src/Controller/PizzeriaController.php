@@ -161,6 +161,72 @@ class PizzeriaController extends AbstractController
         return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
     }
 
+    public function update(
+        Request $request,
+        $pizzeriaId,
+        PizzeriaRepository $pizzeriaRepository,
+        ClientRepository $clientRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $pizzeria = $pizzeriaRepository->find($pizzeriaId);
+
+        if ($pizzeria === null) {
+            return new JsonResponse(
+                ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            $data = $request->toArray();
+        }
+        catch (JsonException $exception) {
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $newAddress = array_key_exists('address', $data) ? $data['address'] : null;
+        $newOperatorId = array_key_exists('operator_id', $data) ? $data['operator_id'] : null;
+
+        if ($newAddress !== null) {
+            $pizzeria->setAddress($newAddress);
+        }
+
+        if ($newOperatorId !== null) {
+            $operator = $clientRepository->find($newOperatorId);
+
+            if ($operator === null) {
+                return new JsonResponse(
+                    ['message' => "User with id: $newOperatorId does not exists!"],
+                    JsonResponse::HTTP_NOT_FOUND
+                );
+            }
+
+            if (!in_array("ROLE_OPERATOR", $operator->getRoles())) {
+                return new JsonResponse(
+                    ['message' => "User with id: $newOperatorId is not operator!"],
+                    JsonResponse::HTTP_NOT_FOUND
+                );
+            }
+
+            if ($pizzeriaRepository->findOneBy(['operator' => $operator]) !== null) {
+                return new JsonResponse(
+                    ['message' => "Operator with id: $newOperatorId has already connected to another pizzeria!"],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            $pizzeria->setOperator($operator);
+        }
+
+        $entityManager->persist($pizzeria);
+        $entityManager->flush();
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+    }
+
     public function getWorkload(
         Request $request,
         $id,

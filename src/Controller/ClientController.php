@@ -210,4 +210,59 @@ class ClientController extends AbstractController
         $entityManager->flush();
         return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
     }
+
+    public function update(
+        Request $request,
+        $userId,
+        ClientRepository $clientRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $user = $clientRepository->find($userId);
+        if ($user === null) {
+            return new JsonResponse(
+                ['message' => "User with id: $userId does not exists!"]
+            );
+        }
+
+        try {
+            $data = $request->toArray();
+        }
+        catch (JsonException $exception) {
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $newUsername = array_key_exists('username', $data) ? $data['username'] : null;
+        $newPassword = array_key_exists('password', $data) ? $data['password'] : null;
+        $newRoles = array_key_exists('roles', $data) ? $data['roles'] : null;
+
+        if ($newPassword !== null) {
+            $salt = base64_encode(random_bytes(15));
+
+            $hashedPassword = password_hash(
+                $newPassword . $salt,
+                PASSWORD_DEFAULT,
+                ['cost' => 15]
+            );
+
+            $user->setPassword($hashedPassword);
+            $user->setSalt($salt);
+        }
+
+        if ($newUsername !== null) {
+            $user->setUsername($newUsername);
+        }
+
+        if ($newRoles !== null) {
+            $user->setRoles($newRoles);
+        }
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+    }
 }

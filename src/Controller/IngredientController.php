@@ -69,7 +69,7 @@ class IngredientController extends AbstractController
         $ingredientId,
         IngredientRepository $ingredientRepository,
         EntityManagerInterface $entityManager
-    )
+    ): JsonResponse
     {
         $ingredient = $ingredientRepository->find($ingredientId);
 
@@ -82,6 +82,50 @@ class IngredientController extends AbstractController
 
         $entityManager->remove($ingredient);
         $entityManager->flush();
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+    }
+
+    public function update(
+        Request $request,
+        $ingredientId,
+        IngredientRepository $ingredientRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $ingredient = $ingredientRepository->find($ingredientId);
+
+        if ($ingredient === null) {
+            return new JsonResponse(
+                ['message' => "Ingredient with id: $ingredientId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        try {
+            $data = $request->toArray();
+        }
+        catch (JsonException $exception) {
+            return new JsonResponse(
+                ['message' => $exception->getMessage()],
+                JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        $newName = array_key_exists('name', $data) ? $data['name'] : null;
+        $newPrice = array_key_exists('price', $data) ? $data['price'] : null;
+
+
+        if ($newName !== null) {
+            $ingredient->setName($newName);
+        }
+
+        if ($newPrice !== null) {
+            $ingredient->setPrice($newPrice);
+        }
+
+        $entityManager->persist($ingredient);
+        $entityManager->flush();
+
         return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
     }
 
