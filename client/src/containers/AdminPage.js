@@ -2,6 +2,9 @@ import React from "react";
 import AdminHeader from "../components/AdminHeader";
 import EntityNavigator from "./EntityNavigator";
 import "../assets/css/admin.css";
+import EntityExplorer from "./EntityExplorer";
+
+
 
 
 function AdminPage()
@@ -12,6 +15,7 @@ function AdminPage()
 
             <div className="admin-page">
                 <EntityNavigator/>
+                <EntityExplorer/>
             </div>
 
         </div>

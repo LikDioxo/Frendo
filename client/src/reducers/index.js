@@ -33,7 +33,7 @@ import {
     ADD_TOAST,
     SET_DETAIL_ORDER,
     SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL,
-    SET_FETCH_AVAILABLE_PIZZAS, SET_UPDATED_ORDER, UNSET_UPDATED_ORDER
+    SET_FETCH_AVAILABLE_PIZZAS, SET_UPDATED_ORDER, UNSET_UPDATED_ORDER, SET_ENTITY_TYPE
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -449,6 +449,20 @@ function toastsReducer(state=null, action) {
 }
 
 
+function entityReducer(state={}, action)
+{
+    let tmp;
+    switch (action.type)  {
+        case SET_ENTITY_TYPE:
+            tmp = {...state};
+            tmp.entity_type = action.payload.entity_type
+            return tmp
+        default:
+            return state;
+    }
+}
+
+
 const mainReducer = combineReducers({
         filter: filterReducer,
         order: orderReducer,
@@ -456,7 +470,8 @@ const mainReducer = combineReducers({
         pizza: pizzaReducer,
         loading: loadingReducer,
         user: userReducer,
-        toasts: toastsReducer
+        toasts: toastsReducer,
+        entity: entityReducer
     }
 )
 
