@@ -3,6 +3,11 @@ export function currentUserSelector(state)
     return state.user;
 }
 
+export function getEntityType(state)
+{
+    return state.entity.entity_type;
+}
+
 export function isLoading(state)
 {
     return state.loading.isLoading;

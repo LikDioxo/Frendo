@@ -44,6 +44,7 @@ export const START_PIZZA_LOADING = "START_PIZZA_LOADING"
 export const END_PIZZA_LOADING = "END_PIZZA_LOADING"
 
 //Pizzeria actions
+export const SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL = "SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL"
 export const GET_PIZZERIA_PIZZAS_BY_OPERATOR = "GET_PIZZERIA_PIZZAS_BY_OPERATOR"
 export const UPDATE_PIZZERIA_AVAILABLE_PIZZAS = "UPDATE_PIZZERIA_AVAILABLE_PIZZAS"
 export const GET_ORDERS_FOR_PIZZERIA = "GET_ORDERS_FOR_PIZZERIA"
@@ -61,7 +62,15 @@ export const UPDATE_PIZZERIA_ORDER_STATUS = "UPDATE_PIZZERIA_ORDER_STATUS"
 //Toast actions
 export const ADD_TOAST = "ADD_TOAST"
 
-export const SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL = "SHOW_UPDATE_AVAILABLE_PIZZAS_MODAL"
+//Entity actions
+export const SET_ENTITY_TYPE = "SET_ENTITY_TYPE"
+export const GET_ENTITIES = "GET_ENTITIES"
+export const ADD_ENTITY = "ADD_ENTITY"
+export const SHOW_ADD_ENTITY = "ADD_ENTITY"
+export const UPDATE_ENTITY = "UPDATE_ENTITY"
+export const SHOW_UPDATE_ENTITY = "UPDATE_ENTITY"
+export const DELETE_ENTITY = "DELETE_ENTITY"
+export const SEARCH_ENTITY = "SEARCH_ENTITY"
 
 
 export function setDetailOrder(order, history)
@@ -534,3 +543,14 @@ export function unsetUpdatedOrder()
         payload: {}
     }
 }
+
+export function setEntityType(entity_type){
+    return{
+        type: SET_ENTITY_TYPE,
+        payload: {entity_type}
+    }
+
+
+}
+
+
