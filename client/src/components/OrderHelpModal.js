@@ -18,6 +18,7 @@ function OrderHelpModal({onModalSubmit})
                 type="tel"
                 pattern="[0-9]{12}"
                 ref={number}
+                placeholder="380XXXXXXXXX"
             />
             <button className="order-help-modal-submit default-button" onClick={onSubmitCallback}>Отправить</button>
         </div>
