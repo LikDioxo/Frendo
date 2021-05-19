@@ -5,7 +5,7 @@ function EntityNavigator()
 {
 
     return(
-        <div className="rounded-container double-shadowed entity-navigator">
+        <div className="double-shadowed entity-navigator">
             <div className="entity-navigator-title">
                 Таблицы
             </div>
