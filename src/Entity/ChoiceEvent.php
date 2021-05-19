@@ -19,7 +19,7 @@ class ChoiceEvent
 
     /**
      * @ORM\ManyToOne(targetEntity="Choice")
-     * @ORM\JoinColumn(name="choice_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="choice_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $choice;
 

@@ -20,13 +20,13 @@ class Choice
 
     /**
      * @ORM\ManyToOne(targetEntity="Order")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $order;
 
     /**
      * @ORM\ManyToOne(targetEntity="Pizza")
-     * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $pizza;
 

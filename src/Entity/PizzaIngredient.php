@@ -19,13 +19,13 @@ class PizzaIngredient
 
     /**
      * @ORM\ManyToOne(targetEntity="Pizza")
-     * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $pizza;
 
     /**
      * @ORM\ManyToOne(targetEntity="Ingredient")
-     * @ORM\JoinColumn(name="ingredient_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="ingredient_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $ingredient;
 

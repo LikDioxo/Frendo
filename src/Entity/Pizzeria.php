@@ -24,7 +24,7 @@ class Pizzeria
 
     /**
      * @ORM\OneToOne(targetEntity="Client")
-     * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="operator_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $operator;
 

@@ -65,6 +65,26 @@ class IngredientController extends AbstractController
         );
     }
 
+    public function delete(
+        $ingredientId,
+        IngredientRepository $ingredientRepository,
+        EntityManagerInterface $entityManager
+    )
+    {
+        $ingredient = $ingredientRepository->find($ingredientId);
+
+        if ($ingredient === null) {
+            return new JsonResponse(
+                ['message' => "Ingredient with id: $ingredientId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $entityManager->remove($ingredient);
+        $entityManager->flush();
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+    }
+
     public function getAll(
         Request $request,
         IngredientRepository $ingredientRepository,

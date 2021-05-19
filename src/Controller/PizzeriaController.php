@@ -141,6 +141,26 @@ class PizzeriaController extends AbstractController
         return new JsonResponse($result);
     }
 
+    public function delete(
+        $pizzeriaId,
+        PizzeriaRepository $pizzeriaRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $pizzeria = $pizzeriaRepository->find($pizzeriaId);
+
+        if ($pizzeria === null) {
+            return new JsonResponse(
+                ['message' => "Pizzeria with id: $pizzeriaId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $entityManager->remove($pizzeria);
+        $entityManager->flush();
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+    }
+
     public function getWorkload(
         Request $request,
         $id,

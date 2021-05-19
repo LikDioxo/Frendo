@@ -19,13 +19,13 @@ class PizzeriaPizza
 
     /**
      * @ORM\ManyToOne(targetEntity="Pizzeria")
-     * @ORM\JoinColumn(name="pizzeria_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="pizzeria_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $pizzeria;
 
     /**
      * @ORM\ManyToOne(targetEntity="Pizza")
-     * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="pizza_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $pizza;
 

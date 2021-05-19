@@ -192,4 +192,22 @@ class ClientController extends AbstractController
 
         return new JsonResponse($result);
     }
+
+    public function delete(
+        $userId,
+        ClientRepository $clientRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $user = $clientRepository->find($userId);
+        if ($user === null) {
+            return new JsonResponse(
+                ['message' => "User with id: $userId does not exists!"]
+            );
+        }
+
+        $entityManager->remove($user);
+        $entityManager->flush();
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+    }
 }

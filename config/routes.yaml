@@ -60,7 +60,27 @@ app_create_pizzeria:
     methods: POST
     controller: App\Controller\PizzeriaController::create
 
+app_delete_pizzeria:
+    path: /admin/pizzerias/{pizzeriaId}
+    methods: DELETE
+    controller: App\Controller\PizzeriaController::delete
 
+app_delete_client:
+    path: /admin/users/{userId}
+    methods: DELETE
+    controller: App\Controller\ClientController::delete
+
+
+app_delete_pizza:
+    path: /admin/pizzas/{pizzaId}
+    methods: DELETE
+    controller: App\Controller\PizzaController::delete
+
+
+app_delete_ingredient:
+    path: /admin/ingredients/{ingredientId}
+    methods: DELETE
+    controller: App\Controller\IngredientController::delete
 
 # Operator
 app_update_order_status:

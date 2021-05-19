@@ -6,7 +6,9 @@ use App\Domain\IngredientStatus;
 use App\Entity\Pizza;
 use App\Entity\PizzaIngredient;
 use App\Entity\PizzeriaPizza;
+use App\Repository\ChoiceRepository;
 use App\Repository\IngredientRepository;
+use App\Repository\OrderRepository;
 use App\Repository\PizzaIngredientRepository;
 use App\Repository\PizzaRepository;
 use App\Repository\PizzeriaPizzaRepository;
@@ -114,6 +116,33 @@ class PizzaController extends AbstractController
             ['id' => $newPizza->getId()],
             JsonResponse::HTTP_CREATED
         );
+    }
+
+    public function delete(
+        $pizzaId,
+        PizzaRepository $pizzaRepository,
+        OrderRepository $orderRepository,
+        ChoiceRepository $choiceRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $pizza = $pizzaRepository->find($pizzaId);
+
+        if ($pizza === null) {
+            return new JsonResponse(
+                ['message' => "Pizza with id: $pizzaId does not exists!"],
+                JsonResponse::HTTP_NOT_FOUND
+            );
+        }
+
+        $choices = $choiceRepository->findBy(['pizza' => $pizza]);
+        foreach ($choices as $choice) {
+            $entityManager->remove($choice->getOrder());
+        }
+
+        $entityManager->remove($pizza);
+        $entityManager->flush();
+        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
     }
 
     public function updateImage(

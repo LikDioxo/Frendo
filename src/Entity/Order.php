@@ -35,7 +35,7 @@ class Order
 
     /**
      * @ORM\ManyToOne(targetEntity="Pizzeria")
-     * @ORM\JoinColumn(name="pizzeria_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="pizzeria_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $pizzeria;
 
