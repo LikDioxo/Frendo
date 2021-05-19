@@ -13,7 +13,7 @@ import {
     currentUserSelector,
     getAvailablePizzasOperatorModalView,
     getOrdersForPizzeriaSelector,
-    getUpdatedOrderSelector
+    getUpdatedOrderSelector, isLoading
 } from "../selectors";
 import {useInterval} from "../hooks";
 import Loading from "../components/Loading";
@@ -39,6 +39,7 @@ function OperatorStartPage()
     let orders = useSelector(getOrdersForPizzeriaSelector);
     let show_confirm_window = useSelector(getAvailablePizzasOperatorModalView);
     let updated_order = useSelector(getUpdatedOrderSelector);
+    let loading = useSelector(isLoading);
 
     if(orders === undefined)
     {
@@ -69,6 +70,7 @@ function OperatorStartPage()
                     show={show_confirm_window}
                     component={<AreYouSureModal onConfirm={onConfirm} onDeny={onDeny}/>}
                 />
+                {loading ? <Loading/> : null}
             </div>
         </div>
     )

@@ -247,6 +247,7 @@ function* fetchOrdersForPizzeria(action)
 function* fetchUpdatePizzeriaAvailablePizzas(action)
 {
     try {
+        yield put(startPizzaLoading());
         let token = localStorage.getItem('token')
 
         for (let pizza of action.payload.pizzas) {
@@ -258,7 +259,7 @@ function* fetchUpdatePizzeriaAvailablePizzas(action)
                 pizza.is_available
             )
         }
-
+        yield put(endPizzaLoading());
         yield put(addToast("success", "Данные успешно обновлены :)"));
         yield put(flipUpdateAvailablePizzasModalView())
 
@@ -300,6 +301,7 @@ function* fetchGetPizzeriaPizzasByOperator(action)
 function* fetchUpdatePizzeriaOrderStatus(action)
 {
     try {
+        yield put(startPizzaLoading());
         let token = localStorage.getItem('token');
 
         const response = yield call(
@@ -314,7 +316,7 @@ function* fetchUpdatePizzeriaOrderStatus(action)
             yield put(addToast("success", "Данные успешно обновлены :)"));
             yield put(flipUpdateAvailablePizzasModalView());
         }
-
+        yield put(endPizzaLoading());
 
     }catch (e) {
         yield put(addToast("error", "Ошибка: некоректные данные :("));

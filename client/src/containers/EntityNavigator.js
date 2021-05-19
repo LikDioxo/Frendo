@@ -17,9 +17,6 @@ function EntityNavigator()
             </div>
         </div>
     )
-
-
-
 }
 
 

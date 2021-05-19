@@ -32,21 +32,19 @@ function OperatorPizzasPage() {
     let pizzas = useSelector(getAvailablePizzasSelector);
     let show_confirm_window = useSelector(getAvailablePizzasOperatorModalView);
     let fetch_pizzas = useSelector(getFetchAvailablePizzasSelector);
+    let loading = useSelector(isLoading);
 
     let onConfirmationModalClose = () => {
         dispatch(flipUpdateAvailablePizzasModalView())
     };
 
     let onConfirm = () => {
-        dispatch(startPizzaLoading());
         dispatch(updatePizzeriaAvailablePizzas(user_id, fetch_pizzas))
-        dispatch(endPizzaLoading());
     };
 
     let onDeny = () => {
         dispatch(flipUpdateAvailablePizzasModalView())
     };
-
 
     if (pizzas === undefined) {
         return <Loading/>
@@ -62,6 +60,7 @@ function OperatorPizzasPage() {
                     show={show_confirm_window}
                     component={<AreYouSureModal onConfirm={onConfirm} onDeny={onDeny}/>}
                 />
+                {loading ? <Loading/> : null}
             </div>
         </div>
     )

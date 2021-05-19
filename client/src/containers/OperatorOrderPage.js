@@ -5,13 +5,14 @@ import {
     currentUserSelector,
     getAvailablePizzasOperatorModalView,
     getDetailOrder,
-    getUpdatedOrderSelector
+    getUpdatedOrderSelector, isLoading
 } from "../selectors";
 import OperatorOrderDetails from "../components/OperatorOrderDetails";
 import OperatorOrderDetailsPizzaList from "../components/OperatorOrderDetailsPizzaList";
 import {flipUpdateAvailablePizzasModalView, setUpdatedOrder, updatePizzeriaOrderStatus} from "../actions";
 import ModalWindow from "../components/ModalWindow";
 import AreYouSureModal from "../components/AreYouSureModal";
+import Loading from "../components/Loading";
 
 
 function OperatorOrderPage()
@@ -23,6 +24,7 @@ function OperatorOrderPage()
 
     let updated_order = useSelector(getUpdatedOrderSelector);
     let show_confirm_window = useSelector(getAvailablePizzasOperatorModalView);
+    let loading = useSelector(isLoading);
 
     let onConfirmationModalClose = () => {
         dispatch(flipUpdateAvailablePizzasModalView())
@@ -59,6 +61,7 @@ function OperatorOrderPage()
                     show={show_confirm_window}
                     component={<AreYouSureModal onConfirm={onConfirm} onDeny={onDeny}/>}
                 />
+                {loading ? <Loading/> : null}
             </div>
         </div>
     )
