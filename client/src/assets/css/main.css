@@ -11,10 +11,6 @@ html {
   height: 100%;
 }
 
-#root > div {
-  height: 100%;
-}
-
 button {
   background: none;
 }

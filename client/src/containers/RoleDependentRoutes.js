@@ -31,7 +31,7 @@ function RoleDependentRoutes()
     }
 
     return(
-        <div>
+        <>
             {routesInfo.map((routeInfo, i)=>
                 (<Route
                     exact
@@ -39,7 +39,7 @@ function RoleDependentRoutes()
                     component={routeInfo.component}
                     key={i}
             />))}
-        </div>
+        </>
     )
 }
 
