@@ -76,6 +76,7 @@ function* authenticateUser(action) {
             else if (user_role === "ROLE_ADMIN") {
                 action.payload.history.push('/admin');
             }
+
             yield put(endPizzaLoading())
             yield put(addToast("success","Аутентификация прошла успешно :)"))
         }

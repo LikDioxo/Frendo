@@ -2,7 +2,7 @@ import React from "react";
 import {useDispatch} from "react-redux";
 import {formatIngredients} from "../utils";
 import {
-    addPizzaToOrder,
+    addPizzaToOrder, addToast,
     changeIngredientInCartPizza,
     changeIngredientInSelectedPizza,
     changePizza
@@ -19,6 +19,7 @@ function PizzaModal({pizza, change = false})
     {
         handlePizza = () => {
             dispatch(changePizza());
+            dispatch(addToast("success", "Изменено"))
         }
         handleCheckbox = (id) =>
         {
@@ -29,6 +30,7 @@ function PizzaModal({pizza, change = false})
     {
         handlePizza = () => {
             dispatch(addPizzaToOrder(pizza));
+            dispatch(addToast("success", "Пицца добавлена в корзину"))
         }
         handleCheckbox = (id) =>
         {

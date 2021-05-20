@@ -4,29 +4,31 @@ import {useDispatch, useSelector} from "react-redux";
 import {getChosenPizzeria} from "../selectors";
 import {addToast, flipFilterView, getFoundPizzas} from "../actions";
 import "../assets/css/search_box.css"
+import {useLocation} from "react-router";
 
 
 function SearchBox() {
 
     const dispatch = useDispatch();
     const selected_pizzeria = useSelector(getChosenPizzeria);
+    const location = useLocation()
 
     const searchPizzas = (search) => {
-        if(selected_pizzeria.pizzeria_id === undefined)
-        {
-            dispatch(addToast("error", "Сперва выберите пиццерию"))
-        }
-        else {
-            dispatch(getFoundPizzas(selected_pizzeria.pizzeria_id, search))
+        if(location.pathname === "/") {
+            if (selected_pizzeria.pizzeria_id === undefined) {
+                dispatch(addToast("error", "Сперва выберите пиццерию"))
+            } else {
+                dispatch(getFoundPizzas(selected_pizzeria.pizzeria_id, search))
+            }
         }
     };
     const changeFilterView = () => {
-        if(selected_pizzeria.pizzeria_id === undefined)
-        {
-            dispatch(addToast("error", "Сперва выберите пиццерию"))
-        }
-        else {
-            dispatch(flipFilterView());
+        if(location.pathname === "/") {
+            if (selected_pizzeria.pizzeria_id === undefined) {
+                dispatch(addToast("error", "Сперва выберите пиццерию"))
+            } else {
+                dispatch(flipFilterView());
+            }
         }
     }
     return (

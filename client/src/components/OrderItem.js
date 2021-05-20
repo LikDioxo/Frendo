@@ -48,7 +48,7 @@ function OrderItem(
             </div>
             <div className="order-item-name-wrapper">
                 <div className="order-item-name-title">Пицца</div>
-                <div className="order-item-name">{name + (events.length>0 ? "+":"")}</div>
+                <div className="order-item-name">{name + (events.length>0 ? "*":"")}</div>
 
             </div>
             <div className="order-item-quantity-wrapper">

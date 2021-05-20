@@ -33,7 +33,13 @@ function OrderList({ordered_pizzas})
                     onItemDelete={() => {dispatch(deletePizzaFromOrder(pizza.order_id))}}
                     onItemChange={() => {dispatch(changePizzaInOrder(pizza.order_id))}}
             />))}
-            <ReactTooltip id="custom-pizza" textColor="#f1a54d" effect="solid" delayShow={500} offset={{left: 20}}/>
+            <ReactTooltip className="shadowed"
+                          id="custom-pizza"
+                          type="light"
+                          textColor="#f1a54d"
+                          effect="solid"
+                          delayShow={500}
+                          offset={{left: 20}}/>
 
         </div>
     );
