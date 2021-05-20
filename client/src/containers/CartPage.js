@@ -28,12 +28,14 @@ import PizzaModal from "./PizzaModal";
 import Nothing from "../components/Nothing";
 import "../assets/css/cart_page.css";
 import OrderSubmitModal from "../components/OrderSubmitModal";
+import {useHistory} from "react-router";
 
 
 
 function CartPage()
 {
     const dispatch = useDispatch();
+    let history = useHistory()
     useEffect(() =>
     {
         dispatch(getPizzerias());
@@ -58,6 +60,7 @@ function CartPage()
     };
     const handlePizzeriaChosen = ({id, address, workload}) => {
         dispatch(setChosenPizzeria(id, address, workload));
+        history.push("/")
         dispatch(flipPizzeriasModalView());
         dispatch(clearCart());
     };

@@ -2,7 +2,7 @@ import React from 'react';
 import HeaderImage from "../components/HeaderImage";
 import SearchBox from "../components/SearchBox";
 import Cart from "../components/Cart";
-import {flipFilterView, flipOrderHelpModalView, getOrderInfo} from "../actions";
+import {flipOrderHelpModalView, getOrderInfo} from "../actions";
 import {useDispatch, useSelector} from "react-redux";
 import OrderHelpBox from "../components/OrderHelpBox";
 import {getOrder, getOrderHelpModalView} from "../selectors";
@@ -15,9 +15,6 @@ function Header()
 {
     const dispatch = useDispatch()
 
-    const changeFilterView = () => {
-        dispatch(flipFilterView());
-    }
     const handleOrderHelpModal = () => {
         dispatch(flipOrderHelpModalView())
     }
@@ -48,7 +45,7 @@ function Header()
     return (
         <div className="header">
             <HeaderImage/>
-            <SearchBox onFilterView={changeFilterView}/>
+            <SearchBox/>
             <OrderHelpBox onOrderHelp={handleOrderHelpModal}/>
             <Cart orderCount={orderCount}/>
 

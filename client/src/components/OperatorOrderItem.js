@@ -13,8 +13,13 @@ function OperatorOrderItem({
 })
 {
     let status = useRef();
-
     let onStatusPressedCallback = () => onStatusPressed(status.current.options[status.current.selectedIndex].value);
+
+    console.log(order_status)
+    console.log(order_status === 0)
+    console.log(order_status === 1)
+    console.log(order_status === 2)
+    console.log(order_status === 3)
 
     return (
         <div className="operator-order-item rounded-container double-shadowed">
@@ -56,7 +61,7 @@ function OperatorOrderItem({
                     onChange={onStatusPressedCallback}
                     ref={status}
                 >
-                    <option selected={order_status === 0} hidden={order_status > 0}>Статус</option>
+                    <option selected={order_status === 0} hidden>Статус</option>
                     <option value={1} selected={order_status === 1} >Готовится</option>
                     <option value={2} selected={order_status === 2} >Уже готово</option>
                     <option value={3} selected={order_status === 3} >В службе доставки</option>

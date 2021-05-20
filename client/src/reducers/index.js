@@ -303,7 +303,7 @@ function pizzeriasReducer(state = {}, action)
             tmp =  {...state};
             tmp.orders = {};
             for (const order of action.payload.orders) {
-                tmp.orders[order.id] = {...order}
+                tmp.orders[order.id] = JSON.parse(JSON.stringify(order))
             }
             return tmp;
 
