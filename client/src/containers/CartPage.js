@@ -85,6 +85,8 @@ function CartPage()
             name: order.ordered_pizzas[item].name,
             quantity: order.ordered_pizzas[item].quantity,
             price: parseInt(order.ordered_pizzas[item].price),
+            events: order.ordered_pizzas[item].events,
+            ingredients: order.ordered_pizzas[item].ingredients,
             }
         )
         price += parseInt(order.ordered_pizzas[item].price);
