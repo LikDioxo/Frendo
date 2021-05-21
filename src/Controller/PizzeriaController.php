@@ -536,7 +536,7 @@ class PizzeriaController extends AbstractController
             );
         }
 
-        $name = mb_strtoupper(mb_substr($name, 0, 1)) . mb_substr($name, 1);
+        $name = mb_strtoupper(mb_substr($name, 0, 1)) . mb_strtolower(mb_substr($name, 1));
         $result = [];
 
         $matchedPizzas = $pizzaRepository->partialNameMatch($name);
