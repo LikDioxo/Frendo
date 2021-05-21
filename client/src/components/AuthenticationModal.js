@@ -1,21 +1,25 @@
 import React, {useRef} from "react";
 import logo from "../assets/images/logo.png";
 import "../assets/css/authentication_modal.css";
+import {useDispatch} from "react-redux";
+import {addToast} from "../actions";
 
 
 function AuthenticationModal({onEnter})
 {
+    const dispatch = useDispatch()
     let username = useRef("");
     let password = useRef("");
     let admin = useRef(false);
     let operator = useRef(false)
 
+
     const handleEnter = () => {
         if ([username.current.value, password.current.value].some(el => el.length === 0)) {
-            return alert('fill all the fields!')
+            return dispatch(addToast("error","Заполните все поля!!!"))
         }
         if (!admin.current.checked && !operator.current.checked) {
-            return alert('choose the role!')
+            return dispatch(addToast("error","Выберите роль!!!"))
         }
         onEnter(username.current.value,
             password.current.value,

@@ -1,5 +1,5 @@
 import React from "react";
-import {Route} from "react-router";
+import {Redirect, Route, useHistory} from "react-router";
 import OperatorPizzasPage from "./OperatorPizzasPage";
 import OperatorOrderPage from "./OperatorOrderPage";
 import OperatorStartPage from "./OperatorStartPage";
@@ -11,24 +11,30 @@ import {currentUserSelector} from "../selectors";
 function RoleDependentRoutes()
 {
     const user = useSelector(currentUserSelector);
-    if(user == null)
-    {
-        return <div/>;
-    }
+    const history = useHistory()
+    // if(user == null)
+    // {
+    //     return <div/>;
+    // }
 
-    let routesInfo = [];
-    if(user.user_role === "ROLE_OPERATOR") {
-        routesInfo = [
-            {path: '/operator', component: OperatorStartPage},
-            {path: '/operator/pizzas', component: OperatorPizzasPage},
-            {path: '/operator/order', component: OperatorOrderPage},
-        ]
-    } else if(user.user_role === "ROLE_ADMIN")
-    {
-        routesInfo = [
-            {path: '/admin', component: AdminPage}
-        ];
-    }
+    let routesInfo = [
+        {path: '/operator', component: OperatorStartPage},
+        {path: '/operator/pizzas', component: OperatorPizzasPage},
+        {path: '/operator/order', component: OperatorOrderPage},
+        {path: '/admin', component: AdminPage}
+    ];
+    // if(user.user_role === "ROLE_OPERATOR") {
+    //     routesInfo = [
+    //         {path: '/operator', component: OperatorStartPage},
+    //         {path: '/operator/pizzas', component: OperatorPizzasPage},
+    //         {path: '/operator/order', component: OperatorOrderPage},
+    //     ]
+    // } else if(user.user_role === "ROLE_ADMIN")
+    // {
+    //     routesInfo = [
+    //         {path: '/admin', component: AdminPage}
+    //     ];
+    // }
 
     return(
         <>
@@ -36,9 +42,13 @@ function RoleDependentRoutes()
                 (<Route
                     exact
                     path={routeInfo.path}
-                    component={routeInfo.component}
-                    key={i}
-            />))}
+                    key={i}>
+                        {user == null
+                        || (user.user_role === "ROLE_OPERATOR" && history.location.pathname === "/admin")
+                        ||(user.user_role === "ROLE_ADMIN" && ["/operator","/operator/pizzas","/operator/order"].some((el)=>history.location.pathname === el)) ?
+                            <Redirect exact to="/authenticate" />:<routeInfo.component/>}
+                </Route>
+                ))}
         </>
     )
 }
