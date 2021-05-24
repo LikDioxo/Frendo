@@ -65,6 +65,7 @@ export const ADD_TOAST = "ADD_TOAST"
 //Entity actions
 export const SET_ENTITY_TYPE = "SET_ENTITY_TYPE"
 export const GET_ENTITIES = "GET_ENTITIES"
+export const SET_ENTITIES = "SET_ENTITIES"
 export const ADD_ENTITY = "ADD_ENTITY"
 export const SHOW_ADD_ENTITY = "ADD_ENTITY"
 export const UPDATE_ENTITY = "UPDATE_ENTITY"
@@ -544,13 +545,26 @@ export function unsetUpdatedOrder()
     }
 }
 
-export function setEntityType(entity_type){
-    return{
+export function setEntityType(entity_type)
+{
+    return {
         type: SET_ENTITY_TYPE,
         payload: {entity_type}
     }
-
-
 }
 
+export function getEntities(entity_type)
+{
+    return {
+        type: GET_ENTITIES,
+        payload: {entity_type}
+    }
+}
 
+export function setEntities(entities)
+{
+    return {
+        type: SET_ENTITIES,
+        payload: {entities}
+    }
+}

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "http://127.0.0.1:8000"
-const GET_PIZZERIAS_URL = BASE_URL.concat('/pizzerias')
+const GET_PIZZERIAS = BASE_URL.concat('/pizzerias')
 const GET_AVAILABLE_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas')
 const GET_FILTERED_PIZZAS = BASE_URL.concat('/pizzerias/{}/pizzas-with-ingredients')
 const GET_INGREDIENTS = BASE_URL.concat('/ingredients')
@@ -15,6 +15,10 @@ const GET_PIZZERIA_PIZZAS_BY_OPERATOR = BASE_URL.concat('/operator/{}/pizzeria/p
 const GET_ORDERS_FOR_PIZZERIA = BASE_URL.concat('/operator/{}/pizzeria/orders')
 const UPDATE_PIZZERIA_AVAILABLE_PIZZA = BASE_URL.concat('/operator/{}/pizzeria/pizzas/{}')
 const UPDATE_PIZZERIA_ORDER_STATUS = BASE_URL.concat('/operator/{}/pizzeria/orders/{}/status')
+const GET_USERS_BY_ADMIN = BASE_URL.concat('/admin/users')
+const GET_PIZZAS_BY_ADMIN = BASE_URL.concat('/admin/pizzas')
+// const GET_INGREDIENTS_BY_ADMIN = BASE_URL.concat('/admin/ingredients')
+// const GET_USERS_BY_ADMIN = BASE_URL.concat('/admin/users')
 
 
 String.prototype.format = function ()
@@ -43,7 +47,7 @@ export function authenticateUserService(username, password, role)
 
 export function fetchAllPizzeriasService()
 {
-    return axios.get(GET_PIZZERIAS_URL);
+    return axios.get(GET_PIZZERIAS);
 }
 
 export function fetchOrdersForPizzeriaService(operator_id, token)
@@ -175,3 +179,24 @@ export function fetchUpdatePizzeriaOrderStatusService(
     })
 }
 
+export function fetchGetUsersByAdminService(
+    admin_token
+)
+{
+    return axios({
+        method: 'get',
+        url: GET_USERS_BY_ADMIN,
+        headers: {'Authorization': admin_token}
+    })
+}
+
+export function fetchGetPizzasByAdminService(
+    admin_token
+)
+{
+    return axios({
+        method: 'get',
+        url: GET_PIZZAS_BY_ADMIN,
+        headers: {'Authorization': admin_token}
+    })
+}

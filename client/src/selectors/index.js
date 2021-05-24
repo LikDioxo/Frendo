@@ -115,3 +115,8 @@ export function getUpdatedOrderSelector(state)
 {
     return state.order.updated_order;
 }
+
+export function getFetchedEntities(state)
+{
+    return state.entity.fetched_entities;
+}

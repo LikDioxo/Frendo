@@ -6,8 +6,10 @@ import {
     fetchFilteredPizzasService,
     fetchFoundPizzasService,
     fetchFoundPizzeriasService,
+    fetchGetPizzasByAdminService,
     fetchGetPizzeriaByOperatorService,
     fetchGetPizzeriaPizzasByOperatorService,
+    fetchGetUsersByAdminService,
     fetchIngredientsService,
     fetchMakeOrderService,
     fetchOrderInfoService,
@@ -30,8 +32,7 @@ import {
     GET_ORDERS_FOR_PIZZERIA,
     UPDATE_PIZZERIA_AVAILABLE_PIZZAS,
     UPDATE_PIZZERIA_ORDER_STATUS,
-    flipOrderSubmitModalView,
-    flipUpdateAvailablePizzasModalView, flipOrderHelpModalView
+    GET_ENTITIES
 } from "../actions";
 import {
     setPizzas,
@@ -43,7 +44,11 @@ import {
     setOperatorPizzeria,
     setOrdersForPizzeria,
     addToast,
-    clearCart
+    clearCart,
+    flipOrderSubmitModalView,
+    flipUpdateAvailablePizzasModalView,
+    flipOrderHelpModalView,
+    setEntities
 } from "../actions";
 import {formatChoices} from "../utils";
 
@@ -343,6 +348,50 @@ function* fetchUpdatePizzeriaOrderStatus(action)
     }
 }
 
+function* fetchGetEntities(action)
+{
+    try {
+        console.log(action)
+        let token = localStorage.getItem('token');
+        let response;
+
+        if (action.payload.entity_type === 'ingredients') {
+            response = yield call(
+                fetchIngredientsService
+            )
+        }
+        else if (action.payload.entity_type === 'pizzas') {
+            response = yield call(
+                fetchGetPizzasByAdminService,
+                token
+            )
+        }
+        else if (action.payload.entity_type === 'pizzerias') {
+            response = yield call(
+                fetchAllPizzeriasService
+            )
+        }
+        else if (action.payload.entity_type === 'users') {
+            response = yield call(
+                fetchGetUsersByAdminService,
+                token
+            )
+        }
+
+        if (response === undefined) {
+            yield put(addToast("error", "Сущность не опознана :("));
+        }
+
+        if (response.status === 200) {
+            yield put(setEntities(response.data))
+        }
+
+    }catch (e) {
+        yield put(addToast("error", "Что то пошло не так при обработке запроса :("));
+    }
+
+}
+
 
 function* watchFetchAllPizzerias()
 {
@@ -414,6 +463,11 @@ function* watchUpdatePizzeriaOrderStatus()
     yield takeEvery(UPDATE_PIZZERIA_ORDER_STATUS, fetchUpdatePizzeriaOrderStatus)
 }
 
+function* watchGetEntities()
+{
+    yield takeEvery(GET_ENTITIES, fetchGetEntities)
+}
+
 
 export default function* rootSaga()
 {
@@ -431,6 +485,7 @@ export default function* rootSaga()
         watchFetchGetPizzeriaPizzasByOperator(),
         watchFetchOrdersForPizzeria(),
         watchFetchUpdatePizzeriaAvailablePizzas(),
-        watchUpdatePizzeriaOrderStatus()
+        watchUpdatePizzeriaOrderStatus(),
+        watchGetEntities()
     ])
 }

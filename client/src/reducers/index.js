@@ -36,7 +36,7 @@ import {
     SET_FETCH_AVAILABLE_PIZZAS,
     SET_UPDATED_ORDER,
     UNSET_UPDATED_ORDER,
-    SET_ENTITY_TYPE
+    SET_ENTITY_TYPE, SET_ENTITIES
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -453,6 +453,13 @@ function entityReducer(state={}, action)
             tmp = {...state};
             tmp.entity_type = action.payload.entity_type
             return tmp
+
+        case SET_ENTITIES:
+            tmp = {...state};
+            tmp.fetched_entities = action.payload.entities
+            console.log(tmp)
+            return tmp
+
         default:
             return state;
     }

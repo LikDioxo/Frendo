@@ -1,7 +1,7 @@
 import React from 'react';
-
-import {getEntityType} from "../selectors";
 import {useSelector} from "react-redux";
+
+import {getEntityType, getFetchedEntities} from "../selectors";
 import SearchBar from "../components/SearchBar";
 import Table from "./Table";
 import IngredientsForm from "../components/IngredientsForm";
@@ -12,32 +12,35 @@ import UsersForm from "../components/UsersForm";
 
 function EntityExplorer()
 {
-
     let entity_type = useSelector(getEntityType)
+    let fetched_entities = useSelector(getFetchedEntities)
+
+    console.log(entity_type);
 
     let types = {
         "ingredients": {
             name: "Ингредиенты",
-            header: ["id", "Название", "Название картинки"],
+            header: ["id", "Название", "Цена"],
             form: IngredientsForm
         },
         "pizzas": {
             name: "Пицци",
-            header: ["id", "Название", "Название картинки"],
+            header: ["id", "Название", "Название картинки", "Вес", "Размер", "Цена", "Ингредиенты"],
             form: PizzasForm
         },
         "pizzerias": {
             name:"Пиццерии",
-            header: ["id", "Название", "Название картинки"],
+            header: ["id", "Название", "id оператора", "Заказов в очереди"],
             form: PizzeriasForm
         },
         "users": {
             name: "Пользователи",
-            header: ["id", "Название", "Название картинки"],
+            header: ["id", "Имя пользователя", "Роли", "Пароль"],
             form: UsersForm
         }
     }
-    if(entity_type === undefined)
+
+    if(entity_type === undefined || fetched_entities === undefined)
     {
         return (
             <div className="entity-explorer">
@@ -57,7 +60,7 @@ function EntityExplorer()
                 <button className="entity-explorer-add-record default-button operator-button">Добавить запись</button>
             </div>
             <SearchBar/>
-            <Table header={current_type.header} entities={[]}/>
+            <Table header={current_type.header} entities={fetched_entities}/>
         </div>
     )
 }
