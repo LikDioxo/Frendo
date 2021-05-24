@@ -310,7 +310,7 @@ class PizzaController extends AbstractController
                 );
 
                 $pizza['ingredients'][] = [
-                    'ingredient_id' => $serializedIngredient['ingredient']['id'],
+                    'id' => $serializedIngredient['ingredient']['id'],
                     'status' => $serializedIngredient['status']
                 ];
             }
