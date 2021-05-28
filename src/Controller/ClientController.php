@@ -186,7 +186,7 @@ class ClientController extends AbstractController
         {
             $result[] = $serializer->normalize(
                 $object,
-                context: [AbstractNormalizer::IGNORED_ATTRIBUTES => ['salt']]
+                context: [AbstractNormalizer::IGNORED_ATTRIBUTES => ['salt', 'password']]
             );
         }
 
