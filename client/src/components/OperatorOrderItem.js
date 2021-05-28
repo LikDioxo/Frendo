@@ -15,12 +15,6 @@ function OperatorOrderItem({
     let status = useRef();
     let onStatusPressedCallback = () => onStatusPressed(status.current.options[status.current.selectedIndex].value);
 
-    console.log(order_status)
-    console.log(order_status === 0)
-    console.log(order_status === 1)
-    console.log(order_status === 2)
-    console.log(order_status === 3)
-
     return (
         <div className="operator-order-item rounded-container double-shadowed">
             <div className="operator-order-item-info operator-order-item-id-wrapper">

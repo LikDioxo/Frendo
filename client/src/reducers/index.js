@@ -457,7 +457,6 @@ function entityReducer(state={}, action)
         case SET_ENTITIES:
             tmp = {...state};
             tmp.fetched_entities = action.payload.entities
-            console.log(tmp)
             return tmp
 
         default:

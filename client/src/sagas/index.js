@@ -351,7 +351,8 @@ function* fetchUpdatePizzeriaOrderStatus(action)
 function* fetchGetEntities(action)
 {
     try {
-        console.log(action)
+        yield put(startPizzaLoading())
+
         let token = localStorage.getItem('token');
         let response;
 
@@ -388,6 +389,8 @@ function* fetchGetEntities(action)
 
     }catch (e) {
         yield put(addToast("error", "Что то пошло не так при обработке запроса :("));
+    }finally {
+        yield put(endPizzaLoading())
     }
 
 }
