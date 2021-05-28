@@ -1,43 +1,37 @@
 import React from "react";
+import change from "../assets/images/change.png";
+import remove from "../assets/images/delete_table.png";
 
 
 function Table({header, entities})
 {
-    console.log("entities", entities)
+
+    let columnLength = (100 - 1 * header.length) / header.length;
+    let style = (columnLength.toString() + "% ").repeat(header.length);
 
     return (
-        // <div className="rounded-container double-shadowed table">
-        //     <div className="table-header">
-        //         {header.map((h)=>(<div>{h}</div>))}
-        //     </div>
-        //     <div>
-        //         {entities.map((row)=>
-        //             (<div>
-        //                 {row.map((e)=>
-        //                     (<div>
-        //                         {e}
-        //                     </div>))}
-        //                 <div>изменить</div>
-        //                 <div>удалить</div>
-        //             </div>))}
-        //     </div>
-        // </div>
-        <table>
-            <thead>
-                {header.map((h)=>(<td>{h}</td>))}
-            </thead>
-            <tbody>
-                {entities.map((row) => (
-                    <tr>
-                        {Object.values(row).map((e) => (
-                            <td>{
-                                typeof e === 'object' ? JSON.stringify(Object.values(e).map((obj) => typeof obj === 'object' ? obj.id : obj)) : e
-                            }</td>
-                        ))}
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <div className="table">
+            <div className="table-header" style={{gridTemplateColumns: style}}>
+                {header.map((h)=>(<div className="table-cell table-header-cell">{h}</div>))}
+            </div>
+            <div className="table-body">
+                {entities.map((row)=>
+                    (<div className="table-row" style={{gridTemplateColumns: style}}>
+                        {Object.values(row).map((e)=>
+                            (<div className="table-cell">
+                                {typeof e === 'object' ? JSON.stringify(Object.values(e).map((obj) => typeof obj === 'object' ? obj.id : obj)) : e}
+                            </div>))}
+                        <div className="table-cell-controls">
+                            <button>
+                                <img src={change}/>
+                            </button>
+                            <button>
+                                <img src={remove}/>
+                            </button>
+                        </div>
+                    </div>))}
+            </div>
+        </div>
     )
 }
 

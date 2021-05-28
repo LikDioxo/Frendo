@@ -7,6 +7,7 @@
     border-bottom-right-radius: 1rem;
     border-bottom-left-radius: 1rem;
     box-shadow: 0 0.5vmin 0.5vmin 0.5vmin rgba(0, 0, 0, 0.25);
+    height: 12vh;
 }
 
 .operator-header-logout {
@@ -26,11 +27,11 @@
 }
 
 .operator-header-logo-wrapper {
-    width: 100%;
+    height: inherit;
 }
 
 .operator-header-logo-wrapper img {
-    width: 100%;
+    height: 100%;
 }
 
 .operator-header-pizzeria-info-item {
