@@ -120,3 +120,8 @@ export function getFetchedEntities(state)
 {
     return state.entity.fetched_entities;
 }
+
+export function getShowAddEntityFormView(state)
+{
+    return state.entity.show_add_entity_form;
+}

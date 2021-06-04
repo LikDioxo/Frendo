@@ -67,9 +67,9 @@ export const SET_ENTITY_TYPE = "SET_ENTITY_TYPE"
 export const GET_ENTITIES = "GET_ENTITIES"
 export const SET_ENTITIES = "SET_ENTITIES"
 export const ADD_ENTITY = "ADD_ENTITY"
-export const SHOW_ADD_ENTITY = "ADD_ENTITY"
+export const SHOW_ADD_ENTITY = "SHOW_ADD_ENTITY"
 export const UPDATE_ENTITY = "UPDATE_ENTITY"
-export const SHOW_UPDATE_ENTITY = "UPDATE_ENTITY"
+export const SHOW_UPDATE_ENTITY = "SHOW_UPDATE_ENTITY"
 export const DELETE_ENTITY = "DELETE_ENTITY"
 export const SEARCH_ENTITY = "SEARCH_ENTITY"
 
@@ -566,5 +566,27 @@ export function setEntities(entities)
     return {
         type: SET_ENTITIES,
         payload: {entities}
+    }
+}
+
+export function flipAddEntityFormView()
+{
+    return {
+        type: SHOW_ADD_ENTITY,
+        payload: {}
+    }
+}
+
+export function addEntity(
+    entity_type,
+    entity
+)
+{
+    return {
+        type: ADD_ENTITY,
+        payload: {
+            entity_type: entity_type,
+            entity: entity
+        }
     }
 }

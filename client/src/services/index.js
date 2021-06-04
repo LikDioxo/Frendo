@@ -19,6 +19,11 @@ const GET_USERS_BY_ADMIN = BASE_URL.concat('/admin/users')
 const GET_PIZZAS_BY_ADMIN = BASE_URL.concat('/admin/pizzas')
 // const GET_INGREDIENTS_BY_ADMIN = BASE_URL.concat('/admin/ingredients')
 // const GET_USERS_BY_ADMIN = BASE_URL.concat('/admin/users')
+const CREATE_INGREDIENT = BASE_URL.concat('/admin/ingredients')
+const CREATE_PIZZA = BASE_URL.concat('/admin/pizzas')
+const CREATE_PIZZERIA = BASE_URL.concat('/admin/pizzerias')
+const CREATE_USER = BASE_URL.concat('/admin/users')
+const SET_PIZZA_IMAGE = BASE_URL.concat('/admin/pizzas/{}/image')
 
 
 String.prototype.format = function ()
@@ -200,3 +205,95 @@ export function fetchGetPizzasByAdminService(
         headers: {'Authorization': admin_token}
     })
 }
+
+export function fetchCreateIngredientService(
+    admin_token,
+    entity
+)
+{
+    return axios({
+        method: 'post',
+        url: CREATE_INGREDIENT,
+        headers: {'Authorization': admin_token},
+        data: {
+            name: entity.name,
+            price: entity.price
+        }
+    })
+}
+
+export function fetchCreatePizzaService(
+    admin_token,
+    entity
+)
+{
+    return axios({
+        method: 'post',
+        url: CREATE_PIZZA,
+        headers: {'Authorization': admin_token},
+        data: {
+            name: entity.name,
+            weight: entity.weight,
+            size: entity.size,
+            price: entity.price,
+            ingredients: entity.ingredients
+        }
+    })
+}
+
+export function fetchCreatePizzeriaService(
+    admin_token,
+    entity
+)
+{
+    return axios({
+        method: 'post',
+        url: CREATE_PIZZERIA,
+        headers: {'Authorization': admin_token},
+        data: {
+            address: entity.address,
+            operator_id: entity.operator_id
+        }
+    })
+}
+
+export function fetchCreateUserService(
+    admin_token,
+    entity
+)
+{
+    return axios({
+        method: 'post',
+        url: CREATE_USER,
+        headers: {'Authorization': admin_token},
+        data: {
+            username: entity.username,
+            password: entity.password,
+            roles: entity.roles
+        }
+    })
+}
+
+export function fetchSetPizzaImageService(
+    admin_token,
+    pizza_id,
+    image
+)
+{
+    let form = new FormData();
+    form.append('image', image);
+    form.append('test', "123");
+
+    console.log(form);
+
+    return axios({
+        method: 'put',
+        url: SET_PIZZA_IMAGE.format(pizza_id),
+        headers: {
+            'Authorization': admin_token,
+            // 'Content-type': 'multipart/form-data',
+        },
+        data: form
+    })
+}
+

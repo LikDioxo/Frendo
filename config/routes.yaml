@@ -9,7 +9,7 @@ app_login:
     controller: App\Controller\ClientController::login
 
 app_register:
-    path: /users
+    path: admin/users
     methods: POST
     controller: App\Controller\ClientController::register
 

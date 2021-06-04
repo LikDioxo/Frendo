@@ -250,6 +250,8 @@ class PizzaController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
+        var_dump($request);
+
         $image = $request->files->get('image');
 
         if ($image === null) {
@@ -275,7 +277,7 @@ class PizzaController extends AbstractController
         $entityManager->persist($pizza);
         $entityManager->flush();
 
-        return new Response();
+        return new JsonResponse(["message" => "success"]);
     }
 
     public function getAll(

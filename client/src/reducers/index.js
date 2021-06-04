@@ -36,7 +36,7 @@ import {
     SET_FETCH_AVAILABLE_PIZZAS,
     SET_UPDATED_ORDER,
     UNSET_UPDATED_ORDER,
-    SET_ENTITY_TYPE, SET_ENTITIES
+    SET_ENTITY_TYPE, SET_ENTITIES, SHOW_ADD_ENTITY
 } from "../actions";
 import {formatCreationTime} from "../utils";
 
@@ -458,6 +458,11 @@ function entityReducer(state={}, action)
             tmp = {...state};
             tmp.fetched_entities = action.payload.entities
             return tmp
+
+        case SHOW_ADD_ENTITY:
+            tmp = {...state};
+            tmp.show_add_entity_form = !tmp.show_add_entity_form;
+            return tmp;
 
         default:
             return state;

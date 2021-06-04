@@ -9,6 +9,8 @@ function Table({header, entities})
     let columnLength = (100 - 1 * header.length) / header.length;
     let style = (columnLength.toString() + "% ").repeat(header.length);
 
+    console.log(entities);
+
     return (
         <div className="table">
             <div className="table-header" style={{gridTemplateColumns: style}}>
@@ -16,10 +18,11 @@ function Table({header, entities})
             </div>
             <div className="table-body">
                 {entities.map((row)=>
-                    (<div className="table-row" style={{gridTemplateColumns: style}}>
+                    (
+                        <div className="table-row" style={{gridTemplateColumns: style}}>
                         {Object.values(row).map((e)=>
                             (<div className="table-cell">
-                                {typeof e === 'object' ? JSON.stringify(Object.values(e).map((obj) => typeof obj === 'object' ? obj.id : obj)) : e}
+                                {typeof e === 'object' && e !== null ? JSON.stringify(Object.values(e).map((obj) => typeof obj === 'object' ? obj.id : obj)) : e === null ? "Пусто" : e}
                             </div>))}
                         <div className="table-cell-controls">
                             <button>

@@ -15,7 +15,12 @@ import {
     fetchOrderInfoService,
     fetchOrdersForPizzeriaService,
     fetchUpdatePizzeriaAvailablePizzaService,
-    fetchUpdatePizzeriaOrderStatusService
+    fetchUpdatePizzeriaOrderStatusService,
+    fetchCreateIngredientService,
+    fetchCreatePizzaService,
+    fetchCreatePizzeriaService,
+    fetchCreateUserService,
+    fetchSetPizzaImageService
 } from "../services";
 import {
     GET_AVAILABLE_PIZZAS,
@@ -32,7 +37,8 @@ import {
     GET_ORDERS_FOR_PIZZERIA,
     UPDATE_PIZZERIA_AVAILABLE_PIZZAS,
     UPDATE_PIZZERIA_ORDER_STATUS,
-    GET_ENTITIES
+    GET_ENTITIES,
+    ADD_ENTITY
 } from "../actions";
 import {
     setPizzas,
@@ -48,7 +54,8 @@ import {
     flipOrderSubmitModalView,
     flipUpdateAvailablePizzasModalView,
     flipOrderHelpModalView,
-    setEntities
+    setEntities,
+    addEntity
 } from "../actions";
 import {formatChoices} from "../utils";
 
@@ -395,6 +402,70 @@ function* fetchGetEntities(action)
 
 }
 
+function* fetchAddEntity(action)
+{
+    try {
+        console.log(action.payload.entity.image)
+
+        let token = localStorage.getItem('token');
+        let response;
+
+        if (action.payload.entity_type === 'ingredients') {
+            response = yield call(
+                fetchCreateIngredientService,
+                token,
+                action.payload.entity
+            )
+        }
+        else if (action.payload.entity_type === 'pizzas') {
+
+            let image = action.payload.entity.image;
+            delete action.payload.entity.image;
+
+            response = yield call(
+                fetchCreatePizzaService,
+                token,
+                action.payload.entity
+            )
+            console.log(response)
+
+            let additionResponse = yield call(
+                fetchSetPizzaImageService,
+                token,
+                response.data.id,
+                image
+            )
+
+            console.log(additionResponse);
+        }
+        else if (action.payload.entity_type === 'pizzerias') {
+            response = yield call(
+                fetchCreatePizzeriaService,
+                token,
+                action.payload.entity
+            )
+        }
+        else if (action.payload.entity_type === 'users') {
+            response = yield call(
+                fetchCreateUserService,
+                token,
+                action.payload.entity
+            )
+        }
+
+        if (response === undefined) {
+            yield put(addToast("error", "Сущность не опознана :("));
+        }
+
+        if (response.status === 200) {
+            yield put(addToast("success", "Ююююху!!!"))
+        }
+
+    }catch (e) {
+
+    }
+}
+
 
 function* watchFetchAllPizzerias()
 {
@@ -471,6 +542,11 @@ function* watchGetEntities()
     yield takeEvery(GET_ENTITIES, fetchGetEntities)
 }
 
+function* watchAddEntity()
+{
+    yield takeEvery(ADD_ENTITY, fetchAddEntity)
+}
+
 
 export default function* rootSaga()
 {
@@ -489,6 +565,7 @@ export default function* rootSaga()
         watchFetchOrdersForPizzeria(),
         watchFetchUpdatePizzeriaAvailablePizzas(),
         watchUpdatePizzeriaOrderStatus(),
-        watchGetEntities()
+        watchGetEntities(),
+        watchAddEntity()
     ])
 }

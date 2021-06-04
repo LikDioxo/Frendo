@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-import { getEntityType, getFetchedEntities, isLoading } from "../selectors";
+import {getEntityType, getFetchedEntities, getShowAddEntityFormView, isLoading} from "../selectors";
 import SearchBar from "../components/SearchBar";
 import Table from "./Table";
 import IngredientsForm from "../components/IngredientsForm";
@@ -9,22 +9,27 @@ import PizzasForm from "../components/PizzasForm";
 import PizzeriasForm from "../components/PizzeriasForm";
 import UsersForm from "../components/UsersForm";
 import Loading from "../components/Loading";
+import {flipAddEntityFormView} from "../actions";
+
 
 function EntityExplorer() {
+  let dispatch = useDispatch();
+
   let entity_type = useSelector(getEntityType);
   let fetched_entities = useSelector(getFetchedEntities);
   let loading = useSelector(isLoading);
+  let is_display_add_form = useSelector(getShowAddEntityFormView);
 
   let types = {
     ingredients: {
       name: "Ингредиенты",
-      header: ["id:", "Название:", "Цена:", ""],
+      header: ["ID:", "Название:", "Цена:", ""],
       form: IngredientsForm,
     },
     pizzas: {
-      name: "Пицци",
+      name: "Пиццы",
       header: [
-        "id:",
+        "ID:",
         "Название:",
         "Название картинки:",
         "Вес:",
@@ -37,12 +42,12 @@ function EntityExplorer() {
     },
     pizzerias: {
       name: "Пиццерии",
-      header: ["id:", "Название:", "id оператора:", "Заказов в очереди:", ""],
+      header: ["ID:", "Адресс:", "ID оператора:", "Заказов в очереди:", ""],
       form: PizzeriasForm,
     },
     users: {
       name: "Пользователи",
-      header: ["id:", "Имя пользователя:", "Роли:", ""],
+      header: ["ID:", "Имя пользователя:", "Роли:", ""],
       form: UsersForm,
     },
   };
@@ -67,12 +72,21 @@ function EntityExplorer() {
       <div className="entity-explorer">
         <div className="entity-explorer-header">
           <div className="entity-explorer-table-title">{current_type.name}</div>
-          <button className="entity-explorer-add-record default-button operator-button">
+          <button
+              className="entity-explorer-add-record default-button operator-button"
+              onClick={() => dispatch(flipAddEntityFormView())}
+          >
             Добавить запись
           </button>
         </div>
-        <SearchBar />
-        <Table header={current_type.header} entities={fetched_entities} />
+        {is_display_add_form ?
+            <current_type.form/>
+            :
+            <>
+              <SearchBar />
+              <Table header={current_type.header} entities={fetched_entities} />
+            </>
+            }
       </div>
       {loading ? <Loading /> : null}
     </>

@@ -1,71 +1,125 @@
-import React from "react";
+import React, {useRef} from "react";
+import {addEntity} from "../actions";
+import {useDispatch} from "react-redux";
+
+import upload from "../assets/images/upload.png";
+
 
 function PizzasForm() {
-  //брала код для кнопки на
-  //https://codepen.io/hartzis/pen/VvNGZP
+    let dispatch = useDispatch();
 
-  const [pizzaName, setPizzaName] = React.useState("");
-  const [pizzaWeight, setPizzaWeight] = React.useState("");
-  const [pizzaSize, setPizzaSize] = React.useState("");
-  const [pizzaPrice, setPizzaPrice] = React.useState("");
-  const [pizzaIngredients, setPizzaIngredients] = React.useState("");
-  const [file, setFile] = React.useState("");
-  const [imagePreviewUrl, setImagePreviewUrl] = React.useState("");
-  const _handleImageChange = (e) => {
-    let reader = new FileReader();
-    reader.onloadend = () => {
-      setFile(e.target.files[0]);
-      setImagePreviewUrl(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-  return (
-    <div className="form">
-      <div>
-        <h3>Название:</h3>
-        <input
-          value={pizzaName}
-          onChange={(event) => setPizzaName(event.target.value)}
-        />
-      </div>
-      <div>
-        <h3>Название картинки:</h3>
-        <input
-          className="fileInput"
-          type="file"
-          onChange={(e) => _handleImageChange(e)}
-        />
-      </div>
-      <div>
-        <h3>Вес:</h3>
-        <input
-          value={pizzaWeight}
-          onChange={(event) => setPizzaWeight(event.target.value)}
-        />
-      </div>
-      <div>
-        <h3>Размер:</h3>
-        <input
-          value={pizzaSize}
-          onChange={(event) => setPizzaSize(event.target.value)}
-        />
-      </div>
-      <div>
-        <h3>Цена:</h3>
-        <input
-          value={pizzaPrice}
-          onChange={(event) => setPizzaPrice(event.target.value)}
-        />
-      </div>
-      <div>
-        <h3>Ингредиенты:</h3>
-        <input
-          value={pizzaIngredients}
-          onChange={(event) => setPizzaIngredients(event.target.value)}
-        />
-      </div>
-    </div>
-  );
+    let pizzaName = useRef();
+    let pizzaImage = useRef();
+    let pizzaWeight = useRef();
+    let pizzaSize = useRef();
+    let pizzaPrice = useRef();
+    let pizzaIngredients = useRef();
+
+    // let isFieldsFilled = pizzaName.current && pizzaImage.current && pizzaWeight.current && pizzaSize.current && pizzaPrice.current && pizzaIngredients.current;
+    let isFieldsFilled = true;
+
+    let addEntityHandler = () => {
+        dispatch(addEntity(
+            'pizzas',
+            isFieldsFilled ? {
+                image: pizzaImage.current.files[0],
+                name: pizzaName.current.value,
+                weight: parseInt(pizzaWeight.current.value),
+                size: parseInt(pizzaSize.current.value),
+                price: parseFloat(pizzaPrice.current.value).toFixed(2),
+                ingredients: JSON.parse(pizzaIngredients.current.value),
+            } : undefined
+            )
+        )
+    }
+
+    // return (
+    //     <div className="form">
+    //         <div>
+    //             <div>Название:</div>
+    //             <input
+    //                 value={pizzaName}
+    //                 onChange={(event) => setPizzaName(event.target.value)}
+    //             />
+    //         </div>
+    //         <div>
+    //             <div>Картинка:</div>
+    //             <input
+    //                 className="fileInput"
+    //                 type="file"
+    //                 onChange={(e) => handleImageChange(e)}
+    //             />
+    //         </div>
+    //         <div>
+    //             <div>Вес:</div>
+    //             <input
+    //             />
+    //         </div>
+    //         <div>
+    //             <div>Размер:</div>
+    //             <input
+    //             />
+    //         </div>
+    //         <div>
+    //             <div>Цена:</div>
+    //             <input
+    //             />
+    //         </div>
+    //         <div>
+    //             <div>Ингредиенты:</div>
+    //             <input
+    //             />
+    //         </div>
+    //     </div>
+    // );
+
+    return (
+        <div className="entity-form entity-add-form">
+            <div className="entity-form-fields-wrapper entity-add-form-fields-wrapper">
+                <div className="entity-form-field-title entity-add-form-field-title">Название:</div>
+                <input
+                    ref={pizzaName}
+                    className="default-input-bar entity-form-field-input entity-add-form-field-input"
+                />
+                <div className="entity-form-field-title entity-add-form-field-title">Картинка:</div>
+                <label htmlFor="file-input" className="file-input-label">
+                    <img className="file-input-label-image" src={upload} alt="Загрузить..."/>
+                    <div className="file-input-label-text">Выбрать картинку</div>
+                </label>
+                <input
+                    type="file"
+                    id="file-input"
+                    ref={pizzaImage}
+                    className="default-input-bar entity-form-field-input entity-form-field-file entity-add-form-field-input entity-add-form-field-file"
+                />
+                <div className="entity-form-field-title entity-add-form-field-title">Вес:</div>
+                <input
+                    ref={pizzaWeight}
+                    className="default-input-bar entity-form-field-input entity-add-form-field-input"
+                />
+                <div className="entity-form-field-title entity-add-form-field-title">Размер:</div>
+                <input
+                    ref={pizzaSize}
+                    className="default-input-bar entity-form-field-input entity-add-form-field-input"
+                />
+                <div className="entity-form-field-title entity-add-form-field-title">Цена:</div>
+                <input
+                    ref={pizzaPrice}
+                    className="default-input-bar entity-form-field-input entity-add-form-field-input"
+                />
+                <div className="entity-form-field-title entity-add-form-field-title">Ингредиенты:</div>
+                <input
+                    ref={pizzaIngredients}
+                    className="default-input-bar entity-form-field-input entity-add-form-field-input"
+                />
+            </div>
+            <button
+                className="default-button operator-button entity-form-submit entity-add-form-submit"
+                onClick={addEntityHandler}
+            >Добавить</button>
+        </div>
+    );
 }
+
 
 export default PizzasForm;
